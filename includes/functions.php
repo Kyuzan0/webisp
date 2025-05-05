@@ -64,4 +64,25 @@ if (mysqli_query($conn, $query)) {
 }
 }
 
+function ubahp($data) {
+    global $conn;
+
+    $id = $data["id_user"];
+    $username = htmlspecialchars($data["username"]);
+    $level = $data["level"];
+
+    $query = "UPDATE users SET
+            username = '$username',
+            level = '$level'
+            WHERE id_user = $id";
+
+echo "Query: " . $query . "<br>";
+if (mysqli_query($conn, $query)) {
+    return mysqli_affected_rows($conn);
+} else {
+    echo "Error: " . mysqli_error($conn) . "<br>";
+    return 0;
+}
+}
+
 ?>

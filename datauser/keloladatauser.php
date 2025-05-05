@@ -249,11 +249,11 @@ $users = query("SELECT * FROM users");
                   <thead>
                   <tr>
                     <th>No. </th>
-                    <th>Aksi</th>
                     <th>ID user</th>
                     <th>username</th>
                     <th>password</th>
                     <th>level</th>
+                    <th>Aksi</th>
                   </tr>
                   </thead>
 
@@ -264,15 +264,15 @@ $users = query("SELECT * FROM users");
 
                   <tr>
                     <td><?= $i;?></td>
+                    <td><?= $row["id_user"];?></td>
+                    <td><?= $row["username"];?></td>
+                    <td>***********</td>
+                    <td><?= $row["level"];?></td>
                     <td>
                       <a class ="btn btn-primary" href="ubahdatauser.php?id_user=<?= $row["id_user"]; ?> ">ubah</a> | 
                       <a class ="btn btn-danger" href="hapusdatauser.php?id_user=<?= $row["id_user"]; ?> "onclick="return confirm('yakin?');">hapus</a>
 
                     </td>
-                    <td><?= $row["id_user"];?></td>
-                    <td><?= $row["username"];?></td>
-                    <td>***********</td>
-                    <td><?= $row["level"];?></td>
                   </tr>
                 <?php $i++; ?>
                 <?php endforeach; ?> 

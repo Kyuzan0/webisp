@@ -1,7 +1,7 @@
 <?php 
 
 require '../includes/functions.php';
-$users = query("SELECT * FROM users"); 
+$plggn = query("SELECT * FROM customer"); 
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@ $users = query("SELECT * FROM users");
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WebISP | Kelola Data User</title>
+  <title>WebISP | Kelola Data Pelanggan</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -222,7 +222,7 @@ $users = query("SELECT * FROM users");
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data User</h1>
+            <h1>Data Pelanggan</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -248,6 +248,7 @@ $users = query("SELECT * FROM users");
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
+                    <th>No</th>
                     <th>ID Customer</th>
                     <th>ID Produk</th>
                     <th>ID User</th>
@@ -263,19 +264,20 @@ $users = query("SELECT * FROM users");
                   <tbody>
 
                 <?php $i = 1; ?>
-                <?php foreach( $users as $row ) : ?>
+                <?php foreach( $plggn as $row ) : ?>
 
                   <tr>
                     <td><?= $i;?></td>
-                    <td><?= $row["id_user"];?></td>
-                    <td><?= $row["username"];?></td>
-                    <td>***********</td>
-                    <td><?= $row["level"];?></td>
-                    <td><?= $row["id_user"];?></td>
-                    <td><?= $row["id_user"];?></td>
-                    <td><?= $row["id_user"];?></td>
+                    <td><?= $row["id_customer"];?></td>
+                    <td><?= $row["id_produk"];?></td>
+                    <td><?= $row["id_user"];?></td>v
+                    <td><?= $row["nama"];?></td>
+                    <td><?= $row["email"];?></td>
+                    <td><?= $row["no_hp"];?></td>
+                    <td><?= $row["alamat"];?></td>
+                    <td><?= $row["status"];?></td>
                     <td>
-                      <a class ="btn btn-primary" href="ubahdatauser.php?id_user=<?= $row["id_user"]; ?> ">ubah</a> | 
+                      <a class ="btn btn-primary" href="ubahdatapelanggan.php?id_customer=<?= $row["id_customer"]; ?> ">ubah</a> | 
                       <a class ="btn btn-danger" href="hapusdatauser.php?id_user=<?= $row["id_user"]; ?> "onclick="return confirm('yakin?');">hapus</a>
 
                     </td>
