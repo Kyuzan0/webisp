@@ -265,7 +265,7 @@ $users = query("SELECT * FROM users");
                   <tr>
                     <td><?= $i;?></td>
                     <td>
-                      <a href="" class ="btn btn-primary" >ubah</a> | 
+                      <a class ="btn btn-primary" href="ubahdatauser.php?id_user=<?= $row["id_user"]; ?> ">ubah</a> | 
                       <a class ="btn btn-danger" href="hapusdatauser.php?id_user=<?= $row["id_user"]; ?> "onclick="return confirm('yakin?');">hapus</a>
 
                     </td>

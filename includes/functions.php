@@ -42,16 +42,4 @@ function hapus ($id){
     mysqli_query($conn, "DELETE FROM users WHERE id_user = $id");
     return mysqli_affected_rows($conn);
 }
-
-//public function redirectTo($tujuan){
-//    header("Location:http://localhost/WebISP/includes".$tujuan);
-//}
-
-//public function logout(){
-//    session_destroy();
-//    session_unset();
-
-//    redirectTo('/formlogin');
-//}
-
 ?>
