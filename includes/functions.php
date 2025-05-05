@@ -64,25 +64,31 @@ if (mysqli_query($conn, $query)) {
 }
 }
 
-function ubahp($data) {
+function tambahpaket($data) {
     global $conn;
 
-    $id = $data["id_user"];
-    $username = htmlspecialchars($data["username"]);
-    $level = $data["level"];
+    // Menggunakan htmlspecialchars untuk menghindari XSS
+    $namaproduk = htmlspecialchars($data["nama_produk"]);
+    $deskripsi = htmlspecialchars($data["deskripsi"]);
+    $harga = htmlspecialchars($data["harga"]);
 
-    $query = "UPDATE users SET
-            username = '$username',
-            level = '$level'
-            WHERE id_user = $id";
+    // Membuat query SQL
+    $query = "INSERT INTO produk (nama_produk, deskripsi, harga) VALUES ('$namaproduk', '$deskripsi', '$harga')";
 
-echo "Query: " . $query . "<br>";
-if (mysqli_query($conn, $query)) {
-    return mysqli_affected_rows($conn);
-} else {
-    echo "Error: " . mysqli_error($conn) . "<br>";
-    return 0;
+    // Eksekusi query
+    if (mysqli_query($conn, $query)) {
+        return mysqli_affected_rows($conn);
+    } else {
+        // Menampilkan error jika query gagal
+        echo "Error: " . mysqli_error($conn);
+        return 0;
+    }
 }
+
+function hapuspaket ($id){
+    global $conn;
+    mysqli_query($conn, "DELETE FROM produk WHERE id_produk = $id");
+    return mysqli_affected_rows($conn);
 }
 
 ?>

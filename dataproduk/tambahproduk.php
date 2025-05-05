@@ -1,7 +1,29 @@
 <?php 
-
 require '../includes/functions.php';
-$produk = query("SELECT * FROM produk"); 
+
+
+
+// cek apakah tombol submit sudah ditekan atau belum
+
+if( isset($_POST["submit"]) ) {
+
+    // cek apakah data berhasil ditambahkan atau tidak
+    if( tambahpaket($_POST) > 0 ) {
+        echo "
+            <script>
+                alert('data berhasil ditambahkan!');
+                document.location.href = 'dataproduk.php'
+            </script>
+        ";
+    } else {
+        echo "
+            <script>
+                alert('data gagal ditambahkan! :(');
+                document.location.href = 'tambahproduk.php'
+            </script>
+        ";
+    }
+} 
 ?>
 
 <!DOCTYPE html>
@@ -9,27 +31,22 @@ $produk = query("SELECT * FROM produk");
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WebISP | Kelola Data Paket</title>
+  <title>WebISP | Kelola Data User</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
+<!-- Site wrapper -->
 <div class="wrapper">
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-    </ul>
+    
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -157,27 +174,54 @@ $produk = query("SELECT * FROM produk");
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
+    
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../public/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
+        <img src="../public/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">Admin</a>
         </div>
       </div>
 
+      <!-- SidebarSearch Form -->
+      
+
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-
           <li class="nav-item">
-            <a href="../public/index.php" class="nav-link">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Fitur 1
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            
+          </li>
+          
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-columns"></i>
+              <p>
+                Fitur 2
+              </p>
+            </a>
+          </li>
+          
+          
+          
+          <li class="nav-header"> - </li>
+          
+          <li class="nav-item">
+            <a href="keloladatauser.php" class="nav-link">
               <i class="nav-icon fas fa-columns"></i>
               <p>
                 Back
@@ -199,12 +243,12 @@ $produk = query("SELECT * FROM produk");
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Daftar Paket</h1>
+            <h1>Menambahkan User</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dataftar paket</li>
+              <li class="breadcrumb-item active">Menambahkan User</li>
             </ol>
           </div>
         </div>
@@ -213,68 +257,57 @@ $produk = query("SELECT * FROM produk");
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Daftar Paket Yang Tersedia</h3>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Data User</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
               </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>ID Produk</th>
-                    <th>Nama Paket</th>
-                    <th>Deskripsi</th>
-                    <th>Harga (Rp.)</th>
-                    <th>Aksi  </th>
-
-                  </tr>
-                  </thead>
-
-                  <tbody>
-
-                <?php $i = 1; ?>
-                <?php foreach( $produk as $row ) : ?>
-
-                  <tr>
-                    <td><?= $i;?></td>
-                    <td><?= $row["id_produk"];?></td>
-                    <td><?= $row["nama_produk"];?></td>
-                    <td><?= $row["deskripsi"];?></td>
-                    <td><?= $row["harga"];?></td>
-                    <td>
-                      <a class ="btn btn-primary" href="ubahdatauser.php?id_produk=<?= $row["id_produk"]; ?> ">ubah</a> | 
-                      <a class ="btn btn-danger" href="hapusproduk.php?id_produk=<?= $row["id_produk"]; ?> "onclick="return confirm('yakin?');">hapus</a>
-
-                    </td>
-                  </tr>
-                <?php $i++; ?>
-                <?php endforeach; ?> 
-                </div>
-                  <button type="button" class="btn btn-success float-right" onclick="window.location.href='tambahproduk.php';">Tambah Data</button>
-                </div>
-                  </tbody>
-                  
-                </table>
-              </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
+
+            <form action="" method="POST">
+                <div class="card-body">
+
+                <div class="form-group">
+                    <label for="nama_produk">Nama Paket</label>
+                        <input type="text" name="nama_produk" id="nama_produk" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="deskripsi">deskripsi</label>
+                        <input type="text" name="deskripsi" id="deskripsi" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="harga">Harga (Rp.)</label>
+                        <input type="text" name="harga" id="harga" class="form-control" required>
+                </div>
+
+                    <button type="submit" name="submit" class="btn btn-success float-left">Tambah Data</button>
+                </div>
+            </form>
+
+            <!-- /.card-body -->
           </div>
-          <!-- /.col -->
+          <!-- /.card -->
         </div>
-        <!-- /.row -->
+        
       </div>
-      <!-- /.container-fluid -->
+      <div class="row">
+        
+      </div>
     </section>
     <!-- /.content -->
   </div>
+
   <!-- /.content-wrapper -->
- 
+
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -288,18 +321,7 @@ $produk = query("SELECT * FROM produk");
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <!-- AdminLTE App -->
 <script src="js/adminlte.min.js"></script>
-<!-- Page specific script -->
-<script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-  });
-</script>
 </body>
 </html>
