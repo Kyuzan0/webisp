@@ -24,7 +24,7 @@ if( isset($_POST["submit"]) ) {
         echo "
             <script>
                 alert('data gagal diubah! :(');
-                document.location.href = 'keloladatauser.php'
+                document.location.href = 'ubahdatauser.php'
             </script>
         ";
     }
@@ -288,7 +288,7 @@ if( isset($_POST["submit"]) ) {
                     <label for="level">Level</label>
                     <p class="form-control"><?= $usr["level"]; ?></p>
                         
-                        <select name="level" id="level" class="form-control custom-select"> 
+                        <select name="level" id="level" class="form-control custom-select" required> 
                             <option selected disabled>Select one</option>
                             <option>Admin</option>
                             <option>Supervisor</option>
