@@ -42,4 +42,26 @@ function hapus ($id){
     mysqli_query($conn, "DELETE FROM users WHERE id_user = $id");
     return mysqli_affected_rows($conn);
 }
+
+function ubah($data) {
+    global $conn;
+
+    $id = $data["id_user"];
+    $username = htmlspecialchars($data["username"]);
+    $level = $data["level"];
+
+    $query = "UPDATE users SET
+            username = '$username',
+            level = '$level'
+            WHERE id_user = $id";
+
+echo "Query: " . $query . "<br>";
+if (mysqli_query($conn, $query)) {
+    return mysqli_affected_rows($conn);
+} else {
+    echo "Error: " . mysqli_error($conn) . "<br>";
+    return 0;
+}
+}
+
 ?>
