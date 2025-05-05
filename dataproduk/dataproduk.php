@@ -1,7 +1,7 @@
 <?php 
 
 require '../includes/functions.php';
-$users = query("SELECT * FROM users"); 
+$produk = query("SELECT * FROM produk"); 
 ?>
 
 <!DOCTYPE html>
@@ -248,35 +248,30 @@ $users = query("SELECT * FROM users");
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>ID Customer</th>
+                    <th>No</th>
                     <th>ID Produk</th>
-                    <th>ID User</th>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>No HP</th>
-                    <th>Alamat</th>
-                    <th>Status</th>
-                    <th>Aksi</th>                    
+                    <th>Nama Paket</th>
+                    <th>Deskripsi</th>
+                    <th>Harga (Rp.)</th>
+                    <th>Aksi  </th>
+
                   </tr>
                   </thead>
 
                   <tbody>
 
                 <?php $i = 1; ?>
-                <?php foreach( $users as $row ) : ?>
+                <?php foreach( $produk as $row ) : ?>
 
                   <tr>
                     <td><?= $i;?></td>
-                    <td><?= $row["id_user"];?></td>
-                    <td><?= $row["username"];?></td>
-                    <td>***********</td>
-                    <td><?= $row["level"];?></td>
-                    <td><?= $row["id_user"];?></td>
-                    <td><?= $row["id_user"];?></td>
-                    <td><?= $row["id_user"];?></td>
+                    <td><?= $row["id_produk"];?></td>
+                    <td><?= $row["nama_produk"];?></td>
+                    <td><?= $row["deskripsi"];?></td>
+                    <td><?= $row["harga"];?></td>
                     <td>
-                      <a class ="btn btn-primary" href="ubahdatauser.php?id_user=<?= $row["id_user"]; ?> ">ubah</a> | 
-                      <a class ="btn btn-danger" href="hapusdatauser.php?id_user=<?= $row["id_user"]; ?> "onclick="return confirm('yakin?');">hapus</a>
+                      <a class ="btn btn-primary" href="ubahdatauser.php?id_produk=<?= $row["id_produk"]; ?> ">ubah</a> | 
+                      <a class ="btn btn-danger" href="hapusdatauser.php?id_produk=<?= $row["id_produk"]; ?> "onclick="return confirm('yakin?');">hapus</a>
 
                     </td>
                   </tr>

@@ -133,7 +133,7 @@
 
             <li class="nav-header">Produk</li>
             <li class="nav-item">
-            <a href="../datapelanggan/keloladatapelanggan.php" class="nav-link">
+            <a href="../dataproduk/dataproduk.php" class="nav-link">
                 <i class="nav-icon fas fa-columns"></i>
                 <p>
                     Daftar Paket Speed Internet
@@ -290,7 +290,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>4</h3>
+                <h3>0</h3>
 
                 <p>Jumlah Keluhan</p>
               </div>
