@@ -115,7 +115,7 @@
           <li class="nav-header">Menu Admin</li>
     
           <li class="nav-item">
-            <a href="../includes/keloladatauser.php" class="nav-link">
+            <a href="../datauser/keloladatauser.php" class="nav-link">
               <i class="nav-icon far fa-image"></i>
               <p>
                 Kelola Data User

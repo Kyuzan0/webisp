@@ -1,6 +1,6 @@
 <?php 
 
-require 'functions.php';
+require '../includes/functions.php';
 $users = query("SELECT * FROM users"); 
 ?>
 
