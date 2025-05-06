@@ -1,3 +1,8 @@
+<?php 
+require '../view/sidebar.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +13,8 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../public/plugins/fontawesome-free/css/all.min.css">
+  
   <!-- Theme style -->
   <link rel="stylesheet" href="css/adminlte.min.css">
 </head>
@@ -28,9 +34,7 @@
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
       <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
+        
         <div class="navbar-search-block">
           <form class="form-inline">
             <div class="input-group input-group-sm">
@@ -51,32 +55,7 @@
       <!-- Messages Dropdown Menu -->
       
       <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-      </li>
+      
       
       
     </ul>
@@ -84,140 +63,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <!--<div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div> -->
-        <div class="info">
-          <a href="#" class="d-block">Selamat Datang, Admin!</a>
-        </div>
-      </div>
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-th"></i>
-                    <p>Dashboard</p>
-                </a>
-            </li>
-          
-          <li class="nav-header">Menu Admin</li>
-    
-          <li class="nav-item">
-            <a href="../datauser/keloladatauser.php" class="nav-link">
-              <i class="nav-icon far fa-image"></i>
-              <p>
-                Kelola Data User
-              </p>
-            </a>
-          </li>
-            <li class="nav-item">
-            <a href="../datapelanggan/keloladatapelanggan.php" class="nav-link">
-                <i class="nav-icon fas fa-columns"></i>
-                <p>
-                    Kelola Data Pelanggan
-                </p>
-            </a>
-            </li>
-
-            <li class="nav-header">Produk</li>
-            <li class="nav-item">
-            <a href="../dataproduk/dataproduk.php" class="nav-link">
-                <i class="nav-icon fas fa-columns"></i>
-                <p>
-                    Daftar Paket Speed Internet
-                </p>
-            </a>
-            </li>
-          
-            <li class="nav-header">Menu Kepala Teknisi</li>
-            <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-envelope"></i>
-              <p>
-                Daftar Keluhan
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/mailbox/mailbox.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inbox</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/mailbox/compose.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Compose</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/mailbox/read-mail.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Read</p>
-                </a>
-              </li>
-              
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="../datapelanggan/keloladatapelanggan.php" class="nav-link">
-                <i class="nav-icon fas fa-columns"></i>
-                <p>
-                    Jadwal Perbaikan
-                </p>
-            </a>
-          </li>
-
-          <li class="nav-header">Menu Sales</li>
-          <li class="nav-item">
-            <a href="../datapelanggan/keloladatapelanggan.php" class="nav-link">
-                <i class="nav-icon fas fa-columns"></i>
-                <p>
-                    Promo
-                </p>
-            </a>
-          </li>
-
-          <li class="nav-header">Menu Teknisi</li>
-          <li class="nav-item">
-            <a href="../datapelanggan/keloladatapelanggan.php" class="nav-link">
-                <i class="nav-icon fas fa-columns"></i>
-                <p>
-                    Melaporkan Pekerjaan
-                </p>
-            </a>
-          </li>
-
-          <li class="nav-header">---</li>
-          <form id="logoutForm" action="logout.php" method="POST" style="display: none;">
-            <button type="submit" class="btn">Logout</button>
-          </form>
-          <li class="nav-item">
-            <a href="#" class="nav-link" onclick="document.getElementById('logoutForm').submit();">
-            <i class="nav-icon fas fa-th"></i>
-            <p>Logout</p>
-            </a>
-          </li>
-
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-  </aside>
+  
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -280,7 +126,7 @@
               <div class="inner">
                 <h3>19</h3>
 
-                <p>Jumlah Pengguna</p>
+                <p>Jumlah User</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>

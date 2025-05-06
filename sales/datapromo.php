@@ -1,34 +1,8 @@
 <?php 
+
 require '../includes/functions.php';
-
-//ambil data di url
-
-$id = $_GET["id_user"];
-
-// query data user berdasarkan id
-$usr = query("SELECT * FROM users WHERE id_user = $id")[0];
-
-// cek apakah tombol submit sudah ditekan atau belum
-
-if( isset($_POST["submit"]) ) {
-
-    // cek apakah data berhasil ditambahkan atau tidak
-    if( ubah($_POST) > 0 ) {
-        echo "
-            <script>
-                alert('data berhasil diubah!');
-                document.location.href = 'keloladatauser.php'
-            </script>
-        ";
-    } else {
-        echo "
-            <script>
-                alert('data gagal diubah! :(');
-                document.location.href = 'ubahdatauser.php'
-            </script>
-        ";
-    }
-} 
+require '../view/sidebar.php';
+$users = query("SELECT * FROM customer"); 
 ?>
 
 <!DOCTYPE html>
@@ -36,22 +10,27 @@ if( isset($_POST["submit"]) ) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WebISP | Kelola Data User</title>
+  <title>WebISP | Kelola Data Promo</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../public/plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
-<!-- Site wrapper -->
 <div class="wrapper">
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
-    
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -177,46 +156,7 @@ if( isset($_POST["submit"]) ) {
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-        <img src="../public/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Admin</a>
-        </div>
-      </div>
-
-      <!-- SidebarSearch Form -->
-      
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-              
-          <li class="nav-item">
-            <a href="keloladatauser.php" class="nav-link">
-              <i class="nav-icon fas fa-columns"></i>
-              <p>
-                Back
-              </p>
-            </a>
-          </li>
-          
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-  </aside>
+  
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -225,12 +165,12 @@ if( isset($_POST["submit"]) ) {
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Menambahkan User</h1>
+            <h1>Promo Paket Internet</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Menambahkan User</li>
+              <li class="breadcrumb-item active">Komplain</li>
             </ol>
           </div>
         </div>
@@ -239,67 +179,38 @@ if( isset($_POST["submit"]) ) {
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title">Data User</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
               </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table border="1" cellpadding="5" cellspacing="0">
+                <tr>
+                <th>Nama Promo</th>
+                 <th>Deskripsi</th>
+                 <th>Harga Normal</th>
+                <th>Harga Promo</th>
+                </tr>
+                </table>
+
+              </div>
+              <!-- /.card-body -->
             </div>
-
-            <form action="" method="POST">
-                <div class="card-body">
-                
-                <input type="hidden" name="id_user" value="<?= $usr['id_user']; ?>">
-                
-                <div class="form-group">
-                    <label for="email">Email</label>
-                        <input type="text" name="email" id="email" class="form-control" required value="<?= $usr["email"]; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" required value="<?= $usr["username"]; ?>">
-                </div>
-
-                <div class="form-group">
-                    <label for="level">Level</label>
-                    <p class="form-control"><?= $usr["level"]; ?></p>
-                        
-                        <select name="level" id="level" class="form-control custom-select" required> 
-                            <option selected disabled>Select one</option>
-                            <option>Admin</option>
-                            <option>Supervisor</option>
-                            <option>Kepala Teknisi</option>
-                            <option>Sales Marketing</option>
-                            <option>Teknisi</option>
-                            <option>Customer</option>
-                        </select>
-                </div>
-                    <button type="submit" name="submit" class="btn btn-success float-left">Ubah Data</button>
-                </div>
-            </form>
-
-            <!-- /.card-body -->
+            <!-- /.card -->
           </div>
-          <!-- /.card -->
+          <!-- /.col -->
         </div>
-        
+        <!-- /.row -->
       </div>
-      <div class="row">
-        
-      </div>
+      <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
-
   <!-- /.content-wrapper -->
-
-
+ 
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -313,7 +224,18 @@ if( isset($_POST["submit"]) ) {
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <!-- AdminLTE App -->
 <script src="js/adminlte.min.js"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+  });
+</script>
 </body>
 </html>

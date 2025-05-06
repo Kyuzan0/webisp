@@ -20,11 +20,8 @@ if (isset($_POST['submit'])) {
 
         // Verifikasi password yang di-hash
         if (password_verify($password, $row['password'])) {
-            // Menyimpan username dan level pengguna di session
             $_SESSION['username'] = $row['username'];
-            $_SESSION['level'] = $row['level'];  // Menambahkan level ke session
-            
-            // Redirect ke halaman utama setelah login berhasil
+            $_SESSION['level'] = $row['level'];  // Menyimpan level ke dalam session
             header("Location: ../public/index.php");
             exit();
         } else {
