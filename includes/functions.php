@@ -50,6 +50,21 @@ function getJumlahPelanggan($conn) {
     }
 }
 
+function getJumlahProduk($conn) {
+    // Query untuk mendapatkan jumlah user
+    $sql = "SELECT COUNT(*) AS jumlah_produk FROM produk";
+    $result = $conn->query($sql);
+    
+    // Mengecek apakah query berhasil
+    if ($result->num_rows > 0) {
+        // Mengambil data hasil query
+        $row = $result->fetch_assoc();
+        return $row['jumlah_produk'];
+    } else {
+        return 0; // Jika tidak ada produk
+    }
+}
+
 function tambah($data) {
     global $conn;
 

@@ -12,10 +12,10 @@ function showMenu($level) {
         $menu['./datauser/keloladatauser'] = 'Kelola Data User';
         $menu['./datapelanggan/keloladatapelanggan'] = 'Kelola Data Pelanggan';
         $menu['./dataproduk/dataproduk'] = 'Daftar Paket Internet';
-        $menu['job_reports'] = 'Daftar Keluhan';
-        $menu['repair_schedule'] = 'Jadwal Perbaikan';
-        $menu['sales_promo'] = 'Promo Sales';
-        $menu['work_report'] = 'Melaporkan Pekerjaan';
+        $menu['./keluhan/formkomplain'] = 'Daftar Keluhan';
+        $menu['./teknisi/jadwalperbaikan'] = 'Jadwal Perbaikan';
+        $menu['./teknisi/laporanperbaikan'] = 'Melaporkan Pekerjaan';
+        $menu['./sales/datapromo'] = 'Promo Sales';
     }
 
     // Menu untuk Supervisor
@@ -26,8 +26,9 @@ function showMenu($level) {
 
     // Menu untuk Kepala Teknisi
     if ($level == 'Kepala Teknisi') {
-        $menu['repair_schedule'] = 'Jadwal Perbaikan';
-        $menu['work_report'] = 'Melaporkan Pekerjaan';
+        $menu['./public/index'] = 'Dashboard';
+        $menu['./teknisi/jadwalperbaikan'] = 'Jadwal Perbaikan';
+        $menu['./teknisi/laporanperbaikan'] = 'Melaporkan Pekerjaan';
     }
 
     // Menu untuk Sales
@@ -37,12 +38,14 @@ function showMenu($level) {
     }
 
     // Menu untuk Teknisi
-    if ($level == 'teknisi') {
-        $menu['repair_schedule'] = 'Jadwal Perbaikan';
-        $menu['work_report'] = 'Melaporkan Pekerjaan';
+    if ($level == 'Teknisi') {
+        $menu['./public/index'] = 'Dashboard';
+        $menu['./teknisi/jadwalperbaikan'] = 'Jadwal Perbaikan';
+        $menu['./teknisi/laporanperbaikan'] = 'Melaporkan Pekerjaan';
     }
 
-    if ($level == 'customer') {
+    // Menu untuk Customer
+    if ($level == 'Customer') {
         $menu['repair_schedule'] = 'Jadwal Perbaikan';
         $menu['work_report'] = 'Melaporkan Pekerjaan';
     }
@@ -61,7 +64,7 @@ $menu = showMenu($user_level);
           <img src="../public/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-            <a style="color: white; " href="#" class="d-block">Selamat Datang, <?= $_SESSION['username']; ?>!</a>
+            <a style="color: white; " href="#" class="d-block"><?= $_SESSION['username']; ?></a>
         </div>
     </div>
 
@@ -85,7 +88,7 @@ $menu = showMenu($user_level);
                 </form>
                 <li class="nav-item">
                     <a href="#" class="nav-link" onclick="document.getElementById('logoutForm').submit();">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>Logout</p>
                     </a>
                 </li>
