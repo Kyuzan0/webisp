@@ -1,61 +1,66 @@
 <?php
+require 'functions.php';
 session_start();
-if (isset($_SESSION['login'])) {
-    switch ($_SESSION['level']) {
-        case 'Owner':
+
+if (isset($_SESSION['username'])) {
+    header("Location: ../public/index.php");
+    exit();
+}
+
+if (isset($_POST['submit'])) {
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = $_POST['password']; // Jangan hash password di sini
+
+    // Query SQL untuk memeriksa email pengguna
+    $sql = "SELECT * FROM users WHERE email='$email'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result->num_rows > 0) {
+        $row = mysqli_fetch_assoc($result);
+
+        // Verifikasi password yang di-hash
+        if (password_verify($password, $row['password'])) {
+            // Menyimpan username dan level pengguna di session
+            $_SESSION['username'] = $row['username'];
+            $_SESSION['level'] = $row['level'];  // Menambahkan level ke session
+            
+            // Redirect ke halaman utama setelah login berhasil
             header("Location: ../public/index.php");
-            break;
-        case 'Admin':
-            header("Location: ../public/index.php");
-            break;
-        case 'gudang':
-            header("Location: DashboardStaffGudang.php");
-            break;
-        default:
-            header("Location: ../public/index.php");
+            exit();
+        } else {
+            echo "<script>alert('Email atau password Anda salah. Silakan coba lagi!')</script>";
+        }
+    } else {
+        echo "<script>alert('Email atau password Anda salah. Silakan coba lagi!')</script>";
     }
-    exit;
 }
 
 ?>
 
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login Admin - PT Sinar Komunikasi Nusantara</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/style.css">
+    <title>Login</title>
 </head>
-<body class="bg-light">
+<body>
     <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-4">
-                <div class="card shadow">
-                    <div class="card-header bg-info text-white text-center">
-                        <h4>Login</h4>
-                    </div>
-                    <div class="card-body">
-                        <?php if (isset($_GET['error'])): ?>
-                            <div class="alert alert-danger"><?= htmlspecialchars($_GET['error']); ?></div>
-                        <?php endif; ?>
-                        <form action="ProsesLogin.php" method="post">
-                            <div class="form-group">
-                                <label>Username</label>
-                                <input type="text" name="username" class="form-control" required autofocus>
-                            </div>
-                            <div class="form-group">
-                                <label>Kata Sandi</label>
-                                <input type="password" name="password" class="form-control" required>
-                            </div>
-                            <button type="submit" class="btn btn-info btn-block">Login</button>
-                        </form>
-                    </div>
-                    <div class="card-footer text-center">
-                        <small>PT Sinar Komunikasi Nusantara</small>
-                    </div>
-                </div>
+        <form action="" method="POST" class="login-email">
+            <p class="login-text" style="font-size: 2rem; font-weight: 800;">Login</p>
+            <div class="input-group">
+                <input type="email" placeholder="Email" name="email" required>
             </div>
-        </div>
+            <div class="input-group">
+                <input type="password" placeholder="Password" name="password" required>
+            </div>
+            <div class="input-group">
+                <button name="submit" class="btn">Login</button>
+            </div>
+            <p class="login-register-text">Belum punya akun? <a href="register.php">Daftar</a>.</p>
+        </form>
     </div>
 </body>
 </html>

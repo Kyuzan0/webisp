@@ -1,9 +1,13 @@
 <?php 
 
-$conn = new mysqli('localhost', 'root', '', 'dbisp');
+$server = "localhost";
+$user = "root";
+$pass = "";
+$database = "dbisp";
+$conn = mysqli_connect($server, $user, $pass, $database);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if (!$conn) {
+    die("Koneksi ke database gagal: " . mysqli_connect_error());
 }
 
 function query($query){

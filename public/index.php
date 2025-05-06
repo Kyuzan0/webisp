@@ -202,12 +202,15 @@
           </li>
 
           <li class="nav-header">---</li>
+          <form id="logoutForm" action="logout.php" method="POST" style="display: none;">
+            <button type="submit" class="btn">Logout</button>
+          </form>
           <li class="nav-item">
-                <a href="/WebISP/includes/formlogin.php" class="nav-link">
-                    <i class="nav-icon fas fa-th"></i>
-                    <p>Logout</p>
-                </a>
-            </li>
+            <a href="#" class="nav-link" onclick="document.getElementById('logoutForm').submit();">
+            <i class="nav-icon fas fa-th"></i>
+            <p>Logout</p>
+            </a>
+          </li>
 
         </ul>
       </nav>
