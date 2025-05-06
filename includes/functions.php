@@ -20,6 +20,36 @@ function query($query){
     return $rows;
 }
 
+function getJumlahUser($conn) {
+    // Query untuk mendapatkan jumlah user
+    $sql = "SELECT COUNT(*) AS jumlah_user FROM users";
+    $result = $conn->query($sql);
+    
+    // Mengecek apakah query berhasil
+    if ($result->num_rows > 0) {
+        // Mengambil data hasil query
+        $row = $result->fetch_assoc();
+        return $row['jumlah_user'];
+    } else {
+        return 0; // Jika tidak ada user
+    }
+}
+
+function getJumlahPelanggan($conn) {
+    // Query untuk mendapatkan jumlah user
+    $sql = "SELECT COUNT(*) AS jumlah_pelanggan FROM customer";
+    $result = $conn->query($sql);
+    
+    // Mengecek apakah query berhasil
+    if ($result->num_rows > 0) {
+        // Mengambil data hasil query
+        $row = $result->fetch_assoc();
+        return $row['jumlah_pelanggan'];
+    } else {
+        return 0; // Jika tidak ada pelanggan
+    }
+}
+
 function tambah($data) {
     global $conn;
 

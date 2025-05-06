@@ -1,5 +1,6 @@
 <?php 
 require '../view/sidebar.php';
+require '../includes/functions.php';
 
 ?>
 
@@ -109,8 +110,9 @@ require '../view/sidebar.php';
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>11<sup style="font-size: 20px"></sup></h3>
-
+              <?php $jumlah_pelanggan = getJumlahPelanggan($conn); ?>
+              <h3><?php echo $jumlah_pelanggan; ?><sup style="font-size: 20px"></sup></h3>
+    
                 <p>Jumlah Pelanggan</p>
               </div>
               <div class="icon">
@@ -124,7 +126,8 @@ require '../view/sidebar.php';
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>19</h3>
+                <?php $jumlah_user = getJumlahUser($conn); ?>
+                <h3><?php echo $jumlah_user; ?><sup style="font-size: 20px"></sup></h3>
 
                 <p>Jumlah User</p>
               </div>

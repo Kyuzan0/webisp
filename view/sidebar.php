@@ -11,7 +11,7 @@ function showMenu($level) {
         $menu['./public/index'] = 'Dashboard';
         $menu['./datauser/keloladatauser'] = 'Kelola Data User';
         $menu['./datapelanggan/keloladatapelanggan'] = 'Kelola Data Pelanggan';
-        $menu['./dataproduk/dataproduk'] = 'Daftar Paket Speed Internet';
+        $menu['./dataproduk/dataproduk'] = 'Daftar Paket Internet';
         $menu['job_reports'] = 'Daftar Keluhan';
         $menu['repair_schedule'] = 'Jadwal Perbaikan';
         $menu['sales_promo'] = 'Promo Sales';
@@ -57,8 +57,11 @@ $menu = showMenu($user_level);
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="../public/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
+        </div>
         <div class="info">
-            <a href="#" class="d-block">Selamat Datang, <?= $_SESSION['username']; ?>!</a>
+            <a style="color: white; " href="#" class="d-block">Selamat Datang, <?= $_SESSION['username']; ?>!</a>
         </div>
     </div>
 
