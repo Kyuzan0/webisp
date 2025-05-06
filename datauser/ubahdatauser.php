@@ -279,6 +279,11 @@ if( isset($_POST["submit"]) ) {
                 <div class="card-body">
                 
                 <input type="hidden" name="id_user" value="<?= $usr['id_user']; ?>">
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                        <input type="text" name="email" id="email" class="form-control" required value="<?= $usr["email"]; ?>">
+                </div>
                 <div class="form-group">
                     <label for="username">Username</label>
                         <input type="text" name="username" id="username" class="form-control" required value="<?= $usr["username"]; ?>">

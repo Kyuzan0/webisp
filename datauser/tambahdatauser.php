@@ -272,14 +272,22 @@ if( isset($_POST["submit"]) ) {
 
             <form action="" method="POST">
                 <div class="card-body">
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                        <input type="text" name="email" id="email" class="form-control" required placeholder="Email">
+                </div>
+
                 <div class="form-group">
                     <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" required>
+                        <input type="text" name="username" id="username" class="form-control" required placeholder="Username">
                 </div>
+                
                 <div class="form-group">
                     <label for="password">Password</label>
-                        <input type="password" name="password" id="password" class="form-control" required>
+                        <input type="password" name="password" id="password" class="form-control" required placeholder="Password">
                 </div>
+
                 <div class="form-group">
                     <label for="level">Level</label>
                         <select name="level" id="level" class="form-control custom-select">

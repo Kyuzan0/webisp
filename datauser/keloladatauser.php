@@ -175,29 +175,7 @@ $users = query("SELECT * FROM users");
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Fitur 1
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            
-          </li>
           
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-columns"></i>
-              <p>
-                Fitur 2
-              </p>
-            </a>
-          </li>
-          
-          
-          
-          <li class="nav-header"> - </li>
           
           <li class="nav-item">
             <a href="../public/index.php" class="nav-link">
@@ -250,9 +228,10 @@ $users = query("SELECT * FROM users");
                   <tr>
                     <th>No. </th>
                     <th>ID user</th>
-                    <th>username</th>
-                    <th>password</th>
-                    <th>level</th>
+                    <th>Email</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Level</th>
                     <th>Aksi</th>
                   </tr>
                   </thead>
@@ -265,6 +244,7 @@ $users = query("SELECT * FROM users");
                   <tr>
                     <td><?= $i;?></td>
                     <td><?= $row["id_user"];?></td>
+                    <td><?= $row["email"];?></td>
                     <td><?= $row["username"];?></td>
                     <td>***********</td>
                     <td><?= $row["level"];?></td>

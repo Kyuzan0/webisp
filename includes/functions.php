@@ -20,13 +20,14 @@ function tambah($data) {
     global $conn;
 
     // Menggunakan htmlspecialchars untuk menghindari XSS
+    $email = htmlspecialchars($data["email"]);
     $username = htmlspecialchars($data["username"]);
     $password = password_hash($data["password"], PASSWORD_DEFAULT);  // Hash password
     $level = htmlspecialchars($data["level"]);
 
     // Membuat query SQL
-    $query = "INSERT INTO users (username, password, level) VALUES ('$username', '$password', '$level')";
-
+    $query = "INSERT INTO users (email, username, password, level) VALUES ('$email','$username', '$password', '$level')";
+    
     // Eksekusi query
     if (mysqli_query($conn, $query)) {
         return mysqli_affected_rows($conn);
