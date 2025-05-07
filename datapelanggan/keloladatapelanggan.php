@@ -3,6 +3,7 @@
 require '../includes/functions.php';
 require '../view/sidebar.php';
 $plggn = query("SELECT * FROM customer"); 
+
 ?>
 
 <!DOCTYPE html>
@@ -215,7 +216,7 @@ $plggn = query("SELECT * FROM customer");
                     <td><?= $i;?></td>
                     <td><?= $row["id_customer"];?></td>
                     <td><?= $row["id_produk"];?></td>
-                    <td><?= $row["id_user"];?></td>v
+                    <td><?= $row["id_user"];?></td>
                     <td><?= $row["nama"];?></td>
                     <td><?= $row["email"];?></td>
                     <td><?= $row["no_hp"];?></td>
