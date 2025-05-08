@@ -15,7 +15,7 @@ $usr = query("SELECT * FROM customer WHERE id_customer = $id")[0];
 // cek apakah tombol submit sudah ditekan atau belum
 if( isset($_POST["submit"]) ) {
     // cek apakah data berhasil diubah atau tidak
-    if( ubah($_POST) > 0 ) {
+    if( ubahpelanggan($_POST) > 0 ) {
         echo "
             <script>
                 alert('data berhasil diubah!');
@@ -38,7 +38,7 @@ if( isset($_POST["submit"]) ) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WebISP | Kelola Data User</title>
+  <title>WebISP | Ubah Data Pelanggan</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">

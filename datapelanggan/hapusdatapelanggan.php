@@ -1,13 +1,13 @@
 <?php 
 require '../includes/functions.php';
 
-$id = $_GET["id_user"];
+$id = $_GET["id_customer"];
 
-if( hapususer($id) > 0 ) {
+if( hapuspelanggan($id) > 0 ) {
     echo "
             <script>
                 alert('data berhasil dihapus!');
-                document.location.href = 'keloladatauser.php'
+                document.location.href = 'keloladatapelanggan.php'
             </script>
         ";
 
@@ -15,7 +15,7 @@ if( hapususer($id) > 0 ) {
     echo "
             <script>
                 alert('data gagal dihapus!');
-                document.location.href = 'keloladatauser.php'
+                document.location.href = 'keloladatapelanggan.php'
             </script>
         ";
 }

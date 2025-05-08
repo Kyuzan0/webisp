@@ -43,6 +43,46 @@ function getdatapelanggan($conn) {
     }
 }
 
+function hapuspelanggan ($id){
+    global $conn;
+    mysqli_query($conn, "DELETE FROM customer WHERE id_customer = $id");
+    return mysqli_affected_rows($conn);
+}
+
+function ubahpelanggan($data) {
+    global $conn;
+
+    // Menggunakan htmlspecialchars untuk menghindari XSS
+    $id = htmlspecialchars($data["id_customer"]);
+    $idproduk = htmlspecialchars($data["id_produk"]);
+    $iduser = htmlspecialchars($data["id_user"]);
+    $nama = htmlspecialchars($data["nama"]);
+    $email = htmlspecialchars($data["email"]);
+    $nohp = htmlspecialchars($data["no_hp"]);
+    $alamat = htmlspecialchars($data["alamat"]);
+    $status = htmlspecialchars($data["status"]);
+
+    // Membuat query SQL untuk memperbarui data pelanggan berdasarkan id_customer
+    $query = "UPDATE customer SET 
+              id_produk = '$idproduk',
+              id_user = '$iduser',
+              nama = '$nama',
+              email = '$email',
+              no_hp = '$nohp',
+              alamat = '$alamat',
+              status = '$status'
+              WHERE id_customer = '$id'";
+
+    // Eksekusi query
+    if (mysqli_query($conn, $query)) {
+        return mysqli_affected_rows($conn);
+    } else {
+        // Menampilkan error jika query gagal
+        echo "Error: " . mysqli_error($conn);
+        return 0;
+    }
+}
+
 function getdataproduk($conn) {
     // Query untuk mendapatkan id_user dan username
     $sql = "SELECT id_produk, nama_produk FROM produk";
@@ -134,13 +174,13 @@ function tambahuser($data) {
     }
 }
 
-function hapus ($id){
+function hapususer ($id){
     global $conn;
     mysqli_query($conn, "DELETE FROM users WHERE id_user = $id");
     return mysqli_affected_rows($conn);
 }
 
-function ubah($data) {
+function ubahuser($data) {
     global $conn;
 
     $id = $data["id_user"];
@@ -215,8 +255,5 @@ function tambahpelanggan($data) {
     }
 }
 
-function getAll() {
-
-}
 
 ?>

@@ -13,7 +13,7 @@ $usr = query("SELECT * FROM users WHERE id_user = $id")[0];
 if( isset($_POST["submit"]) ) {
 
     // cek apakah data berhasil ditambahkan atau tidak
-    if( ubah($_POST) > 0 ) {
+    if( ubahuser($_POST) > 0 ) {
         echo "
             <script>
                 alert('data berhasil diubah!');

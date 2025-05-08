@@ -92,7 +92,7 @@ $plggn = query("SELECT * FROM customer");
                     <td><?= $row["status"];?></td>
                     <td>
                       <a class ="btn btn-primary" href="ubahdatapelanggan.php?id_customer=<?= $row["id_customer"]; ?> ">ubah</a> 
-                      <a class ="btn btn-danger" href="hapusdatauser.php?id_user=<?= $row["id_user"]; ?> "onclick="return confirm('yakin?');">hapus</a>
+                      <a class ="btn btn-danger" href="hapusdatapelanggan.php?id_customer=<?= $row["id_customer"]; ?> "onclick="return confirm('yakin?');">hapus</a>
 
                     </td>
                   </tr>
