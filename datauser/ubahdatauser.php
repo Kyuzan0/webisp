@@ -268,10 +268,9 @@ if( isset($_POST["submit"]) ) {
 
                 <div class="form-group">
                     <label for="level">Level</label>
-                    <p class="form-control"><?= $usr["level"]; ?></p>
                         
                         <select name="level" id="level" class="form-control custom-select" required> 
-                            <option selected disabled>Select one</option>
+                            <option selected disabled><?= $usr["level"]; ?></option>
                             <option>Admin</option>
                             <option>Supervisor</option>
                             <option>Kepala Teknisi</option>

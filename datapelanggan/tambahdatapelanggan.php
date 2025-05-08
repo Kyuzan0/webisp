@@ -2,6 +2,9 @@
 require '../includes/functions.php';
 require '../view/sidebar.php';
 
+$users = getdatapelanggan($conn);
+$produks = getdataproduk($conn);
+
 // cek apakah tombol submit sudah ditekan
 if( isset($_POST["submit"]) ) {
     // cek apakah data pelanggan berhasil ditambahkan
@@ -76,14 +79,18 @@ if( isset($_POST["submit"]) ) {
                         <form action="" method="POST">
                             <div class="card-body"> 
                                 
-                                <div class="form-group">
-                                    <label for="id_user">User</label>
-                                    <select name="id_user" id="id_user" class="form-control custom-select">
-                                        <option selected disabled>Select one</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                    </select>
-                                </div>
+                            <div class="form-group">
+                                <label for="id_user">Pilih Pengguna</label>
+                                <select id="id_user" name="id_user" class="form-control custom-select" required>
+                                    <option selected disabled>Select one</option>
+                                    <?php
+                                    // Perulangan untuk menampilkan username dalam elemen <select>
+                                    foreach ($users as $user) {
+                                        echo "<option value='{$user['id_user']}'>{$user['username']}</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>  
                                 <div class="form-group">
                                     <label for="nama">Nama</label>
                                     <input type="text" name="nama" id="nama" class="form-control" required placeholder="Nama">
@@ -115,11 +122,15 @@ if( isset($_POST["submit"]) ) {
                         </div>
                             <div class="card-body">  
                                 <div class="form-group">
-                                    <label for="id_produk">Paket</label>
+                                    <label for="id_produk">Pilih Paket</label>
                                     <select name="id_produk" id="id_produk" class="form-control custom-select">
                                         <option selected disabled>Select one</option>
-                                        <option>123</option>
-                                        <option>456</option>
+                                        <?php
+                                        // Perulangan untuk menampilkan username dalam elemen <select>
+                                        foreach ($produks as $produk) {
+                                            echo "<option value='{$produk['id_produk']}'>{$produk['nama_produk']}</option>";
+                                        }
+                                        ?>
                                     </select>
                                 </div>    
 
@@ -137,7 +148,8 @@ if( isset($_POST["submit"]) ) {
                 <!-- Tombol Submit -->
                 <button type="submit" name="submit" class="btn btn-success float-left">Tambah Data</button>
             </form>
-        </section><!-- /.content -->
+        </section>
+        <!-- /.content -->
     </div><!-- /.content-wrapper -->
 
     <!-- Control Sidebar -->

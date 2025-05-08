@@ -20,6 +20,53 @@ function query($query){
     return $rows;
 }
 
+function getdatapelanggan($conn) {
+    // Query untuk mendapatkan id_user dan username
+    $sql = "SELECT id_user, username FROM users";
+    $result = $conn->query($sql);
+    
+    // Mengecek apakah query berhasil
+    if ($result->num_rows > 0) {
+        // Membuat array untuk menyimpan id_user dan username
+        $users = [];
+        
+        // Mengambil data hasil query
+        while ($row = $result->fetch_assoc()) {
+            // Menyimpan id_user dan username ke dalam array
+            $users[] = $row;
+        }
+        
+        // Mengembalikan array id_user dan username
+        return $users;
+    } else {
+        return []; // Jika tidak ada user
+    }
+}
+
+function getdataproduk($conn) {
+    // Query untuk mendapatkan id_user dan username
+    $sql = "SELECT id_produk, nama_produk FROM produk";
+    $result = $conn->query($sql);
+    
+    // Mengecek apakah query berhasil
+    if ($result->num_rows > 0) {
+        // Membuat array untuk menyimpan id_user dan username
+        $produks = [];
+        
+        // Mengambil data hasil query
+        while ($row = $result->fetch_assoc()) {
+            // Menyimpan id_user dan username ke dalam array
+            $produks[] = $row;
+        }
+        
+        // Mengembalikan array id_user dan username
+        return $produks;
+    } else {
+        return []; // Jika tidak ada user
+    }
+}
+
+
 function getJumlahUser($conn) {
     // Query untuk mendapatkan jumlah user
     $sql = "SELECT COUNT(*) AS jumlah_user FROM users";
@@ -168,5 +215,8 @@ function tambahpelanggan($data) {
     }
 }
 
+function getAll() {
+
+}
 
 ?>
