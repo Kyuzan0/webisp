@@ -338,4 +338,76 @@ function hapuskeluhan ($id){
 
 // keluhan end section //
 
+// promosi section //
+
+function tambahpromosi($data) {
+    global $conn;
+
+    // Menggunakan htmlspecialchars untuk menghindari XSS
+    $mulai_promosi = htmlspecialchars($data["mulai_promosi"]);
+    $akhir_promosi = htmlspecialchars($data["akhir_promosi"]);
+    $judul = htmlspecialchars($data["judul"]);
+    $deskripsi = htmlspecialchars($data["deskripsi"]);
+    $id_salesmarketing = htmlspecialchars($data["id_salesmarketing"]);  // Added foreign key field
+
+    // Pastikan id_salesmarketing valid di salesmarketing table
+    $query_check = "SELECT id_salesmarketing FROM salesmarketing WHERE id_salesmarketing = '$id_salesmarketing'";
+    $result_check = mysqli_query($conn, $query_check);
+
+    if (mysqli_num_rows($result_check) > 0) {
+        // Membuat query SQL untuk insert
+        $query = "INSERT INTO promosi (mulai_promosi, akhir_promosi, judul, deskripsi, id_salesmarketing) 
+                  VALUES ('$mulai_promosi', '$akhir_promosi', '$judul', '$deskripsi', '$id_salesmarketing')";
+
+        // Eksekusi query
+        if (mysqli_query($conn, $query)) {
+            return mysqli_affected_rows($conn);
+        } else {
+            echo "Error: " . mysqli_error($conn);
+            return 0;
+        }
+    } else {
+        echo "Error: id_salesmarketing tidak valid.";
+        return 0;
+    }
+}
+
+
+function hapuspromosi ($id){
+    global $conn;
+    mysqli_query($conn, "DELETE FROM promosi WHERE id_promosi = $id");
+    return mysqli_affected_rows($conn);
+}
+
+function ubahpromosi($data) {
+    global $conn;
+
+    // Menggunakan htmlspecialchars untuk menghindari XSS
+    $id = htmlspecialchars($data["id_promosi"]);
+    $mulai_promosi = htmlspecialchars($data["mulai_promosi"]);
+    $akhir_promosi = htmlspecialchars($data["akhir_promosi"]);
+    $judul = htmlspecialchars($data["judul"]);
+    $deskripsi = htmlspecialchars($data["deskripsi"]);
+
+    // Membuat query SQL untuk memperbarui data promosi berdasarkan id_promosi
+    $query = "UPDATE promosi SET 
+              mulai_promosi = '$mulai_promosi',
+              akhir_promosi = '$akhir_promosi',
+              judul = '$judul',
+              deskripsi = '$deskripsi'
+              WHERE id_promosi = '$id'";
+
+    // Eksekusi query
+    if (mysqli_query($conn, $query)) {
+        return mysqli_affected_rows($conn);
+    } else {
+        // Menampilkan error jika query gagal
+        echo "Error: " . mysqli_error($conn);
+        return 0;
+    }
+}
+
+
+// promosi end section //
+
 ?>
