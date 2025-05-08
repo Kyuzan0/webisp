@@ -251,6 +251,8 @@ function hapuspaket ($id){
     return mysqli_affected_rows($conn);
 }
 
+// pelanggan section //
+
 function tambahpelanggan($data) {
     global $conn;
 
@@ -278,5 +280,62 @@ function tambahpelanggan($data) {
     }
 }
 
+// pelanggan end section //
+
+// keluhan section //
+
+function getjumlahkeluhan($conn) {
+    // Query untuk mendapatkan jumlah user
+    $sql = "SELECT COUNT(*) AS jumlah_keluhan FROM keluhan";
+    $result = $conn->query($sql);
+    
+    // Mengecek apakah query berhasil
+    if ($result->num_rows > 0) {
+        // Mengambil data hasil query
+        $row = $result->fetch_assoc();
+        return $row['jumlah_keluhan'];
+    } else {
+        return 0; // Jika tidak ada keluhan
+    }
+}
+
+function ubahkeluhan($data) {
+    global $conn;
+
+    // Menggunakan htmlspecialchars untuk menghindari XSS
+    $id = htmlspecialchars($data["id_keluhan"]);
+    $idcustomer = htmlspecialchars($data["id_customer"]);
+    $tanggalkel = htmlspecialchars($data["tanggal_keluhan"]);
+    $judul_keluhan = htmlspecialchars($data["judul_keluhan"]);
+    $deskripsi = htmlspecialchars($data["deskripsi"]);
+    $status = htmlspecialchars($data["status"]);
+
+    // Membuat query SQL untuk mengupdate data keluhan
+    $query = "UPDATE keluhan SET 
+                id_customer = '$idcustomer', 
+                tanggal_keluhan = '$tanggalkel', 
+                judul_keluhan = '$judul_keluhan', 
+                deskripsi = '$deskripsi', 
+                status = '$status' 
+              WHERE id_keluhan = '$id'";
+
+    // Eksekusi query
+    if (mysqli_query($conn, $query)) {
+        return mysqli_affected_rows($conn);
+    } else {
+        // Menampilkan error jika query gagal
+        echo "Error: " . mysqli_error($conn);
+        return 0;
+    }
+}
+
+
+function hapuskeluhan ($id){
+    global $conn;
+    mysqli_query($conn, "DELETE FROM keluhan WHERE id_keluhan = $id");
+    return mysqli_affected_rows($conn);
+}
+
+// keluhan end section //
 
 ?>

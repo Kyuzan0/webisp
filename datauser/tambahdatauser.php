@@ -114,7 +114,8 @@ if( isset($_POST["submit"]) ) {
                             <option>Customer</option>
                         </select>
                 </div>
-                    <button type="submit" name="submit" class="btn btn-success float-left">Tambah Data</button>
+                    <a href="../datauser/keloladatauser.php" class="btn btn-secondary float-left">Cancel</a>
+                    <button type="submit" name="submit" class="btn btn-success float-right">Tambah Data</button>
                 </div>
             </form>
 

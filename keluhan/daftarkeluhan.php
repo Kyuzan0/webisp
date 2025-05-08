@@ -2,7 +2,7 @@
 
 require '../includes/functions.php';
 require '../view/sidebar.php';
-$produk = query("SELECT * FROM produk"); 
+$cpm = query("SELECT * FROM keluhan"); 
 ?>
 
 <!DOCTYPE html>
@@ -10,25 +10,26 @@ $produk = query("SELECT * FROM produk");
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WebISP | Kelola Data Paket</title>
+  <title>WebISP | Kelola Data Keluhan</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../public/plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
+  <!-- Bootstrap 4 -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <!-- Navbar -->
-  
+
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -37,12 +38,12 @@ $produk = query("SELECT * FROM produk");
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Daftar Paket</h1>
+            <h1>Daftar Keluhan</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dataftar paket</li>
+              <li class="breadcrumb-item active">Data Keluhan</li>
             </ol>
           </div>
         </div>
@@ -60,44 +61,44 @@ $produk = query("SELECT * FROM produk");
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
+                <!-- <div class="mt-3"> 
+                  <button type="button" class="btn btn-success float-right" onclick="window.location.href='tambahproduk.php';">Tambah Data</button>
+                </div> -->
+                <table id="example1" class="table table-bordered table-striped table-responsive">
+                  <thead class="thead-dark">
                   <tr>
                     <th>No</th>
-                    <th>ID Produk</th>
-                    <th>Nama Paket</th>
+                    <th>ID Keluhan</th>
+                    <th>ID Customer</th>
+                    <th>Judul Keluhan</th>
+                    <th>Tanggal Keluhan</th>
                     <th>Deskripsi</th>
-                    <th>Harga (Rp.)</th>
-                    <th>Aksi  </th>
-
+                    <th>Status</th>
+                    <th>Aksi</th>
                   </tr>
                   </thead>
 
                   <tbody>
-
-                <?php $i = 1; ?>
-                <?php foreach( $produk as $row ) : ?>
-
+                  <?php $i = 1; ?>
+                  <?php foreach($cpm as $row) : ?>
                   <tr>
                     <td><?= $i;?></td>
-                    <td><?= $row["id_produk"];?></td>
-                    <td><?= $row["nama_produk"];?></td>
+                    <td><?= $row["id_keluhan"];?></td>
+                    <td><?= $row["id_customer"];?></td>
+                    <td><?= $row["tanggal_keluhan"];?></td>
+                    <td><?= $row["judul_keluhan"];?></td>
                     <td><?= $row["deskripsi"];?></td>
-                    <td><?= $row["harga"];?></td>
+                    <td><?= $row["status"];?></td>
                     <td>
-                      <a class ="btn btn-primary" href="ubahdataproduk.php?id_produk=<?= $row["id_produk"]; ?> ">ubah</a> | 
-                      <a class ="btn btn-danger" href="hapusproduk.php?id_produk=<?= $row["id_produk"]; ?> "onclick="return confirm('yakin?');">hapus</a>
-
+                      <a class="btn btn-primary btn-sm" href="ubahkeluhan.php?id_keluhan=<?= $row["id_keluhan"]; ?>">Ubah</a>
+                      <a class="btn btn-danger btn-sm" href="hapuskeluhan.php?id_keluhan=<?= $row["id_keluhan"]; ?>" onclick="return confirm('Yakin?');">Hapus</a>
                     </td>
                   </tr>
-                <?php $i++; ?>
-                <?php endforeach; ?> 
-                </div>
-                  <button type="button" class="btn btn-success float-right" onclick="window.location.href='tambahproduk.php';">Tambah Data</button>
-                </div>
+                  <?php $i++; ?>
+                  <?php endforeach; ?>
                   </tbody>
-                  
                 </table>
+                
               </div>
               <!-- /.card-body -->
             </div>
@@ -112,7 +113,6 @@ $produk = query("SELECT * FROM produk");
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
- 
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -125,7 +125,9 @@ $produk = query("SELECT * FROM produk");
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- DataTables  & Plugins -->
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

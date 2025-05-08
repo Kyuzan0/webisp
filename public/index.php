@@ -96,9 +96,9 @@ require '../includes/functions.php';
             <div class="small-box bg-info">
               <div class="inner">
                 <?php $jumlah_produk = getJumlahProduk($conn); ?>
-                <h3><?php echo $jumlah_produk; ?><sup style="font-size: 20px"></sup></h3>
+                <h3 style="color: black;"><?php echo $jumlah_produk; ?><sup style="font-size: 20px"></sup></h3>
 
-                <p>Daftar Paket</p>
+                <p style="color: black;">Daftar Paket</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -112,9 +112,9 @@ require '../includes/functions.php';
             <div class="small-box bg-success">
               <div class="inner">
               <?php $jumlah_pelanggan = getJumlahPelanggan($conn); ?>
-              <h3><?php echo $jumlah_pelanggan; ?><sup style="font-size: 20px"></sup></h3>
+              <h3 style="color: black;"><?php echo $jumlah_pelanggan; ?><sup style="font-size: 20px"></sup></h3>
     
-                <p>Jumlah Pelanggan</p>
+                <p style="color: black;">Jumlah Pelanggan</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
@@ -128,7 +128,7 @@ require '../includes/functions.php';
             <div class="small-box bg-warning">
               <div class="inner">
                 <?php $jumlah_user = getJumlahUser($conn); ?>
-                <h3><?php echo $jumlah_user; ?><sup style="font-size: 20px"></sup></h3>
+                <h3 ><?php echo $jumlah_user; ?><sup style="font-size: 20px"></sup></h3>
 
                 <p>Jumlah User</p>
               </div>
@@ -143,9 +143,10 @@ require '../includes/functions.php';
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>0</h3>
+                <?php $jumlah_keluhan = getjumlahkeluhan($conn); ?>
+                <h3 style="color: black;"><?php echo $jumlah_keluhan; ?><sup style="font-size: 20px"></sup></h3>
 
-                <p>Jumlah Keluhan</p>
+                <p style="color: black;">Jumlah Keluhan</p>
               </div>
               <div class="icon">
                 <i class="ion ion-pie-graph"></i>

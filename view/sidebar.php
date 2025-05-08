@@ -13,8 +13,8 @@ function showMenu($level) {
         $menu['./datapelanggan/keloladatapelanggan'] = 'Kelola Data Pelanggan';
         $menu['./dataproduk/dataproduk'] = 'Daftar Paket Internet';
         $menu['./keluhan/daftarkeluhan'] = 'Daftar Keluhan';
-        $menu['./teknisi/jadwalperbaikan'] = 'Jadwal Perbaikan';
-        $menu['./teknisi/laporanperbaikan'] = 'Melaporkan Pekerjaan';
+        //$menu['./teknisi/jadwalperbaikan'] = 'Jadwal Perbaikan';
+        //$menu['./teknisi/laporanperbaikan'] = 'Melaporkan Pekerjaan';
         $menu['./sales/datapromo'] = 'Promo Sales';
     }
 
