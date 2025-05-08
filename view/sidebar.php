@@ -40,14 +40,16 @@ function showMenu($level) {
     // Menu untuk Teknisi
     if ($level == 'Teknisi') {
         $menu['./public/index'] = 'Dashboard';
-        $menu['./teknisi/jadwalperbaikan'] = 'Jadwal Perbaikan';
         $menu['./teknisi/laporanperbaikan'] = 'Melaporkan Pekerjaan';
     }
 
     // Menu untuk Customer
     if ($level == 'Customer') {
-        $menu['repair_schedule'] = 'Jadwal Perbaikan';
-        $menu['work_report'] = 'Melaporkan Pekerjaan';
+        $menu['./public/index'] = 'Dashboard';
+        $menu['./sales/datapromo'] = 'Promo';
+        $menu['./tagihan/datatagihan'] = 'Tagihan';
+        $menu['./dataproduk/dataproduk'] = 'Daftar Paket Internet';
+        $menu['./keluhan/formkomplain'] = 'Mengajukan Komplain';
     }
 
     return $menu;

@@ -65,7 +65,7 @@ function getJumlahProduk($conn) {
     }
 }
 
-function tambah($data) {
+function tambahuser($data) {
     global $conn;
 
     // Menggunakan htmlspecialchars untuk menghindari XSS
@@ -140,5 +140,33 @@ function hapuspaket ($id){
     mysqli_query($conn, "DELETE FROM produk WHERE id_produk = $id");
     return mysqli_affected_rows($conn);
 }
+
+function tambahpelanggan($data) {
+    global $conn;
+
+    // Menggunakan htmlspecialchars untuk menghindari XSS
+    
+    $idproduk = htmlspecialchars($data["id_produk"]);
+    $iduser = htmlspecialchars($data["id_user"]);
+    $nama = htmlspecialchars($data["nama"]);
+    $email = htmlspecialchars($data["email"]);
+    $nohp = htmlspecialchars($data["no_hp"]);
+    $alamat = htmlspecialchars($data["alamat"]);
+    $status = htmlspecialchars($data["status"]);
+
+    // Membuat query SQL, id_customer diabaikan karena auto increment
+    $query = "INSERT INTO customer ( id_produk, id_user, nama, email, no_hp, alamat, status) 
+              VALUES ( '$idproduk', '$iduser','$nama', '$email', '$nohp', '$alamat', '$status')";
+
+    // Eksekusi query
+    if (mysqli_query($conn, $query)) {
+        return mysqli_affected_rows($conn);
+    } else {
+        // Menampilkan error jika query gagal
+        echo "Error: " . mysqli_error($conn);
+        return 0;
+    }
+}
+
 
 ?>

@@ -170,7 +170,7 @@ $users = query("SELECT * FROM customer");
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Komplain</li>
+              <li class="breadcrumb-item active">promo</li>
             </ol>
           </div>
         </div>
