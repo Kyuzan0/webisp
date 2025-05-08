@@ -196,32 +196,9 @@ if( isset($_POST["submit"]) ) {
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Fitur 1
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            
-          </li>
           
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-columns"></i>
-              <p>
-                Fitur 2
-              </p>
-            </a>
-          </li>
-          
-          
-          
-          <li class="nav-header"> - </li>
-          
-          <li class="nav-item">
-            <a href="keloladatauser.php" class="nav-link">
+            <a href="dataproduk.php" class="nav-link">
               <i class="nav-icon fas fa-columns"></i>
               <p>
                 Back

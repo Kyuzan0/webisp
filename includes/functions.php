@@ -222,6 +222,29 @@ function tambahpaket($data) {
     }
 }
 
+function ubahpaket($data) {
+    global $conn;
+
+    // Menggunakan htmlspecialchars untuk menghindari XSS
+    $id = htmlspecialchars($data["id_produk"]);
+    $namaproduk = htmlspecialchars($data["nama_produk"]);
+    $deskripsi = htmlspecialchars($data["deskripsi"]);
+    $harga = htmlspecialchars($data["harga"]);
+
+    // Membuat query SQL
+    $query = "UPDATE produk SET nama_produk = '$namaproduk', deskripsi = '$deskripsi', harga = '$harga' WHERE id_produk = '$id'";
+
+    // Eksekusi query
+    if (mysqli_query($conn, $query)) {
+        return mysqli_affected_rows($conn);
+    } else {
+        // Menampilkan error jika query gagal
+        echo "Error: " . mysqli_error($conn);
+        return 0;
+    }
+}
+
+
 function hapuspaket ($id){
     global $conn;
     mysqli_query($conn, "DELETE FROM produk WHERE id_produk = $id");

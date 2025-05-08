@@ -89,7 +89,7 @@ if( isset($_POST["submit"]) ) {
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                        <input type="text" name="email" id="email" class="form-control" required placeholder="Email">
+                        <input type="email" name="email" id="email" class="form-control" required placeholder="Email">
                 </div>
 
                 <div class="form-group">
