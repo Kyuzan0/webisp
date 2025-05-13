@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 $server = "localhost";
 $user = "root";
 $pass = "";
@@ -363,6 +362,12 @@ function hapuskeluhan ($id){
 }
 
 // keluhan end section //
+
+// pelanggan section //
+
+
+
+// pelanggan end section //
 
 // promosi section //
 

@@ -1,6 +1,6 @@
 <?php
 require 'functions.php';
-session_start();
+require 'init_session.php';
 
 if (isset($_SESSION['username'])) {
     header("Location: ../public/index.php");
@@ -20,6 +20,7 @@ if (isset($_POST['submit'])) {
 
         // Verifikasi password yang di-hash
         if (password_verify($password, $row['password'])) {
+            // Menyimpan data login ke session
             $_SESSION['username'] = $row['username'];
             $_SESSION['level'] = $row['level'];  // Menyimpan level ke dalam session
             header("Location: ../public/index.php");
@@ -31,8 +32,8 @@ if (isset($_POST['submit'])) {
         echo "<script>alert('Email atau password Anda salah. Silakan coba lagi!')</script>";
     }
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html>

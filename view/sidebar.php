@@ -1,6 +1,7 @@
 <?php
 // Mulai session untuk mendapatkan level user
-session_start();
+include '../includes/init_session.php';
+
 $user_level = isset($_SESSION['level']) ? $_SESSION['level'] : 'user'; // Ambil level user dari session, default 'user' jika tidak ada
 
 // Fungsi untuk menampilkan menu berdasarkan level
@@ -46,11 +47,11 @@ function showMenu($level) {
 
     // Menu untuk Customer
     if ($level == 'Customer') {
-        $menu['./public/index'] = 'Dashboard';
-        $menu['./sales/datapromo'] = 'Promo';
-        $menu['./tagihan/datatagihan'] = 'Tagihan';
-        $menu['./dataproduk/dataproduk'] = 'Daftar Paket Internet';
-        $menu['./keluhan/formkomplain'] = 'Mengajukan Komplain';
+        $menu['./view/customer/dashboard'] = 'Dashboard';
+        //$menu['./tagihan/datatagihan'] = 'Tagihan';
+        $menu['./pelanggan/pdatapromo'] = 'Promo';
+        $menu['./pelanggan/pdataproduk'] = 'Daftar Paket Internet';
+        $menu['./pelanggan/pformkeluhan'] = 'Open Ticket';
     }
 
     return $menu;
