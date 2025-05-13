@@ -2,6 +2,7 @@
 
 require '../includes/functions.php';
 require '../view/sidebar.php';
+
 $produk = query("SELECT * FROM produk"); 
 ?>
 
@@ -17,18 +18,16 @@ $produk = query("SELECT * FROM produk");
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../public/plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <!-- Navbar -->
-  
   <!-- /.navbar -->
-
   <!-- Main Sidebar Container -->
-  
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -42,7 +41,7 @@ $produk = query("SELECT * FROM produk");
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dataftar paket</li>
+              <li class="breadcrumb-item active">Daftar paket</li>
             </ol>
           </div>
         </div>
@@ -61,15 +60,14 @@ $produk = query("SELECT * FROM produk");
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
-                  <thead>
+                  <thead class="thead-dark">
                   <tr>
                     <th>No</th>
                     <th>ID Produk</th>
                     <th>Nama Paket</th>
                     <th>Deskripsi</th>
                     <th>Harga (Rp.)</th>
-                    <th>Aksi  </th>
-
+                    <th>Aksi</th>
                   </tr>
                   </thead>
 
@@ -85,7 +83,7 @@ $produk = query("SELECT * FROM produk");
                     <td><?= $row["deskripsi"];?></td>
                     <td><?= $row["harga"];?></td>
                     <td>
-                      <a class ="btn btn-primary" href="ubahdataproduk.php?id_produk=<?= $row["id_produk"]; ?> ">ubah</a> | 
+                      <a class ="btn btn-primary" href="ubahdataproduk.php?id_produk=<?= $row["id_produk"]; ?> ">ubah</a>
                       <a class ="btn btn-danger" href="hapusproduk.php?id_produk=<?= $row["id_produk"]; ?> "onclick="return confirm('yakin?');">hapus</a>
 
                     </td>
@@ -123,19 +121,19 @@ $produk = query("SELECT * FROM produk");
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
+<script src="../public/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <!-- AdminLTE App -->
-<script src="js/adminlte.min.js"></script>
+<script src="../public/js/adminlte.min.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false
+      "responsive": true, "lengthChange": false, "autoWidth": true
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
   });
 </script>

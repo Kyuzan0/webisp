@@ -2,6 +2,7 @@
 
 require '../includes/functions.php';
 require '../view/sidebar.php';
+
 $cpm = query("SELECT * FROM keluhan"); 
 ?>
 
@@ -17,18 +18,15 @@ $cpm = query("SELECT * FROM keluhan");
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../public/plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
-  <!-- Bootstrap 4 -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <!-- Navbar -->
-
   <!-- /.navbar -->
-
   <!-- Main Sidebar Container -->
 
   <!-- Content Wrapper. Contains page content -->
@@ -65,13 +63,16 @@ $cpm = query("SELECT * FROM keluhan");
                   <button type="button" class="btn btn-success float-right" onclick="window.location.href='tambahproduk.php';">Tambah Data</button>
                 </div> -->
                 <table id="example1" class="table table-bordered table-striped table-responsive">
+                  </div>
+                    <button type="button" class="btn btn-success float-right" onclick="window.location.href='tambahkeluhan.php';">Tambah Data</button>
+                  </div>
                   <thead class="thead-dark">
                   <tr>
                     <th>No</th>
-                    <th>ID Keluhan</th>
+                   <!-- <th>ID Keluhan</th> -->
                     <th>ID Customer</th>
-                    <th>Judul Keluhan</th>
                     <th>Tanggal Keluhan</th>
+                    <th>Judul Keluhan</th>
                     <th>Deskripsi</th>
                     <th>Status</th>
                     <th>Aksi</th>
@@ -83,7 +84,7 @@ $cpm = query("SELECT * FROM keluhan");
                   <?php foreach($cpm as $row) : ?>
                   <tr>
                     <td><?= $i;?></td>
-                    <td><?= $row["id_keluhan"];?></td>
+                  <!--  <td><?= $row["id_keluhan"];?></td> -->
                     <td><?= $row["id_customer"];?></td>
                     <td><?= $row["tanggal_keluhan"];?></td>
                     <td><?= $row["judul_keluhan"];?></td>
@@ -123,16 +124,14 @@ $cpm = query("SELECT * FROM keluhan");
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
+<script src="../public/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <!-- AdminLTE App -->
-<script src="js/adminlte.min.js"></script>
+<script src="../public/js/adminlte.min.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {

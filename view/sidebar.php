@@ -27,6 +27,7 @@ function showMenu($level) {
     // Menu untuk Kepala Teknisi
     if ($level == 'Kepala Teknisi') {
         $menu['./public/index'] = 'Dashboard';
+        $menu['./keluhan/daftarkeluhan'] = 'Daftar Keluhan';
         $menu['./teknisi/jadwalperbaikan'] = 'Jadwal Perbaikan';
         $menu['./teknisi/laporanperbaikan'] = 'Melaporkan Pekerjaan';
     }

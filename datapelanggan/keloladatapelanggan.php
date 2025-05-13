@@ -13,7 +13,7 @@ $plggn = query("SELECT * FROM customer");
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WebISP | Kelola Data Pelanggan</title>
 
-  <!-- Google Font: Source Sans Pro -->
+<!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../public/plugins/fontawesome-free/css/all.min.css">
@@ -21,15 +21,14 @@ $plggn = query("SELECT * FROM customer");
   <link rel="stylesheet" href="../public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <!-- Navbar -->
-  
   <!-- /.navbar -->
-
   <!-- Main Sidebar Container -->
-  
+
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -62,7 +61,7 @@ $plggn = query("SELECT * FROM customer");
               <!-- /.card-header -->
               <div class="card-body">
               <table id="example1" class="table table-bordered table-striped">
-                  <thead>
+                  <thead class="thead-dark">
                   <tr>
                     <th>No</th>
                     <th>ID Customer</th>
@@ -130,14 +129,14 @@ $plggn = query("SELECT * FROM customer");
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
+<script src="../public/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <!-- AdminLTE App -->
-<script src="js/adminlte.min.js"></script>
+<script src="../public/js/adminlte.min.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {

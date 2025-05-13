@@ -284,6 +284,32 @@ function tambahpelanggan($data) {
 
 // keluhan section //
 
+function tambahkeluhan($data) {
+    global $conn;
+
+    // Menggunakan htmlspecialchars untuk menghindari XSS
+    $idkepalateknisi = htmlspecialchars($data["id_kepalateknisi"]);
+    $idcustomer = htmlspecialchars($data["id_customer"]);
+    $judul = htmlspecialchars($data["judul_keluhan"]);
+    $deskripsi = htmlspecialchars($data["deskripsi"]);
+    $tanggalkeluhan = htmlspecialchars($data["tanggal_keluhan"]);
+    $status = htmlspecialchars($data["status"]);
+
+    // Membuat query SQL, id_customer diabaikan karena auto increment
+    $query = "INSERT INTO keluhan (id_kepalateknisi, id_customer, judul_keluhan, deskripsi, tanggal_keluhan, status) 
+              VALUES ('$idkepalateknisi', '$idcustomer', '$judul', '$deskripsi', '$tanggalkeluhan', '$status')";
+
+    // Eksekusi query
+    if (mysqli_query($conn, $query)) {
+        return mysqli_affected_rows($conn);
+    } else {
+        // Menampilkan error jika query gagal
+        echo "Error: " . mysqli_error($conn);
+        return 0;
+    }
+}
+
+
 function getjumlahkeluhan($conn) {
     // Query untuk mendapatkan jumlah user
     $sql = "SELECT COUNT(*) AS jumlah_keluhan FROM keluhan";

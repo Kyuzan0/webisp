@@ -2,6 +2,7 @@
 
 require '../includes/functions.php';
 require '../view/sidebar.php';
+
 $users = query("SELECT * FROM users"); 
 ?>
 
@@ -17,18 +18,16 @@ $users = query("SELECT * FROM users");
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../public/plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
+  
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <!-- Navbar -->
-  
   <!-- /.navbar -->
-
   <!-- Main Sidebar Container -->
-  
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -42,7 +41,7 @@ $users = query("SELECT * FROM users");
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">DataTables</li>
+              <li class="breadcrumb-item active">Kelola Data User</li>
             </ol>
           </div>
         </div>
@@ -61,7 +60,7 @@ $users = query("SELECT * FROM users");
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
-                  <thead>
+                  <thead class="thead-dark">
                   <tr>
                     <th>No. </th>
                     <th>ID user</th>
@@ -86,7 +85,7 @@ $users = query("SELECT * FROM users");
                     <td>***********</td>
                     <td><?= $row["level"];?></td>
                     <td>
-                      <a class ="btn btn-primary" href="ubahdatauser.php?id_user=<?= $row["id_user"]; ?> ">ubah</a> | 
+                      <a class ="btn btn-primary" href="ubahdatauser.php?id_user=<?= $row["id_user"]; ?> ">ubah</a>
                       <a class ="btn btn-danger" href="hapusdatauser.php?id_user=<?= $row["id_user"]; ?> "onclick="return confirm('yakin?');">hapus</a>
 
                     </td>
@@ -124,14 +123,14 @@ $users = query("SELECT * FROM users");
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
+<script src="../public/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <!-- AdminLTE App -->
-<script src="js/adminlte.min.js"></script>
+<script src="../public/js/adminlte.min.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {

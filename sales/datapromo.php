@@ -1,7 +1,7 @@
 <?php 
-
 require '../includes/functions.php';
 require '../view/sidebar.php';
+
 $promo = query("SELECT * FROM promosi"); 
 ?>
 
@@ -17,11 +17,10 @@ $promo = query("SELECT * FROM promosi");
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../public/plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
-  <!-- Bootstrap 4 -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -125,16 +124,14 @@ $promo = query("SELECT * FROM promosi");
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
+<script src="../public/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <!-- AdminLTE App -->
-<script src="js/adminlte.min.js"></script>
+<script src="../public/js/adminlte.min.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
