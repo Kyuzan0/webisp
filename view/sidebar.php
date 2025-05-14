@@ -22,7 +22,8 @@ function showMenu($level) {
     // Menu untuk Supervisor
     if ($level == 'Supervisor') {
         $menu['./public/index'] = 'Dashboard';
-        $menu['./sales/datapromo'] = 'Promo Sales';
+        $menu['./teknisi/laporanperbaikan'] = 'Laporan Pekerjaan';
+        $menu['./datapelanggan/keloladatapelanggan'] = 'Daftar Pelanggan';
     }
 
     // Menu untuk Kepala Teknisi
@@ -42,16 +43,17 @@ function showMenu($level) {
     // Menu untuk Teknisi
     if ($level == 'Teknisi') {
         $menu['./public/index'] = 'Dashboard';
+        $menu['./teknisi/jadwalperbaikan'] = 'Jadwal Perbaikan';
         $menu['./teknisi/laporanperbaikan'] = 'Melaporkan Pekerjaan';
     }
 
     // Menu untuk Customer
     if ($level == 'Customer') {
-        $menu['./view/customer/dashboard'] = 'Dashboard';
+        $menu['./pelanggan/dashboard'] = 'Dashboard';
         //$menu['./tagihan/datatagihan'] = 'Tagihan';
         $menu['./pelanggan/pdatapromo'] = 'Promo';
         $menu['./pelanggan/pdataproduk'] = 'Daftar Paket Internet';
-        $menu['./pelanggan/pformkeluhan'] = 'Open Ticket';
+        $menu['./pelanggan/pformkeluhan'] = 'Form Keluhan';
     }
 
     return $menu;

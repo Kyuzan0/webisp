@@ -88,7 +88,7 @@ if( isset($_POST["submit"]) ) {
                 <div class="card-body">
 
                 <!-- Input tersembunyi untuk id_kepalateknisi -->
-                <input type="hidden" name="id_kepalateknisi" value="1">
+                <input type="hidden" name="id_kepalateknisi" value="2">
                 
                 <div class="form-group">
                     <label for="id_customer">ID Customer</label>
