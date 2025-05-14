@@ -21,7 +21,7 @@ function showMenu($level) {
 
     // Menu untuk Supervisor
     if ($level == 'Supervisor') {
-        $menu['./public/index'] = 'Dashboard';
+        $menu['./supervisor/dashboard'] = 'Dashboard';
         $menu['./teknisi/laporanperbaikan'] = 'Laporan Pekerjaan';
         $menu['./datapelanggan/keloladatapelanggan'] = 'Daftar Pelanggan';
     }
@@ -36,8 +36,10 @@ function showMenu($level) {
 
     // Menu untuk Sales
     if ($level == 'Sales Marketing') {
-        $menu['./public/index'] = 'Dashboard';
+        $menu['./sales/dashboard'] = 'Dashboard';
         $menu['./sales/datapromo'] = 'Promo Sales';
+        $menu['./dataproduk/dataproduk'] = 'Daftar Paket Internet';
+        $menu['./sales/datapelanggan'] = 'Daftar Pelanggan';
     }
 
     // Menu untuk Teknisi
