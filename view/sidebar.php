@@ -119,9 +119,9 @@ switch ($user_level) {
 $current_page = basename($_SERVER['PHP_SELF'], '.php');
 ?>
 
-<aside class="main-sidebar <?php echo $sidebarTheme; ?> elevation-4">
+<aside class="main-sidebar <?php echo $sidebarTheme; ?> elevation-4 position-fixed">
     <!-- Brand Logo -->
-    <a href="../public/index.php" class="brand-link">
+    <a href="../public/index.php" class="brand-link d-flex align-items-center">
       <img src="../img/logo.png" alt="WebISP Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-bold">WebISP</span>
     </a>
@@ -129,7 +129,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
         <div class="image">
           <img src="../public/img/<?php echo getProfileImageByLevel($user_level); ?>" class="img-circle elevation-2" alt="User Image">
         </div>
@@ -154,17 +154,6 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
               </a>
             </li>
           <?php endforeach; ?>
-
-          <!-- Divider -->
-          <!--<li class="nav-header">AKUN</li>
-          
-           Profil Link 
-          <li class="nav-item">
-            <a href="../profile/index.php" class="nav-link">
-              <i class="nav-icon fas fa-user"></i>
-              <p>Profil Saya</p>
-            </a>
-          </li> -->
           
           <!-- Logout Button -->
           <form id="logoutForm" action="../public/logout.php" method="POST" style="display: none;">
@@ -182,6 +171,67 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
     </div>
     <!-- /.sidebar -->
 </aside>
+
+<!-- CSS untuk sidebar responsif -->
+<style>
+  /* Memastikan sidebar tetap ada dalam view saat di-scroll */
+  .main-sidebar {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1038;
+    transition: width 0.3s ease-in-out, margin-left 0.3s ease-in-out;
+  }
+  
+  /* Custom scrollbar untuk sidebar */
+  .main-sidebar::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .main-sidebar::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+  }
+  
+  .main-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+    border-radius: 3px;
+  }
+  
+  /* Penyesuaian untuk layar kecil */
+  @media (max-width: 992px) {
+    .main-sidebar {
+      box-shadow: 0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+    }
+    
+    body:not(.sidebar-collapse) .main-sidebar {
+      margin-left: 0;
+    }
+    
+    body.sidebar-collapse .main-sidebar {
+      margin-left: -250px;
+    }
+  }
+  
+  /* Memastikan konten menu responsif */
+  .nav-sidebar .nav-link p {
+    display: block;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Menyesuaikan ukuran brand text pada ukuran layar kecil */
+  @media (max-width: 576px) {
+    .brand-text {
+      font-size: 1rem;
+    }
+  }
+</style>
 
 <!-- Tambahkan script untuk konfirmasi logout -->
 <script>
@@ -209,4 +259,32 @@ function confirmLogout() {
     }
   }
 }
+
+// Script untuk menangani sidebar toggle pada versi mobile
+document.addEventListener('DOMContentLoaded', function() {
+  // Cek apakah ada tombol toggle sidebar
+  const sidebarToggleBtn = document.querySelector('[data-widget="pushmenu"]');
+  
+  if (sidebarToggleBtn) {
+    sidebarToggleBtn.addEventListener('click', function() {
+      document.body.classList.toggle('sidebar-collapse');
+    });
+  }
+  
+  // Menutup sidebar otomatis pada layar kecil saat menu item diklik
+  const navLinks = document.querySelectorAll('.nav-sidebar .nav-link');
+  const screenWidth = window.innerWidth;
+  
+  if (screenWidth < 992) {
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        if (sidebarToggleBtn && !link.classList.contains('has-treeview')) {
+          setTimeout(() => {
+            sidebarToggleBtn.click();
+          }, 100);
+        }
+      });
+    });
+  }
+});
 </script>

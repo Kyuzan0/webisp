@@ -85,8 +85,8 @@ $users = query("SELECT * FROM users");
                     <td>***********</td>
                     <td><?= $row["level"];?></td>
                     <td>
-                      <a class ="btn btn-primary" href="ubahdatauser.php?id_user=<?= $row["id_user"]; ?> ">ubah</a>
-                      <a class ="btn btn-danger" href="hapusdatauser.php?id_user=<?= $row["id_user"]; ?> "onclick="return confirm('yakin?');">hapus</a>
+                      <a class ="btn btn-primary" href="ubahdatauser.php?id_user=<?= $row["id_user"]; ?> "><i class="fas fa-edit"></i> ubah</a>
+                      <a class ="btn btn-danger" href="hapusdatauser.php?id_user=<?= $row["id_user"]; ?> "onclick="return confirm('yakin?');"><i class="fas fa-trash"></i> hapus</a>
 
                     </td>
                   </tr>
