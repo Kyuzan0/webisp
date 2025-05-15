@@ -1,6 +1,6 @@
 <?php
 // Mulai session untuk mendapatkan level user
-include '../includes/init_session.php';
+require '../includes/init_session.php';
 
 $user_level = isset($_SESSION['level']) ? $_SESSION['level'] : 'user'; // Ambil level user dari session, default 'user' jika tidak ada
 
@@ -72,7 +72,8 @@ $menu = showMenu($user_level);
           <img src="../public/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-            <a style="color: white; " href="#" class="d-block"><?= $_SESSION['username']; ?></a>
+            <a style="color: white; " href="#" class="d-block"><?= $_SESSION['username']; ?> <span style="color: grey; "> (<?= $_SESSION['level']; ?>)</span></a>
+            <a style="color: white; " href="#" class="d-block"><?= $_SESSION['id_user']; ?></a>
         </div>
     </div>
 

@@ -96,11 +96,6 @@ if( isset($_POST["submit"]) ) {
                 </div>
 
                 <div class="form-group">
-                    <label for="tanggal_keluhan">Tanggal Keluhan</label>
-                        <input type="date" name="tanggal_keluhan" id="tanggal_keluhan" class="form-control" required>
-                </div>
-
-                <div class="form-group">
                     <label for="judul_keluhan">Judul Keluhan</label>
                         <input type="text" name="judul_keluhan" id="judul_keluhan" class="form-control" required>
                 </div>

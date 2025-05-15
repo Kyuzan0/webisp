@@ -5,7 +5,7 @@ include '../view/sidebar.php';
 
 // Proses form submission
 if (isset($_POST["submit"])) {
-    if (tambahkeluhan($_POST) > 0) {
+    if (tambahkeluhanp($_POST) > 0) {
         echo "
             <script>
                 alert('Data berhasil ditambahkan!');
@@ -63,13 +63,8 @@ if (isset($_POST["submit"])) {
                                 <div class="card-body">
                                     <!-- Input tersembunyi untuk id_customer, diisi otomatis -->
                                     <input type="hidden" name="id_customer" value="<?php echo $id_customer; ?>">
-                                    <input type="hidden" name="id_kepalateknisi" value="1">
+                                    <input type="hidden" name="id_kepalateknisi" value="2">
                                     <input type="hidden" name="status" value="dari_pengguna_<?php echo $id_customer; ?>">
-
-                                    <div class="form-group">
-                                        <label for="tanggal_keluhan">Tanggal Keluhan</label>
-                                        <input type="date" name="tanggal_keluhan" id="tanggal_keluhan" class="form-control" required>
-                                    </div>
 
                                     <div class="form-group">
                                         <label for="judul_keluhan">Judul Keluhan</label>
@@ -78,7 +73,7 @@ if (isset($_POST["submit"])) {
 
                                     <div class="form-group">
                                         <label for="deskripsi">Deskripsi</label>
-                                        <textarea name="deskripsi" id="deskripsi" class="form-control" rows="4" required></textarea>
+                                        <textarea name="deskripsi" id="deskripsi" class="form-control" rows="6" required></textarea>
                                     </div>
 
                                     <a href="../pelanggan/dashboard.php" class="btn btn-secondary float-left">Cancel</a>

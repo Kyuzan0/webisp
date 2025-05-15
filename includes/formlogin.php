@@ -21,6 +21,7 @@ if (isset($_POST['submit'])) {
         // Verifikasi password yang di-hash
         if (password_verify($password, $row['password'])) {
             // Menyimpan data login ke session
+            $_SESSION['id_user'] = $row['id_user']; // Menyimpan id_user ke session
             $_SESSION['username'] = $row['username'];
             $_SESSION['level'] = $row['level'];  // Menyimpan level ke dalam session
             header("Location: ../public/index.php");

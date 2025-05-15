@@ -19,6 +19,8 @@ function query($query){
     return $rows;
 }
 
+
+
 function getdatapelanggan($conn) {
     // Query untuk mendapatkan id_user dan username
     $sql = "SELECT id_user, username FROM users";
@@ -291,12 +293,11 @@ function tambahkeluhan($data) {
     $idcustomer = htmlspecialchars($data["id_customer"]);
     $judul = htmlspecialchars($data["judul_keluhan"]);
     $deskripsi = htmlspecialchars($data["deskripsi"]);
-    $tanggalkeluhan = htmlspecialchars($data["tanggal_keluhan"]);
     $status = htmlspecialchars($data["status"]);
 
     // Membuat query SQL, id_customer diabaikan karena auto increment
-    $query = "INSERT INTO keluhan (id_kepalateknisi, id_customer, judul_keluhan, deskripsi, tanggal_keluhan, status) 
-              VALUES ('$idkepalateknisi', '$idcustomer', '$judul', '$deskripsi', '$tanggalkeluhan', '$status')";
+    $query = "INSERT INTO keluhan (id_kepalateknisi, id_customer, judul_keluhan, deskripsi, status) 
+              VALUES ('$idkepalateknisi', '$idcustomer', '$judul', '$deskripsi', '$status')";
 
     // Eksekusi query
     if (mysqli_query($conn, $query)) {
@@ -365,7 +366,29 @@ function hapuskeluhan ($id){
 
 // pelanggan section //
 
+function tambahkeluhanp($data) {
+    global $conn;
 
+    // Menggunakan htmlspecialchars untuk menghindari XSS
+    $idkepalateknisi = htmlspecialchars($data["id_kepalateknisi"]);
+    $idcustomer = htmlspecialchars($data["id_customer"]);
+    $judul = htmlspecialchars($data["judul_keluhan"]);
+    $deskripsi = htmlspecialchars($data["deskripsi"]);
+    $status = htmlspecialchars($data["status"]);
+
+    // Membuat query SQL, id_customer diabaikan karena auto increment
+    $query = "INSERT INTO keluhan (id_kepalateknisi, id_customer, judul_keluhan, deskripsi, status) 
+              VALUES ('$idkepalateknisi', '$idcustomer', '$judul', '$deskripsi', '$status')";
+
+    // Eksekusi query
+    if (mysqli_query($conn, $query)) {
+        return mysqli_affected_rows($conn);
+    } else {
+        // Menampilkan error jika query gagal
+        echo "Error: " . mysqli_error($conn);
+        return 0;
+    }
+}
 
 // pelanggan end section //
 
