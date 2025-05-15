@@ -1,5 +1,4 @@
 <?php 
-
 require '../includes/functions.php';
 require '../view/sidebar.php';
 
@@ -21,7 +20,6 @@ $produk = query("SELECT * FROM produk");
   <link rel="stylesheet" href="../public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
-
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -59,43 +57,47 @@ $produk = query("SELECT * FROM produk");
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead class="thead-dark">
-                  <tr>
-                    <th>No</th>
-                    <th>ID Produk</th>
-                    <th>Nama Paket</th>
-                    <th>Deskripsi</th>
-                    <th>Harga (Rp.)</th>
-                    <th>Aksi</th>
-                  </tr>
-                  </thead>
-
-                  <tbody>
-
-                <?php $i = 1; ?>
-                <?php foreach( $produk as $row ) : ?>
-
-                  <tr>
-                    <td><?= $i;?></td>
-                    <td><?= $row["id_produk"];?></td>
-                    <td><?= $row["nama_produk"];?></td>
-                    <td><?= $row["deskripsi"];?></td>
-                    <td><?= $row["harga"];?></td>
-                    <td>
-                      <a class ="btn btn-primary" href="ubahdataproduk.php?id_produk=<?= $row["id_produk"]; ?> ">ubah</a>
-                      <a class ="btn btn-danger" href="hapusproduk.php?id_produk=<?= $row["id_produk"]; ?> "onclick="return confirm('yakin?');">hapus</a>
-
-                    </td>
-                  </tr>
-                <?php $i++; ?>
-                <?php endforeach; ?> 
+                <div class="table-responsive">
+                  <div class="mt-3">
+                    <button type="button" class="btn btn-success float-right" onclick="window.location.href='tambahproduk.php';">
+                      <i class="fas fa-plus"></i> Tambah Data
+                    </button>
+                  </div>
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th width="5%">No</th>
+                        <th width="10%">ID Produk</th>
+                        <th width="20%">Nama Paket</th>
+                        <th width="35%">Deskripsi</th>
+                        <th width="15%">Harga (Rp.)</th>
+                        <th width="15%">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php $i = 1; ?>
+                      <?php foreach($produk as $row) : ?>
+                        <tr>
+                          <td><?= $i; ?></td>
+                          <td><?= $row["id_produk"]; ?></td>
+                          <td><?= $row["nama_produk"]; ?></td>
+                          <td><?= $row["deskripsi"]; ?></td>
+                          <td><?= number_format($row["harga"], 0, ',', '.'); ?></td>
+                          <td>
+                            <a class="btn btn-sm btn-primary" href="ubahdataproduk.php?id_produk=<?= $row["id_produk"]; ?>">
+                              <i class="fas fa-edit"></i> Ubah
+                            </a>
+                            <a class="btn btn-sm btn-danger" href="hapusproduk.php?id_produk=<?= $row["id_produk"]; ?>" onclick="return confirm('Yakin ingin menghapus data ini?');">
+                              <i class="fas fa-trash"></i> Hapus
+                            </a>
+                          </td>
+                        </tr>
+                        <?php $i++; ?>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
                 </div>
-                  <button type="button" class="btn btn-success float-right" onclick="window.location.href='tambahproduk.php';">Tambah Data</button>
-                </div>
-                  </tbody>
-                  
-                </table>
+                
               </div>
               <!-- /.card-body -->
             </div>
@@ -110,7 +112,6 @@ $produk = query("SELECT * FROM produk");
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
- 
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -133,9 +134,13 @@ $produk = query("SELECT * FROM produk");
 <script>
   $(function () {
     $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": true
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      "responsive": true, 
+      "lengthChange": false, 
+      "autoWidth": false,
+      "pageLength": 10
+    });
   });
 </script>
 </body>
 </html>
+

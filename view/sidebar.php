@@ -7,101 +7,206 @@ $user_level = isset($_SESSION['level']) ? $_SESSION['level'] : 'user'; // Ambil 
 // Fungsi untuk menampilkan menu berdasarkan level
 function showMenu($level) {
 
+    // Array untuk menyimpan menu dan ikonnya
+    $menu = [];
+
     // Menu untuk Admin - Admin mendapatkan semua menu
     if ($level == 'Admin') {
-        $menu['./public/index'] = 'Dashboard';
-        $menu['./datauser/keloladatauser'] = 'Kelola Data User';
-        $menu['./datapelanggan/keloladatapelanggan'] = 'Kelola Data Pelanggan';
-        $menu['./dataproduk/dataproduk'] = 'Daftar Paket Internet';
-        $menu['./keluhan/daftarkeluhan'] = 'Daftar Keluhan';
-        //$menu['./teknisi/jadwalperbaikan'] = 'Jadwal Perbaikan';
-        //$menu['./teknisi/laporanperbaikan'] = 'Melaporkan Pekerjaan';
-        $menu['./sales/datapromo'] = 'Promo Sales';
+        $menu['./public/index'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
+        $menu['./datauser/keloladatauser'] = ['name' => 'Kelola Data User', 'icon' => 'fas fa-users-cog'];
+        $menu['./datapelanggan/keloladatapelanggan'] = ['name' => 'Kelola Data Pelanggan', 'icon' => 'fas fa-user-friends'];
+        $menu['./dataproduk/dataproduk'] = ['name' => 'Daftar Paket Internet', 'icon' => 'fas fa-box'];
+        $menu['./keluhan/daftarkeluhan'] = ['name' => 'Daftar Keluhan', 'icon' => 'fas fa-comments'];
+        //$menu['./teknisi/jadwalperbaikan'] = ['name' => 'Jadwal Perbaikan', 'icon' => 'fas fa-calendar-alt'];
+        //$menu['./teknisi/laporanperbaikan'] = ['name' => 'Melaporkan Pekerjaan', 'icon' => 'fas fa-clipboard-check'];
+        $menu['./sales/datapromo'] = ['name' => 'Promo Sales', 'icon' => 'fas fa-bullhorn'];
     }
 
     // Menu untuk Supervisor
     if ($level == 'Supervisor') {
-        $menu['./supervisor/dashboard'] = 'Dashboard';
-        $menu['./teknisi/laporanperbaikan'] = 'Laporan Pekerjaan';
-        $menu['./datapelanggan/keloladatapelanggan'] = 'Daftar Pelanggan';
+        $menu['./supervisor/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
+        $menu['./teknisi/laporanperbaikan'] = ['name' => 'Laporan Pekerjaan', 'icon' => 'fas fa-clipboard-check'];
+        $menu['./datapelanggan/keloladatapelanggan'] = ['name' => 'Daftar Pelanggan', 'icon' => 'fas fa-user-friends'];
     }
 
     // Menu untuk Kepala Teknisi
     if ($level == 'Kepala Teknisi') {
-        $menu['./public/index'] = 'Dashboard';
-        $menu['./keluhan/daftarkeluhan'] = 'Daftar Keluhan';
-        $menu['./teknisi/jadwalperbaikan'] = 'Jadwal Perbaikan';
-        $menu['./teknisi/laporanperbaikan'] = 'Melaporkan Pekerjaan';
+        $menu['./kepalateknisi/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
+        $menu['./keluhan/daftarkeluhan'] = ['name' => 'Daftar Keluhan', 'icon' => 'fas fa-comments'];
+        $menu['./teknisi/jadwalperbaikan'] = ['name' => 'Jadwal Perbaikan', 'icon' => 'fas fa-calendar-alt'];
+        $menu['./teknisi/laporanperbaikan'] = ['name' => 'Melaporkan Pekerjaan', 'icon' => 'fas fa-clipboard-check'];
     }
 
     // Menu untuk Sales
     if ($level == 'Sales Marketing') {
-        $menu['./sales/dashboard'] = 'Dashboard';
-        $menu['./sales/datapromo'] = 'Promo Sales';
-        $menu['./dataproduk/dataproduk'] = 'Daftar Paket Internet';
-        $menu['./sales/datapelanggan'] = 'Daftar Pelanggan';
+        $menu['./sales/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
+        $menu['./sales/datapromo'] = ['name' => 'Promo Sales', 'icon' => 'fas fa-bullhorn'];
+        $menu['./dataproduk/dataproduk'] = ['name' => 'Daftar Paket Internet', 'icon' => 'fas fa-box'];
+        $menu['./sales/datapelanggan'] = ['name' => 'Daftar Pelanggan', 'icon' => 'fas fa-user-friends'];
     }
 
     // Menu untuk Teknisi
     if ($level == 'Teknisi') {
-        $menu['./public/index'] = 'Dashboard';
-        $menu['./teknisi/jadwalperbaikan'] = 'Jadwal Perbaikan';
-        $menu['./teknisi/laporanperbaikan'] = 'Melaporkan Pekerjaan';
+        $menu['./teknisi/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
+        $menu['./teknisi/jadwalperbaikan'] = ['name' => 'Jadwal Perbaikan', 'icon' => 'fas fa-calendar-alt'];
+        $menu['./teknisi/laporanperbaikan'] = ['name' => 'Melaporkan Pekerjaan', 'icon' => 'fas fa-clipboard-check'];
     }
 
     // Menu untuk Customer
     if ($level == 'Customer') {
-        $menu['./pelanggan/dashboard'] = 'Dashboard';
-        //$menu['./tagihan/datatagihan'] = 'Tagihan';
-        $menu['./pelanggan/pdatapromo'] = 'Promo';
-        $menu['./pelanggan/pdataproduk'] = 'Daftar Paket Internet';
-        $menu['./pelanggan/pformkeluhan'] = 'Form Keluhan';
+        $menu['./pelanggan/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
+        //$menu['./tagihan/datatagihan'] = ['name' => 'Tagihan', 'icon' => 'fas fa-file-invoice-dollar'];
+        $menu['./pelanggan/pdatapromo'] = ['name' => 'Promo', 'icon' => 'fas fa-bullhorn'];
+        $menu['./pelanggan/pdataproduk'] = ['name' => 'Daftar Paket Internet', 'icon' => 'fas fa-box'];
+        $menu['./pelanggan/pdaftarkeluhan'] = ['name' => 'Bantuan', 'icon' => 'fas fa-hands-helping'];
     }
 
     return $menu;
 }
 
+// Fungsi untuk mendapatkan profil gambar berdasarkan level
+function getProfileImageByLevel($level) {
+    switch ($level) {
+        case 'Admin':
+            return '../img/AdminLTELogo.png';
+        case 'Supervisor':
+            return '../img/user8-128x128.jpg';
+        case 'Kepala Teknisi':
+            return '../img/avatar5.png';
+        case 'Teknisi':
+            return '../img/avatar5.png';
+        case 'Sales Marketing':
+            return '../img/avatar3.png';
+        case 'Customer':
+            return '../img/avatar4.png';
+        default:
+            return '../img/avatar.png';
+    }
+}
+
 // Ambil menu berdasarkan level pengguna
 $menu = showMenu($user_level);
+
+// Tentukan warna tema berdasarkan level
+$sidebarTheme = 'sidebar-dark-primary';
+$accentColor = 'accent-primary';
+
+switch ($user_level) {
+    case 'Admin':
+        $sidebarTheme = 'sidebar-dark-danger';
+        $accentColor = 'accent-danger';
+        break;
+    case 'Supervisor':
+        $sidebarTheme = 'sidebar-dark-warning';
+        $accentColor = 'accent-warning';
+        break;
+    case 'Kepala Teknisi':
+    case 'Teknisi':
+        $sidebarTheme = 'sidebar-dark-success';
+        $accentColor = 'accent-success';
+        break;
+    case 'Sales Marketing':
+        $sidebarTheme = 'sidebar-dark-info';
+        $accentColor = 'accent-info';
+        break;
+    case 'Customer':
+        $sidebarTheme = 'sidebar-dark-primary';
+        $accentColor = 'accent-primary';
+        break;
+}
+
+// Dapatkan nama halaman saat ini untuk menandai menu aktif
+$current_page = basename($_SERVER['PHP_SELF'], '.php');
 ?>
 
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Sidebar user panel (optional) -->
-    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+<aside class="main-sidebar <?php echo $sidebarTheme; ?> elevation-4">
+    <!-- Brand Logo -->
+    <a href="../public/index.php" class="brand-link">
+      <img src="../img/logo.png" alt="WebISP Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-bold">WebISP</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../public/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
+          <img src="../public/img/<?php echo getProfileImageByLevel($user_level); ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-            <a style="color: white; " href="#" class="d-block"><?= $_SESSION['username']; ?> <span style="color: grey; "> (<?= $_SESSION['level']; ?>)</span></a>
-            <a style="color: white; " href="#" class="d-block"><?= $_SESSION['id_user']; ?></a>
+          <a href="#" class="d-block text-white"><?= $_SESSION['username']; ?></a>
+          <span class="badge badge-light"><?= $_SESSION['level']; ?></span>
         </div>
-    </div>
+      </div>
 
-    <!-- Sidebar Menu -->
-    <div class="sidebar">
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Loop menu yang disesuaikan berdasarkan level -->
-                <?php foreach ($menu as $key => $value): ?>
-                    <li class="nav-item">
-                        <a href="../<?= $key ?>.php" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p><?= $value ?></p>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-compact" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Loop menu yang disesuaikan berdasarkan level -->
+          <?php foreach ($menu as $key => $item): 
+            // Check if current page matches this menu item
+            $is_active = (strpos($key, $current_page) !== false);
+          ?>
+            <li class="nav-item">
+              <a href="../<?= $key ?>.php" class="nav-link <?php echo $is_active ? 'active' : ''; ?>">
+                <i class="nav-icon <?= $item['icon'] ?>"></i>
+                <p><?= $item['name'] ?></p>
+              </a>
+            </li>
+          <?php endforeach; ?>
 
-                <!-- Logout Button -->
-                <form id="logoutForm" action="../public/logout.php" method="POST" style="display: none;">
-                    <button type="submit" class="btn">Logout</button>
-                </form>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" onclick="document.getElementById('logoutForm').submit();">
-                        <i class="nav-icon fas fa-sign-out-alt"></i>
-                        <p>Logout</p>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+          <!-- Divider -->
+          <!--<li class="nav-header">AKUN</li>
+          
+           Profil Link 
+          <li class="nav-item">
+            <a href="../profile/index.php" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>Profil Saya</p>
+            </a>
+          </li> -->
+          
+          <!-- Logout Button -->
+          <form id="logoutForm" action="../public/logout.php" method="POST" style="display: none;">
+            <button type="submit" class="btn">Logout</button>
+          </form>
+          <li class="nav-item">
+            <a href="#" class="nav-link text-danger" onclick="confirmLogout()">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>Logout</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
     </div>
+    <!-- /.sidebar -->
 </aside>
+
+<!-- Tambahkan script untuk konfirmasi logout -->
+<script>
+function confirmLogout() {
+  // Periksa apakah SweetAlert2 tersedia
+  if (typeof Swal !== 'undefined') {
+    Swal.fire({
+      title: 'Logout',
+      text: "Apakah Anda yakin ingin keluar dari sistem?",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Ya, Logout',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('logoutForm').submit();
+      }
+    });
+  } else {
+    // Fallback jika SweetAlert2 tidak tersedia
+    if (confirm('Apakah Anda yakin ingin keluar dari sistem?')) {
+      document.getElementById('logoutForm').submit();
+    }
+  }
+}
+</script>

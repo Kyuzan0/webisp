@@ -1,5 +1,6 @@
 <?php 
 require '../includes/functions.php';
+require '../view/sidebar.php';
 
 // Ambil data di URL, pastikan id_keluhan ada
 if(isset($_GET["id_promosi"])) {
@@ -40,7 +41,7 @@ if( isset($_POST["submit"]) ) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WebISP | Ubah Data Pelanggan</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../public/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
@@ -55,28 +56,6 @@ if( isset($_POST["submit"]) ) {
     </ul>
   </nav>
 
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <div class="sidebar">
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="../public/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Admin</a>
-        </div>
-      </div>
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item">
-            <a href="datapromo.php" class="nav-link">
-              <i class="nav-icon fas fa-columns"></i>
-              <p>Back</p>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </aside>
 
   <div class="content-wrapper">
     <section class="content-header">

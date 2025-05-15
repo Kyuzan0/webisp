@@ -63,7 +63,6 @@ $produk = query("SELECT * FROM produk");
                   <thead class="thead-dark">
                   <tr>
                     <th>No</th>
-                    <th>ID Produk</th>
                     <th>Nama Paket</th>
                     <th>Deskripsi</th>
                     <th>Harga (Rp.)</th>
@@ -77,7 +76,6 @@ $produk = query("SELECT * FROM produk");
 
                   <tr>
                     <td><?= $i;?></td>
-                    <td><?= $row["id_produk"];?></td>
                     <td><?= $row["nama_produk"];?></td>
                     <td><?= $row["deskripsi"];?></td>
                     <td><?= $row["harga"];?></td>

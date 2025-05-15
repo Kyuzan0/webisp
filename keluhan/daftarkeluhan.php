@@ -85,7 +85,7 @@ $cpm = query("SELECT * FROM keluhan");
                   <tr>
                     <td><?= $i;?></td>
                   <!--  <td><?= $row["id_keluhan"];?></td> -->
-                    <td><?= $row["id_customer"];?></td>
+                    <td><?= $row["id_user"];?></td>
                     <td><?= $row["tanggal_keluhan"];?></td>
                     <td><?= $row["judul_keluhan"];?></td>
                     <td><?= $row["deskripsi"];?></td>

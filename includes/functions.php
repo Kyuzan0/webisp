@@ -330,7 +330,7 @@ function ubahkeluhan($data) {
 
     // Menggunakan htmlspecialchars untuk menghindari XSS
     $id = htmlspecialchars($data["id_keluhan"]);
-    $idcustomer = htmlspecialchars($data["id_customer"]);
+    $idcustomer = htmlspecialchars($data["id_user"]);
     $tanggalkel = htmlspecialchars($data["tanggal_keluhan"]);
     $judul_keluhan = htmlspecialchars($data["judul_keluhan"]);
     $deskripsi = htmlspecialchars($data["deskripsi"]);
@@ -338,7 +338,7 @@ function ubahkeluhan($data) {
 
     // Membuat query SQL untuk mengupdate data keluhan
     $query = "UPDATE keluhan SET 
-                id_customer = '$idcustomer', 
+                id_user = '$idcustomer', 
                 tanggal_keluhan = '$tanggalkel', 
                 judul_keluhan = '$judul_keluhan', 
                 deskripsi = '$deskripsi', 
@@ -371,14 +371,14 @@ function tambahkeluhanp($data) {
 
     // Menggunakan htmlspecialchars untuk menghindari XSS
     $idkepalateknisi = htmlspecialchars($data["id_kepalateknisi"]);
-    $idcustomer = htmlspecialchars($data["id_customer"]);
+    $iduser = htmlspecialchars($data["id_user"]);
     $judul = htmlspecialchars($data["judul_keluhan"]);
     $deskripsi = htmlspecialchars($data["deskripsi"]);
     $status = htmlspecialchars($data["status"]);
 
     // Membuat query SQL, id_customer diabaikan karena auto increment
-    $query = "INSERT INTO keluhan (id_kepalateknisi, id_customer, judul_keluhan, deskripsi, status) 
-              VALUES ('$idkepalateknisi', '$idcustomer', '$judul', '$deskripsi', '$status')";
+    $query = "INSERT INTO keluhan (id_kepalateknisi, id_user, judul_keluhan, deskripsi, status) 
+              VALUES ('$idkepalateknisi', '$iduser', '$judul', '$deskripsi', '$status')";
 
     // Eksekusi query
     if (mysqli_query($conn, $query)) {

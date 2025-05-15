@@ -9,7 +9,7 @@ if (isset($_POST["submit"])) {
         echo "
             <script>
                 alert('Data berhasil ditambahkan!');
-                document.location.href = 'pformkeluhan.php';
+                document.location.href = 'dashboard.php';
             </script>
         ";
     } else {
@@ -62,9 +62,9 @@ if (isset($_POST["submit"])) {
                             <form action="" method="POST">
                                 <div class="card-body">
                                     <!-- Input tersembunyi untuk id_customer, diisi otomatis -->
-                                    <input type="hidden" name="id_customer" value="<?php echo $id_customer; ?>">
+                                    <input type="hidden" name="id_user" value="<?= $_SESSION['id_user']; ?>">
                                     <input type="hidden" name="id_kepalateknisi" value="2">
-                                    <input type="hidden" name="status" value="dari_pengguna_<?php echo $id_customer; ?>">
+                                    <input type="hidden" name="status" value="Pending">
 
                                     <div class="form-group">
                                         <label for="judul_keluhan">Judul Keluhan</label>

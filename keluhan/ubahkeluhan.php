@@ -53,22 +53,14 @@ if( isset($_POST["submit"]) ) {
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  
 
   <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Mengubah Data Pelanggan</h1>
+                    <h1>Mengubah Data Keluhan</h1>
                 </div>
             </div>
         </div>
@@ -79,7 +71,7 @@ if( isset($_POST["submit"]) ) {
         <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Data Pelanggan</h3>
+                    <h3 class="card-title">Form Keluhan Pelanggan</h3>
                 </div>
 
                 <form action="" method="POST">
@@ -87,8 +79,8 @@ if( isset($_POST["submit"]) ) {
                         <input type="hidden" name="id_keluhan" value="<?= $kel['id_keluhan']; ?>">
 
                         <div class="form-group">
-                            <label for="username">ID Customer</label>
-                            <input type="text" name="id_customer" id="id_customer" class="form-control" required value="<?= $kel["id_customer"]; ?>">
+                            <label for="id_user">ID Customer</label>
+                            <input type="text" name="id_user" id="id_user" class="form-control" required value="<?= $kel["id_user"]; ?>" >
                         </div>
 
                         <div class="form-group">
@@ -98,12 +90,12 @@ if( isset($_POST["submit"]) ) {
 
                         <div class="form-group">
                             <label for="judul_keluhan">Judul Keluhan</label>
-                            <input type="text" name="judul_keluhan" id="judul_keluhan" class="form-control" required value="<?= $kel["judul_keluhan"]; ?>">
+                            <input type="text" name="judul_keluhan" id="judul_keluhan" class="form-control" required value="<?= $kel["judul_keluhan"]; ?>" >
                         </div>
 
                         <div class="form-group">
                             <label for="deskripsi">Deskripsi</label>
-                            <textarea name="deskripsi" id="deskripsi" class="form-control" required><?= $kel["deskripsi"]; ?></textarea>
+                            <textarea name="deskripsi" id="deskripsi" class="form-control" required><?= $kel["deskripsi"]; ?></textarea >
                         </div>
 
                         <div class="row">
@@ -112,9 +104,9 @@ if( isset($_POST["submit"]) ) {
                                     <label for="status">Status</label>
                                     <select name="status" id="level" class="form-control custom-select">
                                         <option selected disabled>Select one</option>
+                                        <option>Pending</option>
                                         <option>Proses</option>
                                         <option>Selesai</option>
-                                        <option>Batal</option>
                                     </select>
                                 </div>
                             </div>
