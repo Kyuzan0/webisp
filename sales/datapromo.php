@@ -194,21 +194,21 @@ $promo = query("SELECT * FROM promosi");
               </div>
               
               <div class="col-md-4">
-                <div class="small-box bg-warning">
+                <div class="small-box bg-danger">
                   <div class="inner">
                     <?php
-                    $upcoming = 0;
+                    $expired = 0;
                     foreach($promo as $p) {
-                      if($p["mulai_promosi"] > $today) {
-                        $upcoming++;
+                      if($p["akhir_promosi"] < $today) {
+                        $expired++;
                       }
                     }
                     ?>
-                    <h3><?= $upcoming ?></h3>
-                    <p>Promosi Mendatang</p>
+                    <h3><?= $expired ?></h3>
+                    <p>Promosi Berakhir</p>
                   </div>
                   <div class="icon">
-                    <i class="fas fa-calendar-alt"></i>
+                    <i class="fas fa-calendar-times"></i>
                   </div>
                 </div>
               </div>
@@ -232,12 +232,12 @@ $promo = query("SELECT * FROM promosi");
                   <thead>
                   <tr>
                     <th width="5%">No</th>
-                    <th width="10%">ID Promosi</th>
-                    <th width="15%">Periode</th>
-                    <th width="15%">Status</th>
+                    <th width="5%">ID Promosi</th>
+                    <th width="10%">Periode</th>
                     <th width="20%">Judul Promosi</th>
-                    <th width="20%">Deskripsi</th>
-                    <th width="15%">Aksi</th>
+                    <th width="40%">Deskripsi</th>
+                    <th width="10%">Status</th>
+                    <th width="10%">Aksi</th>
                   </tr>
                   </thead>
 
@@ -274,6 +274,9 @@ $promo = query("SELECT * FROM promosi");
                       <i class="fas fa-calendar-day text-primary"></i> <?= $mulai_format;?><br>
                       <i class="fas fa-calendar-times text-danger"></i> <?= $akhir_format;?>
                     </td>
+                    
+                    <td class="promo-title"><?= $row["judul"];?></td>
+                    <td class="description-cell"><?= $row["deskripsi"];?></td>
                     <td class="text-center">
                       <span class="<?= $badge_class; ?>">
                         <?php if($status == "active"): ?>
@@ -286,8 +289,6 @@ $promo = query("SELECT * FROM promosi");
                         <?= $status_label; ?>
                       </span>
                     </td>
-                    <td class="promo-title"><?= $row["judul"];?></td>
-                    <td class="description-cell"><?= $row["deskripsi"];?></td>
                     <td class="text-center">
                       <button type="button" class="btn btn-info btn-sm btn-action view-promo" data-id="<?= $row["id_promosi"]; ?>" data-toggle="tooltip" title="Lihat Detail">
                         <i class="fas fa-eye"></i>

@@ -179,7 +179,8 @@ $plggn = query("SELECT c.*, p.nama_produk
                     <?php
                     $active = 0;
                     foreach($plggn as $p) {
-                      if($p["status"] == "Aktif") {
+                      $status = trim(strtolower($p["status"]));
+                      if($status == "aktif" || $status == "active") {
                         $active++;
                       }
                     }
@@ -194,12 +195,13 @@ $plggn = query("SELECT c.*, p.nama_produk
               </div>
               
               <div class="col-md-4">
-                <div class="small-box bg-warning">
+                <div class="small-box bg-danger">
                   <div class="inner">
                     <?php
                     $inactive = 0;
                     foreach($plggn as $p) {
-                      if($p["status"] != "Aktif") {
+                      $status = trim(strtolower($p["status"]));
+                      if($status != "aktif" && $status != "active") {
                         $inactive++;
                       }
                     }
@@ -232,11 +234,11 @@ $plggn = query("SELECT c.*, p.nama_produk
                   <thead>
                   <tr>
                     <th width="5%">No</th>
-                    <th width="10%">ID Customer</th>
-                    <th width="15%">Produk</th>
+                    <th width="5%">ID Customer</th>
+                    <th width="10%">Produk</th>
                     <th width="15%">Nama</th>
                     <th width="15%">Email / No HP</th>
-                    <th width="20%">Alamat</th>
+                    <th width="30%">Alamat</th>
                     <th width="10%">Status</th>
                     <th width="10%">Aksi</th>
                   </tr>
@@ -285,6 +287,7 @@ $plggn = query("SELECT c.*, p.nama_produk
                       <button type="button" class="btn btn-info btn-sm btn-action view-customer" data-id="<?= $row["id_customer"]; ?>" data-toggle="tooltip" title="Lihat Detail">
                         <i class="fas fa-eye"></i>
                       </button>
+                      
                     </td>
                   </tr>
                   <?php $i++; ?>
