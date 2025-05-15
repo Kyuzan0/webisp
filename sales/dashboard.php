@@ -18,6 +18,56 @@ require '../includes/functions.php';
   
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
+  
+  <!-- Tambahan CSS untuk banner promo -->
+  <style>
+    .promo-banner {
+      background: linear-gradient(135deg, #4e73df 0%, #36b9cc 100%);
+      color: white;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .promo-banner h2 {
+      margin-top: 0;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .promo-banner p {
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    
+    .promo-banner .btn {
+      background-color: white;
+      color: #4e73df;
+      font-weight: 600;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 30px;
+      transition: all 0.3s;
+    }
+    
+    .promo-banner .btn:hover {
+      background-color: #f8f9fc;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .promo-banner .promo-icon {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 80px;
+      opacity: 0.2;
+    }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -52,6 +102,21 @@ require '../includes/functions.php';
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        
+        <!-- Banner Promo -->
+        <div class="row">
+          <div class="col-12">
+            <div class="promo-banner">
+              <div class="promo-icon">
+                <i class="fas fa-bullhorn"></i>
+              </div>
+              <h2>Promo Spesial Bulan Ini!</h2>
+              <p>Dapatkan diskon hingga 25% untuk semua paket internet premium. Penawaran terbatas sampai akhir bulan.</p>
+              <a href="../sales/datapromo.php" class="btn">Lihat Detail Promo</a>
+            </div>
+          </div>
+        </div>
+        
         <!-- Small boxes (Stat box) -->
         <div class="row">
           <div class="col-lg-3 col-6">
@@ -113,11 +178,11 @@ require '../includes/functions.php';
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
+<script src="../public/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="js/adminlte.js"></script>
+<script src="../public/js/adminlte.js"></script>
 
 <!-- AdminLTE for demo purposes 
 <script src="js/demo.js"></script>
