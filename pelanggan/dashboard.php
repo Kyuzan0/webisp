@@ -1,6 +1,28 @@
 <?php 
 require '../view/sidebar.php';
 require '../includes/functions.php';
+require '../includes/init_session.php';
+
+// Pastikan session sudah dimulai dan koneksi database sudah ada
+// Ambil ID user yang login
+$id_user = $_SESSION['id_user']; // Sesuaikan dengan variabel session Anda
+
+// Query untuk mengambil nama produk berdasarkan id_user yang login
+$query = "SELECT produk.nama_produk 
+          FROM produk 
+          JOIN customer ON produk.id_produk = customer.id_produk 
+          WHERE customer.id_user = '$id_user'";
+
+$result = mysqli_query($conn, $query);
+
+// Default paket jika tidak ditemukan
+$nama_paket = "Tidak ada paket";
+
+// Jika data ditemukan, ambil nama produk
+if(mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $nama_paket = $row['nama_produk'];
+}
 
 ?>
 
@@ -74,7 +96,7 @@ require '../includes/functions.php';
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
+              <li class="breadcrumb-item active">Dashboard</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -94,14 +116,29 @@ require '../includes/functions.php';
                 <?php $jumlah_produk = getJumlahProduk($conn); ?>
                 <h3 style="color: black;"><?php echo $jumlah_produk; ?><sup style="font-size: 20px"></sup></h3>
 
-                <p style="color: black;">Daftar Paket</p>
+                <p style="color: black;">Daftar Paket Yang Tersedia</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
-              <a href="../dataproduk/dataproduk.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="../pelanggan/pdataproduk.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+
+          <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3 style="color: black;"><?php echo $nama_paket; ?><sup style="font-size: 20px"></sup></h3>
+                        <p style="color: black;">Paket Yang Digunakan</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="../pelanggan/pdataproduk.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
