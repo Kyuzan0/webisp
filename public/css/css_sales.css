@@ -1,0 +1,111 @@
+<style>
+    .carousel-container {
+      position: relative;
+      margin-bottom: 20px;
+      overflow: hidden;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .promo-banner {
+      display: none;
+      padding: 20px;
+      color: white;
+      position: relative;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+    
+    .promo-banner.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in;
+    }
+    
+    .promo-banner:nth-child(1) {
+      background: linear-gradient(135deg, #4e73df 0%, #36b9cc 100%);
+    }
+    
+    .promo-banner:nth-child(2) {
+      background: linear-gradient(135deg, #1cc88a 0%, #36b9cc 100%);
+    }
+    
+    .promo-banner:nth-child(3) {
+      background: linear-gradient(135deg, #f6c23e 0%, #e74a3b 100%);
+    }
+    
+    .promo-banner h2 {
+      margin-top: 0;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .promo-banner p {
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    
+    .promo-banner .btn {
+      background-color: white;
+      font-weight: 600;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 30px;
+      transition: all 0.3s;
+    }
+    
+    .promo-banner .btn:hover {
+      background-color: #f8f9fc;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .promo-banner .promo-icon {
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 80px;
+      opacity: 0.2;
+    }
+    
+    .carousel-indicators {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 10;
+    }
+    
+    .carousel-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.5);
+      margin: 0 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .carousel-indicator.active {
+      background-color: white;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .promo-banner .btn-blue {
+      color: #4e73df;
+    }
+    
+    .promo-banner .btn-green {
+      color: #1cc88a;
+    }
+    
+    .promo-banner .btn-orange {
+      color: #f6c23e;
+    }
+  </style>
