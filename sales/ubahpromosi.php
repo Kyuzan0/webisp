@@ -16,18 +16,18 @@ $prom = query("SELECT * FROM promosi WHERE id_promosi = $id")[0];
 // Cek apakah tombol submit sudah ditekan atau belum
 if( isset($_POST["submit"]) ) {
     // Cek apakah data berhasil diubah atau tidak
-    if( ubahkeluhan($_POST) > 0 ) {
+    if( ubahpromosi($_POST) > 0 ) {
         echo "
             <script>
                 alert('Data berhasil diubah!');
-                document.location.href = 'daftarkeluhan.php'
+                document.location.href = '../sales/datapromo.php'
             </script>
         ";
     } else {
         echo "
             <script>
                 alert('Data gagal diubah! :(');
-                document.location.href = 'ubahkeluhan.php'
+                document.location.href = '../sales/ubahpromosi.php'
             </script>
         ";
     }
@@ -46,17 +46,7 @@ if( isset($_POST["submit"]) ) {
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
-
-
+  
   <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
@@ -78,12 +68,12 @@ if( isset($_POST["submit"]) ) {
 
                 <form action="" method="POST">
                     <div class="card-body">
+                        <!--<input type="hidden" name="id_promosi" value="<?= $prom['id_promosi']; ?>">-->
                         <input type="hidden" name="id_promosi" value="<?= $prom['id_promosi']; ?>">
-
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label for="id_promosi">ID Promosi</label>
                             <input type="text" name="id_promosi" id="id_promosi" class="form-control" required value="<?= $prom["id_promosi"]; ?>">
-                        </div>
+                        </div>-->
 
                         <div class="form-group">
                             <label for="mulai_promosi">Tanggal Mulai Promosi</label>
@@ -96,13 +86,14 @@ if( isset($_POST["submit"]) ) {
 
 
                         <div class="form-group">
-                            <label for="judul">Judul Keluhan</label>
-                            <input type="text" name="judul" id="judul" class="form-control" required value="<?= $prom["judul"]; ?>">
+                            <label for="judul">Judul Promosi</label>
+                            <input type="text" name="judul" id="judul_keluhan" class="form-control" required value="<?= $prom["judul"]; ?>">
+
                         </div>
 
                         <div class="form-group">
                             <label for="deskripsi">Deskripsi</label>
-                            <textarea name="deskripsi" id="deskripsi" class="form-control" required><?= $prom["deskripsi"]; ?></textarea>
+                            <textarea name="deskripsi" id="deskripsi" class="form-control" rows="5" required><?= $prom["deskripsi"]; ?></textarea>
                         </div>
 
                         <a href="datapromo.php" class="btn btn-secondary float-left">Cancel</a>

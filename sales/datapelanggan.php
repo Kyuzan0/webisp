@@ -222,11 +222,11 @@ $plggn = query("SELECT c.*, p.nama_produk
                   <i class="fas fa-table mr-2"></i>
                   Daftar Pelanggan Terdaftar
                 </h3>
-                <div class="card-tools">
+                <!--<div class="card-tools">
                   <button type="button" class="btn btn-success add-button" onclick="window.location.href='tambahpelanggan.php';">
                     <i class="fas fa-user-plus"></i> Tambah Pelanggan Baru
                   </button>
-                </div>
+                </div>-->
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -238,8 +238,8 @@ $plggn = query("SELECT c.*, p.nama_produk
                     <th width="10%">Produk</th>
                     <th width="15%">Nama</th>
                     <th width="15%">Email / No HP</th>
-                    <th width="30%">Alamat</th>
-                    <th width="10%">Status</th>
+                    <th width="25%">Alamat</th>
+                    <th width="15%">Status</th>
                     <th width="10%">Aksi</th>
                   </tr>
                   </thead>

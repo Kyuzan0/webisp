@@ -19,17 +19,38 @@ require '../includes/functions.php';
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
   
-  <!-- Tambahan CSS untuk banner promo -->
+  <!-- Tambahan CSS untuk banner promo carousel -->
   <style>
-    .promo-banner {
-      background: linear-gradient(135deg, #4e73df 0%, #36b9cc 100%);
-      color: white;
-      border-radius: 5px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    .carousel-container {
       position: relative;
+      margin-bottom: 20px;
       overflow: hidden;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .promo-banner {
+      display: none;
+      padding: 20px;
+      color: white;
+      position: relative;
+    }
+    
+    .promo-banner.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in;
+    }
+    
+    .promo-banner:nth-child(1) {
+      background: linear-gradient(135deg, #4e73df 0%, #36b9cc 100%);
+    }
+    
+    .promo-banner:nth-child(2) {
+      background: linear-gradient(135deg, #1cc88a 0%, #36b9cc 100%);
+    }
+    
+    .promo-banner:nth-child(3) {
+      background: linear-gradient(135deg, #f6c23e 0%, #e74a3b 100%);
     }
     
     .promo-banner h2 {
@@ -45,7 +66,6 @@ require '../includes/functions.php';
     
     .promo-banner .btn {
       background-color: white;
-      color: #4e73df;
       font-weight: 600;
       border: none;
       padding: 8px 20px;
@@ -66,6 +86,47 @@ require '../includes/functions.php';
       transform: translateY(-50%);
       font-size: 80px;
       opacity: 0.2;
+    }
+    
+    .carousel-indicators {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 10;
+    }
+    
+    .carousel-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.5);
+      margin: 0 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .carousel-indicator.active {
+      background-color: white;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .promo-banner .btn-blue {
+      color: #4e73df;
+    }
+    
+    .promo-banner .btn-green {
+      color: #1cc88a;
+    }
+    
+    .promo-banner .btn-orange {
+      color: #f6c23e;
     }
   </style>
 </head>
@@ -103,16 +164,46 @@ require '../includes/functions.php';
     <section class="content">
       <div class="container-fluid">
         
-        <!-- Banner Promo -->
+        <!-- Banner Promo Carousel -->
         <div class="row">
           <div class="col-12">
-            <div class="promo-banner">
-              <div class="promo-icon">
-                <i class="fas fa-bullhorn"></i>
+            <div class="carousel-container">
+              <!-- Banner 1 -->
+              <div class="promo-banner active">
+                <div class="promo-icon">
+                  <i class="fas fa-bullhorn"></i>
+                </div>
+                <h2>Promo Spesial Bulan Ini!</h2>
+                <p>Dapatkan diskon hingga 25% untuk semua paket internet premium. Penawaran terbatas sampai akhir bulan.</p>
+                <a href="../sales/datapromo.php" class="btn btn-blue">Lihat Detail Promo</a>
               </div>
-              <h2>Promo Spesial Bulan Ini!</h2>
-              <p>Dapatkan diskon hingga 25% untuk semua paket internet premium. Penawaran terbatas sampai akhir bulan.</p>
-              <a href="../sales/datapromo.php" class="btn">Lihat Detail Promo</a>
+              
+              <!-- Banner 2 -->
+              <div class="promo-banner">
+                <div class="promo-icon">
+                  <i class="fas fa-wifi"></i>
+                </div>
+                <h2>Paket Keluarga Hemat</h2>
+                <p>Internet super cepat dengan bonus streaming premium untuk seluruh keluarga. Dapatkan cashback 10%!</p>
+                <a href="../sales/datapromo.php" class="btn btn-green">Pesan Sekarang</a>
+              </div>
+              
+              <!-- Banner 3 -->
+              <div class="promo-banner">
+                <div class="promo-icon">
+                  <i class="fas fa-gift"></i>
+                </div>
+                <h2>Referral Program</h2>
+                <p>Ajak teman Anda berlangganan dan dapatkan reward untuk setiap pelanggan baru. Kesempatan terbatas!</p>
+                <a href="../sales/datapromo.php" class="btn btn-orange">Ikut Program</a>
+              </div>
+              
+              <!-- Carousel Indicators -->
+              <div class="carousel-indicators">
+                <span class="carousel-indicator active" data-slide="0"></span>
+                <span class="carousel-indicator" data-slide="1"></span>
+                <span class="carousel-indicator" data-slide="2"></span>
+              </div>
             </div>
           </div>
         </div>
@@ -184,10 +275,54 @@ require '../includes/functions.php';
 <!-- AdminLTE App -->
 <script src="../public/js/adminlte.js"></script>
 
-<!-- AdminLTE for demo purposes 
-<script src="js/demo.js"></script>
--- AdminLTE dashboard demo (This is only for demo purposes) --
-<script src="js/pages/dashboard.js"></script> -->
+<!-- Script untuk carousel banner -->
+<script>
+  $(document).ready(function() {
+    // Variabel untuk slide aktif dan interval
+    let activeSlide = 0;
+    const totalSlides = $('.promo-banner').length;
+    let slideInterval;
+    
+    // Fungsi untuk mengganti slide
+    function changeSlide(index) {
+      // Menghapus kelas active dari semua slide
+      $('.promo-banner').removeClass('active');
+      $('.carousel-indicator').removeClass('active');
+      
+      // Menambahkan kelas active ke slide yang dipilih
+      $('.promo-banner').eq(index).addClass('active');
+      $('.carousel-indicator').eq(index).addClass('active');
+      
+      // Update index slide aktif
+      activeSlide = index;
+    }
+    
+    // Fungsi untuk slide otomatis
+    function startSlideShow() {
+      slideInterval = setInterval(function() {
+        let nextSlide = (activeSlide + 1) % totalSlides;
+        changeSlide(nextSlide);
+      }, 5000); // Ganti slide setiap 5 detik
+    }
+    
+    // Memulai slide otomatis
+    startSlideShow();
+    
+    // Event listener untuk indikator
+    $('.carousel-indicator').click(function() {
+      let slideIndex = $(this).data('slide');
+      
+      // Hentikan interval slide otomatis
+      clearInterval(slideInterval);
+      
+      // Ganti slide
+      changeSlide(slideIndex);
+      
+      // Mulai kembali slide otomatis
+      startSlideShow();
+    });
+  });
+</script>
 
 </body>
 </html>

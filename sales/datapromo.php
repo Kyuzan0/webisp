@@ -235,8 +235,8 @@ $promo = query("SELECT * FROM promosi");
                     <th width="5%">ID Promosi</th>
                     <th width="10%">Periode</th>
                     <th width="20%">Judul Promosi</th>
-                    <th width="40%">Deskripsi</th>
-                    <th width="10%">Status</th>
+                    <th width="35%">Deskripsi</th>
+                    <th width="15%">Status</th>
                     <th width="10%">Aksi</th>
                   </tr>
                   </thead>
