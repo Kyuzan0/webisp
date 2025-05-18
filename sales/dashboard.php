@@ -88,8 +88,8 @@ require '../includes/functions.php';
                 <div class="promo-icon">
                   <i class="fas fa-gift"></i>
                 </div>
-                <h2>Referral Program</h2>
-                <p>Ajak teman Anda berlangganan dan dapatkan reward untuk setiap pelanggan baru. Kesempatan terbatas!</p>
+                <h2>Paket Keluarga Hemat Bulan Ini</h2>
+                <p>Internet super cepat dengan bonus streaming premium untuk seluruh keluarga. Dapatkan cashback 10%!</p>
                 <a href="../sales/datapromo.php" class="btn btn-orange">Ikut Program</a>
               </div>
               
@@ -110,9 +110,9 @@ require '../includes/functions.php';
             <div class="small-box bg-info">
               <div class="inner">
                 <?php $jumlah_produk = getJumlahProduk($conn); ?>
-                <h3 style="color: black;"><?php echo $jumlah_produk; ?><sup style="font-size: 20px"></sup></h3>
+                <h3><?php echo $jumlah_produk; ?><sup style="font-size: 20px"></sup></h3>
 
-                <p style="color: black;">Daftar Paket</p>
+                <p>Daftar Paket</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -126,9 +126,9 @@ require '../includes/functions.php';
             <div class="small-box bg-success">
               <div class="inner">
               <?php $jumlah_pelanggan = getJumlahPelanggan($conn); ?>
-              <h3 style="color: black;"><?php echo $jumlah_pelanggan; ?><sup style="font-size: 20px"></sup></h3>
+              <h3><?php echo $jumlah_pelanggan; ?><sup style="font-size: 20px"></sup></h3>
     
-                <p style="color: black;">Jumlah Pelanggan</p>
+                <p>Jumlah Pelanggan</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>

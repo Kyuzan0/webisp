@@ -40,6 +40,16 @@ if(mysqli_num_rows($result) > 0) {
   
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
+  <style>
+    .banner-image {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -107,6 +117,12 @@ if(mysqli_num_rows($result) > 0) {
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        <!-- Banner -->
+        <div class="row">
+          <div class="col-12">
+            <img src="../img/banner1.jpg" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
+          </div>
+        </div>
         <!-- Small boxes (Stat box) -->
         <div class="row">
           <div class="col-lg-3 col-6">
