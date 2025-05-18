@@ -128,23 +128,21 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
+      <!-- Sidebar user panel -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
         <div class="image">
           <img src="../public/img/<?php echo getProfileImageByLevel($user_level); ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block text-white"><?= $_SESSION['username']; ?></a>
-          <span class="badge badge-light"><?= $_SESSION['level']; ?></span>
+          <span class="badge badge-pill badge-light"><?= $_SESSION['level']; ?></span>
         </div>
       </div>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-compact" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Loop menu yang disesuaikan berdasarkan level -->
           <?php foreach ($menu as $key => $item): 
-            // Check if current page matches this menu item
             $is_active = (strpos($key, $current_page) !== false);
           ?>
             <li class="nav-item">
@@ -159,22 +157,19 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
           <form id="logoutForm" action="../public/logout.php" method="POST" style="display: none;">
             <button type="submit" class="btn">Logout</button>
           </form>
-          <li class="nav-item">
-            <a href="#" class="nav-link text-danger" onclick="confirmLogout()">
+          <li class="nav-item mt-3">
+            <a href="#" class="nav-link text-danger logout-btn" onclick="confirmLogout()">
               <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>Logout</p>
             </a>
           </li>
         </ul>
       </nav>
-      <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
 </aside>
 
-<!-- CSS untuk sidebar responsif -->
+<!-- CSS untuk sidebar yang lebih menarik -->
 <style>
-  /* Memastikan sidebar tetap ada dalam view saat di-scroll */
   .main-sidebar {
     height: 100vh;
     overflow-y: auto;
@@ -184,107 +179,135 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
     left: 0;
     bottom: 0;
     z-index: 1038;
-    transition: width 0.3s ease-in-out, margin-left 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
   }
   
-  /* Custom scrollbar untuk sidebar */
+  /* Custom scrollbar */
   .main-sidebar::-webkit-scrollbar {
-    width: 5px;
+    width: 6px;
   }
   
   .main-sidebar::-webkit-scrollbar-track {
     background: rgba(0,0,0,0.1);
-  }
-  
-  .main-sidebar::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.2);
     border-radius: 3px;
   }
   
-  /* Penyesuaian untuk layar kecil */
-  @media (max-width: 992px) {
-    .main-sidebar {
-      box-shadow: 0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
-    }
-    
-    body:not(.sidebar-collapse) .main-sidebar {
-      margin-left: 0;
-    }
-    
-    body.sidebar-collapse .main-sidebar {
-      margin-left: -250px;
-    }
+  .main-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
+    transition: all 0.3s ease;
   }
   
-  /* Memastikan konten menu responsif */
-  .nav-sidebar .nav-link p {
-    display: block;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .main-sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.5);
   }
-  
-  /* Menyesuaikan ukuran brand text pada ukuran layar kecil */
-  @media (max-width: 576px) {
-    .brand-text {
-      font-size: 1rem;
-    }
+
+  /* Brand Logo */
+  .brand-link {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .brand-link:hover {
+    background: rgba(255,255,255,0.1);
+  }
+
+  .brand-link .brand-image {
+    transition: transform 0.3s ease;
+  }
+
+  .brand-link:hover .brand-image {
+    transform: scale(1.1);
+  }
+
+  /* User Panel */
+  .user-panel {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 15px 0;
+  }
+
+  .user-panel .image img {
+    transition: all 0.3s ease;
+  }
+
+  .user-panel:hover .image img {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  }
+
+  .user-panel .badge {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    margin-top: 5px;
+    background: rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* Nav Links */
+  .nav-link {
+    border-radius: 8px;
+    margin: 2px 10px;
+    transition: all 0.3s ease;
+  }
+
+  .nav-link:not(.active):hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateX(5px);
+  }
+
+  .nav-link.active {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+
+  .nav-link i {
+    transition: all 0.3s ease;
+  }
+
+  .nav-link:hover i {
+    transform: scale(1.2);
+  }
+
+  /* Logout Button */
+  .logout-btn {
+    border: 1px solid rgba(255,255,255,0.1);
+    margin-top: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .logout-btn:hover {
+    background: rgba(220,53,69,0.2);
+    border-color: #dc3545;
+    transform: translateX(5px);
+  }
+
+  .logout-btn i {
+    transition: transform 0.3s ease;
+  }
+
+  .logout-btn:hover i {
+    transform: rotate(-180deg);
   }
 </style>
 
-<!-- Tambahkan script untuk konfirmasi logout -->
+<!-- Script untuk konfirmasi logout dengan SweetAlert2 -->
 <script>
 function confirmLogout() {
-  // Periksa apakah SweetAlert2 tersedia
-  if (typeof Swal !== 'undefined') {
-    Swal.fire({
-      title: 'Logout',
-      text: "Apakah Anda yakin ingin keluar dari sistem?",
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Ya, Logout',
-      cancelButtonText: 'Batal'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        document.getElementById('logoutForm').submit();
-      }
-    });
-  } else {
-    // Fallback jika SweetAlert2 tidak tersedia
-    if (confirm('Apakah Anda yakin ingin keluar dari sistem?')) {
+  Swal.fire({
+    title: 'Apakah Anda yakin ingin keluar?',
+    text: "Anda harus login kembali untuk mengakses sistem",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#dc3545',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Ya, Keluar!',
+    cancelButtonText: 'Batal',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
       document.getElementById('logoutForm').submit();
     }
-  }
+  });
 }
-
-// Script untuk menangani sidebar toggle pada versi mobile
-document.addEventListener('DOMContentLoaded', function() {
-  // Cek apakah ada tombol toggle sidebar
-  const sidebarToggleBtn = document.querySelector('[data-widget="pushmenu"]');
-  
-  if (sidebarToggleBtn) {
-    sidebarToggleBtn.addEventListener('click', function() {
-      document.body.classList.toggle('sidebar-collapse');
-    });
-  }
-  
-  // Menutup sidebar otomatis pada layar kecil saat menu item diklik
-  const navLinks = document.querySelectorAll('.nav-sidebar .nav-link');
-  const screenWidth = window.innerWidth;
-  
-  if (screenWidth < 992) {
-    navLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        if (sidebarToggleBtn && !link.classList.contains('has-treeview')) {
-          setTimeout(() => {
-            sidebarToggleBtn.click();
-          }, 100);
-        }
-      });
-    });
-  }
-});
 </script>

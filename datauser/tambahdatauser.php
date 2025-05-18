@@ -71,62 +71,85 @@ if( isset($_POST["submit"]) ) {
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title">Data User</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
+      <div class="container-fluid">
+        <div class="row justify-content-center"> <!-- Menambahkan justify-content-center -->
+          <div class="col-md-8"> <!-- Mengubah ukuran kolom -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Data User</h3>
               </div>
-            </div>
 
-            <form action="" method="POST">
+              <form action="" method="POST">
                 <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                          </div>
+                          <input type="email" name="email" id="email" class="form-control" required placeholder="Email">
+                        </div>
+                      </div>
 
-                <div class="form-group">
-                    <label for="email">Email</label>
-                        <input type="email" name="email" id="email" class="form-control" required placeholder="Email">
-                </div>
+                      <div class="form-group">
+                        <label for="username">Username</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                          </div>
+                          <input type="text" name="username" id="username" class="form-control" required placeholder="Username">
+                        </div>
+                      </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" required placeholder="Username">
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                        <input type="password" name="password" id="password" class="form-control" required placeholder="Password">
-                </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                          </div>
+                          <input type="password" name="password" id="password" class="form-control" required placeholder="Password">
+                        </div>
+                      </div>
 
-                <div class="form-group">
-                    <label for="level">Level</label>
-                        <select name="level" id="level" class="form-control custom-select">
-                            <option selected disabled>Select one</option>
-                            <option>Admin</option>
-                            <option>Supervisor</option>
-                            <option>Kepala Teknisi</option>
-                            <option>Sales Marketing</option>
-                            <option>Teknisi</option>
-                            <option>Customer</option>
-                        </select>
-                </div>
-                    <a href="../datauser/keloladatauser.php" class="btn btn-secondary float-left">Cancel</a>
-                    <button type="submit" name="submit" class="btn btn-success float-right">Tambah Data</button>
-                </div>
-            </form>
+                      <div class="form-group">
+                        <label for="level">Level</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
+                          </div>
+                          <select name="level" id="level" class="form-control custom-select" required>
+                            <option value="" selected disabled>Select one</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Supervisor">Supervisor</option>
+                            <option value="Kepala Teknisi">Kepala Teknisi</option>
+                            <option value="Sales Marketing">Sales Marketing</option>
+                            <option value="Teknisi">Teknisi</option>
+                            <option value="Customer">Customer</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-            <!-- /.card-body -->
+                  <div class="row mt-4">
+                    <div class="col-12">
+                      <a href="../datauser/keloladatauser.php" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left mr-2"></i>Kembali
+                      </a>
+                      <button type="submit" name="submit" class="btn btn-success float-right">
+                        <i class="fas fa-save mr-2"></i>Tambah Data
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
-          <!-- /.card -->
         </div>
-        
-      </div>
-      <div class="row">
-        
       </div>
     </section>
     <!-- /.content -->
