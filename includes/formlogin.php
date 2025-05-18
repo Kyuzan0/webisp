@@ -2,8 +2,21 @@
 require 'functions.php';
 require 'init_session.php';
 
+// Fungsi untuk mendapatkan base URL yang konsisten
+function getBaseUrl() {
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+    $host = $_SERVER['HTTP_HOST'];
+    $rootDir = 'webisp';
+    $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
+    $baseDir = substr($scriptDir, 0, strpos($scriptDir, $rootDir) + strlen($rootDir));
+    return rtrim($protocol . $host . $baseDir, '/') . '/';
+}
+
+// Set base URL untuk digunakan di seluruh halaman
+$base_url = getBaseUrl();
+
 if (isset($_SESSION['username'])) {
-    header("Location: ../public/index.php");
+    header("Location: " . rtrim($base_url, '/') . "/public/index.php");
     exit();
 }
 
@@ -31,22 +44,22 @@ if (isset($_POST['submit'])) {
             // Redirect ke halaman sesuai dengan level pengguna
             switch ($_SESSION['level']) {
                 case 'Admin':
-                    header("Location: ../public/index.php");
+                    header("Location: " . rtrim($base_url, '/') . "/public/index.php");
                     break;
                 case 'Supervisor':
-                    header("Location: ../supervisor/dashboard.php");
+                    header("Location: " . rtrim($base_url, '/') . "/supervisor/dashboard.php");
                     break;
                 case 'Kepala Teknisi':
-                    header("Location: ../kepalateknisi/dashboard.php");
+                    header("Location: " . rtrim($base_url, '/') . "/kepalateknisi/dashboard.php");
                     break;
                 case 'Teknisi':
-                    header("Location: ../teknisi/dashboard.php");
+                    header("Location: " . rtrim($base_url, '/') . "/teknisi/dashboard.php");
                     break;
                 case 'Sales Marketing':
-                    header("Location: ../sales/dashboard.php");
+                    header("Location: " . rtrim($base_url, '/') . "/sales/dashboard.php");
                     break;
                 case 'Customer':
-                    header("Location: ../pelanggan/dashboard.php");
+                    header("Location: " . rtrim($base_url, '/') . "/pelanggan/dashboard.php");
                     break;
                 default:
                     echo "<script>alert('Level tidak dikenali!')</script>";
@@ -67,6 +80,7 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="<?php echo $base_url; ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>WebISP | Form Login</title>
     <style>

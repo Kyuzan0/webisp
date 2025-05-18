@@ -4,6 +4,6 @@ session_start();
 session_unset();
 session_destroy();
 // Redirect ke halaman login setelah logout
-header("Location: /WebISP/includes/formlogin.php");
+header("Location: /webisp/includes/formlogin.php");
 exit();
 ?>
