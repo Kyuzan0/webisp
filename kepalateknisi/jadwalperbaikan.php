@@ -1,9 +1,39 @@
 <?php 
-
 require '../includes/functions.php';
 require '../view/sidebar.php';
-$users = query("SELECT * FROM customer"); 
+
+// Data dummy untuk jadwal perbaikan
+$jadwal_dummy = [
+    [
+        'id_perbaikan' => 'PB001',
+        'id_keluhan' => 'KL001',
+        'id_teknisi' => 'TK001',
+        'waktu_penugasan' => '2024-01-15 09:00:00',
+        'waktu_selesai' => '2024-01-15 11:30:00',
+        'deskripsi' => 'Perbaikan koneksi internet putus-putus',
+        'status' => 'Completed'
+    ],
+    [
+        'id_perbaikan' => 'PB002',
+        'id_keluhan' => 'KL002',
+        'id_teknisi' => 'TK002',
+        'waktu_penugasan' => '2024-01-16 10:00:00',
+        'waktu_selesai' => null,
+        'deskripsi' => 'Pemasangan internet baru',
+        'status' => 'In Progress'
+    ],
+    [
+        'id_perbaikan' => 'PB003',
+        'id_keluhan' => 'KL003',
+        'id_teknisi' => 'TK001',
+        'waktu_penugasan' => '2024-01-17 13:00:00',
+        'waktu_selesai' => null,
+        'deskripsi' => 'Pengecekan router bermasalah',
+        'status' => 'Pending'
+    ]
+];
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,17 +89,36 @@ $users = query("SELECT * FROM customer");
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-              <table border="1" cellpadding="5" cellspacing="0">
-            <tr>
-                <th>Tanggal</th>
-                <th>Jam</th>
-                <th>Nama Pelanggan</th>
-                <th>Nama Teknisi</th>
-                <th>Deskripsi Masalah</th>
-                <th>Status</th>
-            </tr>
-            </table>
-
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID Perbaikan</th>
+                            <th>ID Keluhan</th>
+                            <th>ID Teknisi</th>
+                            <th>Waktu Penugasan</th>
+                            <th>Waktu Selesai</th>
+                            <th>Deskripsi</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($jadwal_dummy as $row): ?>
+                        <tr>
+                            <td><?= $row['id_perbaikan']; ?></td>
+                            <td><?= $row['id_keluhan']; ?></td>
+                            <td><?= $row['id_teknisi']; ?></td>
+                            <td><?= date('d/m/Y H:i', strtotime($row['waktu_penugasan'])); ?></td>
+                            <td><?= $row['waktu_selesai'] ? date('d/m/Y H:i', strtotime($row['waktu_selesai'])) : '-'; ?></td>
+                            <td><?= $row['deskripsi']; ?></td>
+                            <td>
+                                <span class="badge badge-<?= getStatusBadgeClass($row['status']); ?>">
+                                    <?= $row['status']; ?>
+                                </span>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
               </div>
               <!-- /.card-body -->
             </div>
@@ -113,3 +162,21 @@ $users = query("SELECT * FROM customer");
 </script>
 </body>
 </html>
+
+<?php
+// Fungsi untuk menentukan class badge berdasarkan status
+function getStatusBadgeClass($status) {
+    switch(strtolower($status)) {
+        case 'pending':
+            return 'warning';
+        case 'in progress':
+            return 'info';
+        case 'completed':
+            return 'success';
+        case 'cancelled':
+            return 'danger';
+        default:
+            return 'secondary';
+    }
+}
+?>
