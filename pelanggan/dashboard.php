@@ -24,6 +24,10 @@ if(mysqli_num_rows($result) > 0) {
     $nama_paket = $row['nama_produk'];
 }
 
+// Ambil jumlah promo aktif
+$jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/functions.php
+
+
 ?>
 
 <!DOCTYPE html>
@@ -139,16 +143,6 @@ if(mysqli_num_rows($result) > 0) {
       box-shadow: 0 8px 20px rgba(0,0,0,0.12);
     }
     
-    .small-box .icon {
-      transition: all 0.3s ease;
-      opacity: 0.8;
-    }
-    
-    .small-box:hover .icon {
-      transform: scale(1.1);
-      opacity: 1;
-    }
-    
     .small-box .small-box-footer {
       background: rgba(0,0,0,0.1);
       padding: 10px;
@@ -160,20 +154,18 @@ if(mysqli_num_rows($result) > 0) {
       background: rgba(0,0,0,0.2);
     }
     
-    .small-box .inner {
-      padding: 22px 20px;
-    }
-    
     .small-box h3 {
       font-size: 2rem;
       font-weight: 600;
       margin-bottom: 12px;
+      color: black;
     }
     
     .small-box p {
       font-size: 1rem;
       margin-bottom: 0;
       font-weight: 500;
+      color: black;
     }
 
     /* Dashboard container */
@@ -243,32 +235,11 @@ if(mysqli_num_rows($result) > 0) {
 <div class="wrapper">
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-      <li class="nav-item">
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </li>
-    </ul>
-  </nav>
+  
   <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -277,7 +248,7 @@ if(mysqli_num_rows($result) > 0) {
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">Dashboard Pelanggan</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -300,8 +271,9 @@ if(mysqli_num_rows($result) > 0) {
               <button class="banner-nav prev" onclick="changeBanner(-1)"><i class="fas fa-chevron-left"></i></button>
               <button class="banner-nav next" onclick="changeBanner(1)"><i class="fas fa-chevron-right"></i></button>
               <div id="bannerWrapper" class="banner-wrapper">
-                <img src="../img/banner1.png" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
-                <img src="../img/banner2.png" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
+                <!-- Initial images - will be updated by script -->
+                <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
+                <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
               </div>
             </div>
           </div>
@@ -309,13 +281,14 @@ if(mysqli_num_rows($result) > 0) {
         
         <!-- Small boxes (Stat box) -->
         <div class="row">
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-4 col-md-4 col-sm-12">
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
                 <?php $jumlah_produk = getJumlahProduk($conn); ?>
-                <h3 style="color: black;"><?php echo $jumlah_produk; ?></h3>
-                <p style="color: black;">Daftar Paket Yang Tersedia</p>
+                <h3><?php echo $jumlah_produk; ?></h3>
+
+                <p>Daftar Paket</p>
               </div>
               <div class="icon">
                 <i class="fas fa-box"></i>
@@ -323,13 +296,14 @@ if(mysqli_num_rows($result) > 0) {
               <a href="../pelanggan/pdataproduk.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-
-          <div class="col-lg-4 col-md-6">
+          <!-- ./col -->
+          <div class="col-lg-4 col-md-4 col-sm-12">
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3 style="color: black;"><?php echo $nama_paket; ?></h3>
-                <p style="color: black;">Paket Yang Digunakan</p>
+                <h3><?php echo $nama_paket; ?></h3>
+
+                <p>Paket Yang Digunakan</p>
               </div>
               <div class="icon">
                 <i class="fas fa-wifi"></i>
@@ -337,8 +311,57 @@ if(mysqli_num_rows($result) > 0) {
               <a href="../pelanggan/pdataproduk.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+          <!-- ./col -->
+          <div class="col-lg-4 col-md-4 col-sm-12">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3><?php echo $jumlah_promo; ?></h3>
+                <p>Promo Aktif</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-percentage"></i>
+              </div>
+              <a href="../pelanggan/pdatapromo.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
         </div>
         <!-- /.row -->
+        
+        <!-- Main Features Section -->
+        <div class="row mt-4">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Fitur Utama</h3>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="info-box">
+                      <span class="info-box-icon bg-primary"><i class="fas fa-wifi"></i></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">Info Paket</span>
+                        <a href="../pelanggan/pdataproduk.php" class="text-sm">Lihat detail paket &nbsp;<i class="fas fa-arrow-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-12">
+                    <div class="info-box">
+                      <span class="info-box-icon bg-warning"><i class="fas fa-tags"></i></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">Promo Terbaru</span>
+                        <a href="../pelanggan/pdatapromo.php" class="text-sm">Lihat penawaran khusus &nbsp;<i class="fas fa-arrow-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -366,50 +389,82 @@ if(mysqli_num_rows($result) > 0) {
     const banners = [
       '../img/banner1.png',
       '../img/banner2.png'
+      // Tambahkan banner lain di sini jika ada
     ];
+    
+    if (banners.length === 0) {
+        // Handle case with no banners
+        $(".banner-container").hide();
+        return;
+    }
+
+    const $wrapper = $("#bannerWrapper");
+    const $images = $wrapper.find(".banner-image");
+    const $img1 = $images.eq(0);
+    const $img2 = $images.eq(1);
     
     let currentBannerIndex = 0;
     let intervalId;
     let isTransitioning = false;
-    const $wrapper = $("#bannerWrapper");
+    let slideDirection = 1; // 1 for next, -1 for prev
+
+    // Set initial images
+    $img1.attr("src", banners[currentBannerIndex]);
+    $img2.attr("src", banners[(currentBannerIndex + 1) % banners.length]);
+
+    // Function to handle the end of the transition
+    function handleTransitionEnd() {
+        if (isTransitioning) {
+            // Reset position instantly after transition
+            $wrapper.css("transition", "none");
+            if (slideDirection === 1) { // Moved to show img2
+                // img1 should now show the banner that was just in img2
+                $img1.attr("src", $img2.attr("src"));
+                $wrapper.css("transform", "translateX(0)");
+            } else { // Moved to show img1
+                 // img2 should now show the banner that was just in img1
+                $img2.attr("src", $img1.attr("src"));
+                $wrapper.css("transform", "translateX(-50%)");
+            }
+            
+            // Re-enable transition after a small delay
+            setTimeout(() => {
+                $wrapper.css("transition", "transform 0.6s ease-in-out");
+                isTransitioning = false;
+                startAutoRotation(); // Restart auto rotation after manual change
+            }, 50); 
+        }
+    }
+
+    // Attach transitionend listener
+    $wrapper.on('transitionend', handleTransitionEnd);
     
-    // Fungsi untuk mengganti banner dengan arah tertentu
+    // Function to change banner with direction
     function changeBanner(direction) {
       if (isTransitioning) return;
       isTransitioning = true;
+      slideDirection = direction;
       
-      clearInterval(intervalId);
-      
-      const nextIndex = (currentBannerIndex + direction + banners.length) % banners.length;
-      
-      if (direction > 0) {
-        // Slide ke kiri
-        $wrapper.css("transform", "translateX(-50%)");
-        setTimeout(() => {
-          $wrapper.find(".banner-image").eq(0).attr("src", banners[nextIndex]);
-          $wrapper.css("transition", "none");
+      clearInterval(intervalId); // Stop auto rotation during manual change
+
+      const totalBanners = banners.length;
+      let nextIndex;
+
+      if (direction === 1) { // Next
+          nextIndex = (currentBannerIndex + 1) % totalBanners;
+          // Set the source of the image that will slide into view (img2)
+          $img2.attr("src", banners[nextIndex]);
+          // Slide left to show img2
+          $wrapper.css("transform", "translateX(-50%)");
+      } else { // Previous
+          nextIndex = (currentBannerIndex - 1 + totalBanners) % totalBanners;
+          // Set the source of the image that will slide into view (img1)
+          $img1.attr("src", banners[nextIndex]);
+          // Slide right to show img1
           $wrapper.css("transform", "translateX(0)");
-          setTimeout(() => {
-            $wrapper.css("transition", "transform 0.6s ease-in-out");
-            isTransitioning = false;
-          }, 50);
-        }, 600);
-      } else {
-        // Slide ke kanan
-        $wrapper.find(".banner-image").eq(1).attr("src", banners[nextIndex]);
-        $wrapper.css("transition", "none");
-        $wrapper.css("transform", "translateX(-50%)");
-        setTimeout(() => {
-          $wrapper.css("transition", "transform 0.6s ease-in-out");
-          $wrapper.css("transform", "translateX(0)");
-          setTimeout(() => {
-            isTransitioning = false;
-          }, 600);
-        }, 50);
       }
       
       currentBannerIndex = nextIndex;
-      startAutoRotation();
     }
     
     // Fungsi untuk memulai rotasi otomatis
@@ -417,12 +472,12 @@ if(mysqli_num_rows($result) > 0) {
       clearInterval(intervalId);
       intervalId = setInterval(() => {
         if (!isTransitioning) {
-          changeBanner(1);
+          changeBanner(1); // Auto rotate to the next banner
         }
-      }, 5000);
+      }, 2000); // Change banner every 2 seconds, sesuai dashboard sales
     }
     
-    // Mulai rotasi otomatis
+    // Start auto rotation on load
     startAutoRotation();
     
     // Membuat fungsi changeBanner tersedia secara global

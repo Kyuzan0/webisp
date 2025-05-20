@@ -23,7 +23,7 @@ function showMenu($level) {
     // Menu untuk Supervisor
     if ($level == 'Supervisor') {
         $menu['./supervisor/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
-        $menu['./teknisi/laporanperbaikan'] = ['name' => 'Laporan Pekerjaan', 'icon' => 'fas fa-clipboard-check'];
+        $menu['./kepalateknisi/jadwalperbaikan'] = ['name' => 'Jadwal Perbaikan', 'icon' => 'fas fa-calendar-alt'];
         $menu['./datapelanggan/keloladatapelanggan'] = ['name' => 'Daftar Pelanggan', 'icon' => 'fas fa-user-friends'];
     }
 
@@ -39,6 +39,7 @@ function showMenu($level) {
         $menu['./teknisi/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
         $menu['./teknisi/jadwalperbaikan'] = ['name' => 'Jadwal Perbaikan', 'icon' => 'fas fa-calendar-alt'];
         $menu['./teknisi/laporanperbaikan'] = ['name' => 'Melaporkan Pekerjaan', 'icon' => 'fas fa-clipboard-check'];
+    }
 
     // Menu untuk Sales
     if ($level == 'Sales Marketing') {
@@ -46,8 +47,6 @@ function showMenu($level) {
         $menu['./sales/datapromo'] = ['name' => 'Promo Sales', 'icon' => 'fas fa-bullhorn'];
         $menu['./dataproduk/dataproduk'] = ['name' => 'Daftar Paket Internet', 'icon' => 'fas fa-box'];
         $menu['./sales/datapelanggan'] = ['name' => 'Daftar Pelanggan', 'icon' => 'fas fa-user-friends'];
-    }
-
     }
 
     // Menu untuk Customer

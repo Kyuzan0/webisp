@@ -2,6 +2,15 @@
 require '../view/sidebar.php';
 require '../includes/functions.php';
 
+// Ambil jumlah produk (paket)
+$jumlah_produk = getJumlahProduk($conn);
+
+// Ambil jumlah pelanggan
+$jumlah_pelanggan = getJumlahPelanggan($conn);
+
+// Ambil jumlah promo aktif
+$jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/functions.php
+
 ?>
 
 <!DOCTYPE html>
@@ -11,9 +20,6 @@ require '../includes/functions.php';
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PT Sinar Komunikasi Nusantara</title>
 
-
-  <!-- css untuk banner -->
-  <link rel="stylesheet" href="../public/css/css_sales.css"> 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -21,9 +27,192 @@ require '../includes/functions.php';
   
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
-  
-  <!-- Tambahan CSS untuk banner promo carousel -->
-  
+  <style>
+    /* Banner styles */
+    .banner-container {
+      position: relative;
+      width: 100%;
+      height: 210px;
+      margin: 0 auto 30px auto;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .banner-wrapper {
+      position: relative;
+      display: flex;
+      width: 200%; /* Untuk menampung 2 gambar */
+      height: 100%;
+      transition: transform 0.6s ease-in-out;
+    }
+    
+    .banner-image {
+      width: 50%; /* Setengah dari parent (banner-wrapper) */
+      height: 100%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    
+    .banner-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 100;
+      border-radius: 50%;
+      opacity: 0;
+    }
+    
+    .banner-container:hover .banner-nav {
+      opacity: 1;
+    }
+    
+    .banner-nav:hover {
+      background: rgba(0, 0, 0, 0.9);
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .banner-nav.prev {
+      left: 20px;
+    }
+    
+    .banner-nav.next {
+      right: 20px;
+    }
+
+    /* Card styles */
+    .small-box {
+      transition: all 0.3s ease;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      border: 1px solid rgba(0,0,0,0.05);
+      position: relative;
+    }
+    
+    .small-box .icon {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      font-size: 70px;
+      color: rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      z-index: 0;
+    }
+    
+    .small-box:hover .icon {
+      font-size: 75px;
+      right: 20px;
+      top: 10px;
+      color: rgba(0, 0, 0, 0.2);
+      transform: rotate(5deg);
+    }
+    
+    .small-box .inner {
+      padding: 22px 20px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .small-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    
+    .small-box .small-box-footer {
+      background: rgba(0,0,0,0.1);
+      padding: 10px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    
+    .small-box:hover .small-box-footer {
+      background: rgba(0,0,0,0.2);
+    }
+    
+    .small-box h3 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: black;
+    }
+    
+    .small-box p {
+      font-size: 1rem;
+      margin-bottom: 0;
+      font-weight: 500;
+      color: black;
+    }
+
+    /* Dashboard container */
+    .dashboard-container {
+      padding: 10px 20px;
+    }
+    
+    /* Content header styling */
+    .content-header {
+      padding-bottom: 10px;
+    }
+    
+    .content-header h1 {
+      font-weight: 600;
+      color: #333;
+    }
+    
+    /* Breadcrumb styling */
+    .breadcrumb {
+      background-color: transparent;
+      padding: 0;
+    }
+    
+    .breadcrumb-item a {
+      color: #007bff;
+      font-weight: 500;
+    }
+    
+    /* Responsive styles */
+    @media (max-width: 1200px) {
+      .banner-container {
+        height: 180px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .banner-nav {
+        opacity: 0.8;
+        padding: 8px 12px;
+      }
+      
+      .small-box h3 {
+        font-size: 1.7rem;
+      }
+      
+      .small-box p {
+        font-size: 0.95rem;
+      }
+      
+      .banner-container {
+        height: 150px;
+      }
+      
+      .dashboard-container {
+        padding: 5px 10px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .banner-container {
+        height: 120px;
+      }
+    }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -57,47 +246,17 @@ require '../includes/functions.php';
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        
-        <!-- Banner Promo Carousel -->
+      <div class="container-fluid dashboard-container">
+        <!-- Banner -->
         <div class="row">
           <div class="col-12">
-            <div class="carousel-container">
-              <!-- Banner 1 -->
-              <div class="promo-banner active">
-                <div class="promo-icon">
-                  <i class="fas fa-bullhorn"></i>
-                </div>
-                <h2>Promo Spesial Bulan Ini!</h2>
-                <p>Dapatkan diskon hingga 25% untuk semua paket internet premium. Penawaran terbatas sampai akhir bulan.</p>
-                <a href="../sales/datapromo.php" class="btn btn-blue">Lihat Detail Promo</a>
-              </div>
-              
-              <!-- Banner 2 -->
-              <div class="promo-banner">
-                <div class="promo-icon">
-                  <i class="fas fa-wifi"></i>
-                </div>
-                <h2>Paket Keluarga Hemat</h2>
-                <p>Internet super cepat dengan bonus streaming premium untuk seluruh keluarga. Dapatkan cashback 10%!</p>
-                <a href="../sales/datapromo.php" class="btn btn-green">Pesan Sekarang</a>
-              </div>
-              
-              <!-- Banner 3 -->
-              <div class="promo-banner">
-                <div class="promo-icon">
-                  <i class="fas fa-gift"></i>
-                </div>
-                <h2>Paket Keluarga Hemat Bulan Ini</h2>
-                <p>Internet super cepat dengan bonus streaming premium untuk seluruh keluarga. Dapatkan cashback 10%!</p>
-                <a href="../sales/datapromo.php" class="btn btn-orange">Ikut Program</a>
-              </div>
-              
-              <!-- Carousel Indicators -->
-              <div class="carousel-indicators">
-                <span class="carousel-indicator active" data-slide="0"></span>
-                <span class="carousel-indicator" data-slide="1"></span>
-                <span class="carousel-indicator" data-slide="2"></span>
+            <div class="banner-container">
+              <button class="banner-nav prev" onclick="changeBanner(-1)"><i class="fas fa-chevron-left"></i></button>
+              <button class="banner-nav next" onclick="changeBanner(1)"><i class="fas fa-chevron-right"></i></button>
+              <div id="bannerWrapper" class="banner-wrapper">
+                <!-- Initial images - will be updated by script -->
+                <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
+                <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
               </div>
             </div>
           </div>
@@ -105,50 +264,89 @@ require '../includes/functions.php';
         
         <!-- Small boxes (Stat box) -->
         <div class="row">
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-md-4 col-sm-12">
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
                 <?php $jumlah_produk = getJumlahProduk($conn); ?>
-                <h3><?php echo $jumlah_produk; ?><sup style="font-size: 20px"></sup></h3>
+                <h3><?php echo $jumlah_produk; ?></h3>
 
                 <p>Daftar Paket</p>
               </div>
               <div class="icon">
-                <i class="ion ion-bag"></i>
+                <i class="fas fa-box"></i>
               </div>
-              <a href="../dataproduk/dataproduk.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="../dataproduk/dataproduk.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-md-4 col-sm-12">
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
               <?php $jumlah_pelanggan = getJumlahPelanggan($conn); ?>
-              <h3><?php echo $jumlah_pelanggan; ?><sup style="font-size: 20px"></sup></h3>
+              <h3><?php echo $jumlah_pelanggan; ?></h3>
     
                 <p>Jumlah Pelanggan</p>
               </div>
               <div class="icon">
-                <i class="ion ion-stats-bars"></i>
+                <i class="fas fa-users"></i>
               </div>
-              <a href="datapelanggan.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="datapelanggan.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-md-4 col-sm-12">
             <!-- small box -->
-            
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3><?php echo $jumlah_promo; ?></h3>
+                <p>Promo Aktif</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-percentage"></i>
+              </div>
+              <a href="../sales/datapromo.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
           </div>
           <!-- ./col -->
         </div>
         <!-- /.row -->
+        
+        <!-- Main Features Section -->
+        <div class="row mt-4">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Fitur Utama</h3>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 col-sm-6 col-12"> <!-- Changed col-md-4 to col-md-6 -->
+                    <div class="info-box">
+                      <span class="info-box-icon bg-primary"><i class="fas fa-clipboard-list"></i></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">Kelola Produk</span>
+                        <a href="../dataproduk/dataproduk.php" class="text-sm">Atur paket internet &nbsp;<i class="fas fa-arrow-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Removed "Tambah Pelanggan" info box -->
+                  <div class="col-md-6 col-sm-6 col-12"> <!-- Changed col-md-4 to col-md-6 -->
+                    <div class="info-box">
+                      <span class="info-box-icon bg-warning"><i class="fas fa-tags"></i></span>
+                      <div class="info-box-content">
+                        <span class="info-box-text">Kelola Promo</span>
+                        <a href="../sales/datapromo.php" class="text-sm">Atur penawaran khusus &nbsp;<i class="fas fa-arrow-right"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -170,52 +368,105 @@ require '../includes/functions.php';
 <!-- AdminLTE App -->
 <script src="../public/js/adminlte.js"></script>
 
-<!-- Script untuk carousel banner -->
+<!-- Script untuk rotasi banner dengan transisi slide -->
 <script>
   $(document).ready(function() {
-    // Variabel untuk slide aktif dan interval
-    let activeSlide = 0;
-    const totalSlides = $('.promo-banner').length;
-    let slideInterval;
+    const banners = [
+      '../img/banner1.png',
+      '../img/banner2.png'
+      // Tambahkan banner lain di sini jika ada
+    ];
     
-    // Fungsi untuk mengganti slide
-    function changeSlide(index) {
-      // Menghapus kelas active dari semua slide
-      $('.promo-banner').removeClass('active');
-      $('.carousel-indicator').removeClass('active');
+    if (banners.length === 0) {
+        // Handle case with no banners
+        $(".banner-container").hide();
+        return;
+    }
+
+    const $wrapper = $("#bannerWrapper");
+    const $images = $wrapper.find(".banner-image");
+    const $img1 = $images.eq(0);
+    const $img2 = $images.eq(1);
+    
+    let currentBannerIndex = 0;
+    let intervalId;
+    let isTransitioning = false;
+    let slideDirection = 1; // 1 for next, -1 for prev
+
+    // Set initial images
+    $img1.attr("src", banners[currentBannerIndex]);
+    $img2.attr("src", banners[(currentBannerIndex + 1) % banners.length]);
+
+    // Function to handle the end of the transition
+    function handleTransitionEnd() {
+        if (isTransitioning) {
+            // Reset position instantly after transition
+            $wrapper.css("transition", "none");
+            if (slideDirection === 1) { // Moved to show img2
+                // img1 should now show the banner that was just in img2
+                $img1.attr("src", $img2.attr("src"));
+                $wrapper.css("transform", "translateX(0)");
+            } else { // Moved to show img1
+                 // img2 should now show the banner that was just in img1
+                $img2.attr("src", $img1.attr("src"));
+                $wrapper.css("transform", "translateX(-50%)");
+            }
+            
+            // Re-enable transition after a small delay
+            setTimeout(() => {
+                $wrapper.css("transition", "transform 0.6s ease-in-out");
+                isTransitioning = false;
+                startAutoRotation(); // Restart auto rotation after manual change
+            }, 50); 
+        }
+    }
+
+    // Attach transitionend listener
+    $wrapper.on('transitionend', handleTransitionEnd);
+    
+    // Function to change banner with direction
+    function changeBanner(direction) {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      slideDirection = direction;
       
-      // Menambahkan kelas active ke slide yang dipilih
-      $('.promo-banner').eq(index).addClass('active');
-      $('.carousel-indicator').eq(index).addClass('active');
+      clearInterval(intervalId); // Stop auto rotation during manual change
+
+      const totalBanners = banners.length;
+      let nextIndex;
+
+      if (direction === 1) { // Next
+          nextIndex = (currentBannerIndex + 1) % totalBanners;
+          // Set the source of the image that will slide into view (img2)
+          $img2.attr("src", banners[nextIndex]);
+          // Slide left to show img2
+          $wrapper.css("transform", "translateX(-50%)");
+      } else { // Previous
+          nextIndex = (currentBannerIndex - 1 + totalBanners) % totalBanners;
+          // Set the source of the image that will slide into view (img1)
+          $img1.attr("src", banners[nextIndex]);
+          // Slide right to show img1
+          $wrapper.css("transform", "translateX(0)");
+      }
       
-      // Update index slide aktif
-      activeSlide = index;
+      currentBannerIndex = nextIndex;
     }
     
-    // Fungsi untuk slide otomatis
-    function startSlideShow() {
-      slideInterval = setInterval(function() {
-        let nextSlide = (activeSlide + 1) % totalSlides;
-        changeSlide(nextSlide);
-      }, 5000); // Ganti slide setiap 5 detik
+    // Fungsi untuk memulai rotasi otomatis
+    function startAutoRotation() {
+      clearInterval(intervalId);
+      intervalId = setInterval(() => {
+        if (!isTransitioning) {
+          changeBanner(1); // Auto rotate to the next banner
+        }
+      }, 2000); // Change banner every 2 seconds
     }
     
-    // Memulai slide otomatis
-    startSlideShow();
+    // Start auto rotation on load
+    startAutoRotation();
     
-    // Event listener untuk indikator
-    $('.carousel-indicator').click(function() {
-      let slideIndex = $(this).data('slide');
-      
-      // Hentikan interval slide otomatis
-      clearInterval(slideInterval);
-      
-      // Ganti slide
-      changeSlide(slideIndex);
-      
-      // Mulai kembali slide otomatis
-      startSlideShow();
-    });
+    // Membuat fungsi changeBanner tersedia secara global
+    window.changeBanner = changeBanner;
   });
 </script>
 

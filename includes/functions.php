@@ -418,6 +418,21 @@ function tambahkeluhanp($data) {
 
 // promosi section //
 
+function getJumlahPromo($conn) {
+    // Query untuk mendapatkan jumlah promo
+    $sql = "SELECT COUNT(*) AS jumlah_promo FROM promosi";
+    $result = $conn->query($sql);
+
+    // Mengecek apakah query berhasil
+    if ($result && $result->num_rows > 0) {
+        // Mengambil data hasil query
+        $row = $result->fetch_assoc();
+        return $row['jumlah_promo'];
+    } else {
+        return 0; // Jika tidak ada promo atau query gagal
+    }
+}
+
 function tambahpromosi($data) {
     global $conn;
 
