@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Update tabel perbaikan
     $query_update = "UPDATE perbaikan SET 
                     waktu_selesai = '$waktu_selesai', 
-                    deskripsi = CONCAT(deskripsi, '\n\nLAPORAN SELESAI: ', '$deskripsi_laporan') 
+                    deskripsi = CONCAT(deskripsi, '\n\n_LAPORAN SELESAI: ', '$deskripsi_laporan') 
                     WHERE id_perbaikan = '$id_perbaikan' AND id_teknisi = '$id_teknisi'";
     
     $result_update = mysqli_query($conn, $query_update);

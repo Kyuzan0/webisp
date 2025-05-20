@@ -30,6 +30,7 @@ function showMenu($level) {
     // Menu untuk Kepala Teknisi
     if ($level == 'Kepala Teknisi') {
         $menu['./kepalateknisi/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
+        $menu['./dataproduk/dataproduk'] = ['name' => 'Daftar Paket Internet', 'icon' => 'fas fa-box'];
         $menu['./kepalateknisi/daftarkeluhan'] = ['name' => 'Daftar Keluhan', 'icon' => 'fas fa-comments'];
         $menu['./kepalateknisi/jadwalperbaikan'] = ['name' => 'Jadwal Perbaikan', 'icon' => 'fas fa-calendar-alt'];
     }
