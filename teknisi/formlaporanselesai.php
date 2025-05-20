@@ -1,4 +1,7 @@
+
 <?php 
+ob_start(); // Mulai output buffering
+require '../includes/init_session.php';
 require '../includes/functions.php';
 require '../view/sidebar.php';
 
@@ -38,8 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $result_keluhan_update = mysqli_query($conn, $query_keluhan_update);
     
     if ($result_update && $result_keluhan_update) {
-        // Redirect ke halaman daftar perbaikan dengan pesan sukses
-        header("Location: daftar_perbaikan_teknisi.php?success=1");
+        ob_end_clean(); // Bersihkan buffer sebelum redirect
+        // Redirect ke halaman jadwal perbaikan dengan pesan sukses
+        header("Location: jadwalperbaikan.php?success=1");
         exit;
     } else {
         $error = "Gagal memperbarui data: " . mysqli_error($conn);
@@ -58,11 +62,13 @@ if ($id_perbaikan > 0) {
     if (mysqli_num_rows($result) > 0) {
         $perbaikan = mysqli_fetch_assoc($result);
     } else {
-        header("Location: daftar_perbaikan.php?error=1");
+        ob_end_clean(); // Bersihkan buffer sebelum redirect
+        header("Location: jadwalperbaikan.php?error=1");
         exit;
     }
 } else {
-    header("Location: daftar_perbaikan.php");
+    ob_end_clean(); // Bersihkan buffer sebelum redirect
+    header("Location: jadwalperbaikan.php");
     exit;
 }
 ?>
@@ -191,8 +197,3 @@ if ($id_perbaikan > 0) {
 <script src="../public/js/adminlte.min.js"></script>
 </body>
 </html>
-
-<?php
-// Tutup koneksi database
-mysqli_close($conn);
-?>

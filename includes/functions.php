@@ -19,6 +19,19 @@ function query($query){
     return $rows;
 }
 
+function setFlash($type, $message) {
+    // Start the session if it hasn't been started
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    
+    // Set flash message in session
+    $_SESSION['flash'] = [
+        'type' => $type,
+        'message' => $message
+    ];
+}
+
 
 // user section //
 

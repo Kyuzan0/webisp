@@ -58,11 +58,11 @@ if ($id_perbaikan > 0) {
     if (mysqli_num_rows($result) > 0) {
         $perbaikan = mysqli_fetch_assoc($result);
     } else {
-        header("Location: daftar_perbaikan.php?error=1");
+        header("Location: daftar_perbaikan_teknisi.php?error=1");
         exit;
     }
 } else {
-    header("Location: daftar_perbaikan.php");
+    header("Location: daftar_perbaikan_teknisi.php");
     exit;
 }
 ?>

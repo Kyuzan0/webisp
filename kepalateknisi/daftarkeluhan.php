@@ -2,7 +2,12 @@
 require '../includes/functions.php';
 require '../view/sidebar.php';
 
-$keluhan = query("SELECT * FROM keluhan"); 
+// Modifikasi query untuk menggabungkan tabel keluhan dengan tabel users dan customer
+// Kita perlu JOIN dengan customer karena nama ada di tabel customer, bukan di users
+$keluhan = query("SELECT k.*, c.nama as nama_customer 
+                 FROM keluhan k 
+                 LEFT JOIN users u ON k.id_user = u.id_user
+                 LEFT JOIN customer c ON k.id_user = c.id_user"); 
 ?>
 
 <!DOCTYPE html>
@@ -236,7 +241,7 @@ $keluhan = query("SELECT * FROM keluhan");
                   <thead>
                   <tr>
                     <th width="5%">No</th>
-                    <th width="10%">ID Customer</th>
+                    <th width="10%">Customer</th>
                     <th width="15%">Tanggal</th>
                     <th width="20%">Judul</th>
                     <th width="30%">Deskripsi</th>
@@ -265,12 +270,28 @@ $keluhan = query("SELECT * FROM keluhan");
                   ?>
                   <tr class="data-row">
                     <td class="text-center"><?= $i;?></td>
-                    <td><span class="badge badge-info"><?= $row["id_user"];?></span></td>
+                    <td>
+                      <?php if(!empty($row["nama_customer"])): ?>
+                        <strong><?= $row["nama_customer"] ?></strong>
+                        <span class="d-block small text-muted">ID: <?= $row["id_user"] ?></span>
+                      <?php else: ?>
+                        <span class="badge badge-info"><?= $row["id_user"];?></span>
+                        <span class="d-block small text-danger">Nama tidak tersedia</span>
+                      <?php endif; ?>
+                    </td>
                     <td><?= $row["tanggal_keluhan"];?></td>
                     <td class="font-weight-bold"><?= $row["judul_keluhan"];?></td>
                     <td class="description-cell"><?= $row["deskripsi"];?></td>
                     <td class="text-center"><span class="<?= $badge_class ?>"><?= $row["status"];?></span></td>
                     <td class="text-center">
+                      <?php if($row["status"] != "Selesai") : ?>
+                      <button type="button" class="btn btn-success btn-sm btn-action teruskan-keluhan" 
+                        data-id="<?= $row["id_keluhan"]; ?>" 
+                        data-judul="<?= $row["judul_keluhan"]; ?>"
+                        data-toggle="tooltip" title="Teruskan ke Teknisi">
+                        <i class="fas fa-share"></i>
+                      </button>
+                      <?php endif; ?>
                       <button type="button" class="btn btn-info btn-sm btn-action view-keluhan" data-id="<?= $row["id_keluhan"]; ?>" data-toggle="tooltip" title="Lihat Detail">
                         <i class="fas fa-eye"></i>
                       </button>
@@ -314,6 +335,10 @@ $keluhan = query("SELECT * FROM keluhan");
               <td id="detail-id"></td>
             </tr>
             <tr>
+              <th>Customer</th>
+              <td id="detail-customer-name"></td>
+            </tr>
+            <tr>
               <th>ID Customer</th>
               <td id="detail-customer"></td>
             </tr>
@@ -342,8 +367,59 @@ $keluhan = query("SELECT * FROM keluhan");
     </div>
   </div>
 
-  <aside class="control-sidebar control-sidebar-dark">
-  </aside>
+  <!-- Modal Teruskan Keluhan -->
+  <div class="modal fade" id="modal-teruskan">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-success">
+          <h4 class="modal-title">Teruskan Keluhan ke Teknisi</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="teruskan_keluhan.php" method="post">
+          <div class="modal-body">
+            <input type="hidden" name="id_keluhan" id="teruskan-id-keluhan">
+            
+            <div class="form-group">
+              <label>Judul Keluhan</label>
+              <input type="text" class="form-control" id="teruskan-judul" readonly>
+            </div>
+            
+            <div class="form-group">
+              <label>Pilih Teknisi</label>
+              <select class="form-control" name="id_teknisi" required>
+                <option value="">-- Pilih Teknisi --</option>
+                <?php
+                // Ambil data teknisi
+                $teknisi = query("SELECT * FROM teknisi");
+                foreach($teknisi as $t) :
+                ?>
+                <option value="<?= $t['id_teknisi']; ?>"><?= $t['nama']; ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label>Waktu Penugasan</label>
+              <input type="datetime-local" class="form-control" name="waktu_penugasan" required>
+            </div>
+            
+            <div class="form-group">
+              <label>Catatan Penugasan (Opsional)</label>
+              <textarea class="form-control" name="deskripsi" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-success">Teruskan Sekarang</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
 </div>
 
 <!-- jQuery -->
@@ -397,6 +473,7 @@ $(function () {
       keluhanData = {
         id: <?= json_encode($row["id_keluhan"]); ?>,
         customer: <?= json_encode($row["id_user"]); ?>,
+        customerName: <?= json_encode($row["nama_customer"] ?? "Tidak Tersedia"); ?>,
         tanggal: <?= json_encode($row["tanggal_keluhan"]); ?>,
         judul: <?= json_encode($row["judul_keluhan"]); ?>,
         status: <?= json_encode($row["status"]); ?>,
@@ -423,6 +500,7 @@ $(function () {
     if(keluhanData) {
       $('#detail-id').text(keluhanData.id);
       $('#detail-customer').text(keluhanData.customer);
+      $('#detail-customer-name').text(keluhanData.customerName);
       $('#detail-tanggal').text(keluhanData.tanggal);
       $('#detail-judul').text(keluhanData.judul);
       $('#detail-status').html(keluhanData.statusBadge);
@@ -450,6 +528,17 @@ $(function () {
         window.location.href = 'hapuskeluhan.php?id_keluhan=' + id;
       }
     });
+  });
+
+  // Teruskan Keluhan
+  $('.teruskan-keluhan').on('click', function() {
+    const id = $(this).data('id');
+    const judul = $(this).data('judul');
+    
+    $('#teruskan-id-keluhan').val(id);
+    $('#teruskan-judul').val(judul);
+    
+    $('#modal-teruskan').modal('show');
   });
 });
 </script>
