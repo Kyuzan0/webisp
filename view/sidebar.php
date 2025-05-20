@@ -30,10 +30,16 @@ function showMenu($level) {
     // Menu untuk Kepala Teknisi
     if ($level == 'Kepala Teknisi') {
         $menu['./kepalateknisi/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
-        $menu['./keluhan/daftarkeluhan'] = ['name' => 'Daftar Keluhan', 'icon' => 'fas fa-comments'];
+        $menu['./kepalateknisi/daftarkeluhan'] = ['name' => 'Daftar Keluhan', 'icon' => 'fas fa-comments'];
+        $menu['./kepalateknisi/jadwalperbaikan'] = ['name' => 'Jadwal Perbaikan', 'icon' => 'fas fa-calendar-alt'];
+        $menu['./kepalateknisi/laporanperbaikan'] = ['name' => 'Melaporkan Pekerjaan', 'icon' => 'fas fa-clipboard-check'];
+    }
+
+    // Menu untuk Teknisi
+    if ($level == 'Teknisi') {
+        $menu['./teknisi/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
         $menu['./teknisi/jadwalperbaikan'] = ['name' => 'Jadwal Perbaikan', 'icon' => 'fas fa-calendar-alt'];
         $menu['./teknisi/laporanperbaikan'] = ['name' => 'Melaporkan Pekerjaan', 'icon' => 'fas fa-clipboard-check'];
-    }
 
     // Menu untuk Sales
     if ($level == 'Sales Marketing') {
@@ -43,11 +49,6 @@ function showMenu($level) {
         $menu['./sales/datapelanggan'] = ['name' => 'Daftar Pelanggan', 'icon' => 'fas fa-user-friends'];
     }
 
-    // Menu untuk Teknisi
-    if ($level == 'Teknisi') {
-        $menu['./teknisi/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
-        $menu['./teknisi/jadwalperbaikan'] = ['name' => 'Jadwal Perbaikan', 'icon' => 'fas fa-calendar-alt'];
-        $menu['./teknisi/laporanperbaikan'] = ['name' => 'Melaporkan Pekerjaan', 'icon' => 'fas fa-clipboard-check'];
     }
 
     // Menu untuk Customer
@@ -293,9 +294,15 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 /* Mencegah content flicker pada transisi */
+/* Optimasi selector dan transisi */
 .nav-link {
-    transition: background-color 0.2s ease !important;
-    will-change: background-color !important;
+    transition: background-color 0.2s ease;
+    will-change: transform;
+}
+
+.main-sidebar {
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 /* Menghilangkan highlight default ketika mengklik menu */

@@ -41,13 +41,201 @@ if(mysqli_num_rows($result) > 0) {
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
   <style>
-    .banner-image {
+    /* Banner styles */
+    .banner-container {
+      position: relative;
       width: 100%;
-      max-height: 200px;
+      height: 210px;
+      margin: 0 auto 30px auto;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .banner-wrapper {
+      position: relative;
+      display: flex;
+      width: 200%; /* Untuk menampung 2 gambar */
+      height: 100%;
+      transition: transform 0.6s ease-in-out;
+    }
+    
+    .banner-image {
+      width: 50%; /* Setengah dari parent (banner-wrapper) */
+      height: 100%;
       object-fit: cover;
-      border-radius: 5px;
+      flex-shrink: 0;
+    }
+    
+    .banner-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 100;
+      border-radius: 50%;
+      opacity: 0;
+    }
+    
+    .banner-container:hover .banner-nav {
+      opacity: 1;
+    }
+    
+    .banner-nav:hover {
+      background: rgba(0, 0, 0, 0.9);
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .banner-nav.prev {
+      left: 20px;
+    }
+    
+    .banner-nav.next {
+      right: 20px;
+    }
+
+    /* Card styles */
+    .small-box {
+      transition: all 0.3s ease;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       margin-bottom: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.05);
+      position: relative;
+    }
+    
+    .small-box .icon {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      font-size: 70px;
+      color: rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      z-index: 0;
+    }
+    
+    .small-box:hover .icon {
+      font-size: 75px;
+      right: 20px;
+      top: 10px;
+      color: rgba(0, 0, 0, 0.2);
+      transform: rotate(5deg);
+    }
+    
+    .small-box .inner {
+      padding: 22px 20px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .small-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    
+    .small-box .icon {
+      transition: all 0.3s ease;
+      opacity: 0.8;
+    }
+    
+    .small-box:hover .icon {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    
+    .small-box .small-box-footer {
+      background: rgba(0,0,0,0.1);
+      padding: 10px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    
+    .small-box:hover .small-box-footer {
+      background: rgba(0,0,0,0.2);
+    }
+    
+    .small-box .inner {
+      padding: 22px 20px;
+    }
+    
+    .small-box h3 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    
+    .small-box p {
+      font-size: 1rem;
+      margin-bottom: 0;
+      font-weight: 500;
+    }
+
+    /* Dashboard container */
+    .dashboard-container {
+      padding: 10px 20px;
+    }
+    
+    /* Content header styling */
+    .content-header {
+      padding-bottom: 10px;
+    }
+    
+    .content-header h1 {
+      font-weight: 600;
+      color: #333;
+    }
+    
+    /* Breadcrumb styling */
+    .breadcrumb {
+      background-color: transparent;
+      padding: 0;
+    }
+    
+    .breadcrumb-item a {
+      color: #007bff;
+      font-weight: 500;
+    }
+    
+    /* Responsive styles */
+    @media (max-width: 1200px) {
+      .banner-container {
+        height: 180px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .banner-nav {
+        opacity: 0.8;
+        padding: 8px 12px;
+      }
+      
+      .small-box h3 {
+        font-size: 1.7rem;
+      }
+      
+      .small-box p {
+        font-size: 0.95rem;
+      }
+      
+      .banner-container {
+        height: 150px;
+      }
+      
+      .dashboard-container {
+        padding: 5px 10px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .banner-container {
+        height: 120px;
+      }
     }
   </style>
 </head>
@@ -58,12 +246,10 @@ if(mysqli_num_rows($result) > 0) {
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
       <li class="nav-item">
-        
         <div class="navbar-search-block">
           <form class="form-inline">
             <div class="input-group input-group-sm">
@@ -80,19 +266,9 @@ if(mysqli_num_rows($result) > 0) {
           </form>
         </div>
       </li>
-
-      <!-- Messages Dropdown Menu -->
-      
-      <!-- Notifications Dropdown Menu -->
-      
-      
-      
     </ul>
   </nav>
   <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -116,96 +292,51 @@ if(mysqli_num_rows($result) > 0) {
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
+      <div class="container-fluid dashboard-container">
         <!-- Banner -->
         <div class="row">
           <div class="col-12">
-            <img src="../img/banner1.jpg" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
+            <div class="banner-container">
+              <button class="banner-nav prev" onclick="changeBanner(-1)"><i class="fas fa-chevron-left"></i></button>
+              <button class="banner-nav next" onclick="changeBanner(1)"><i class="fas fa-chevron-right"></i></button>
+              <div id="bannerWrapper" class="banner-wrapper">
+                <img src="../img/banner1.png" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
+                <img src="../img/banner2.png" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
+              </div>
+            </div>
           </div>
         </div>
+        
         <!-- Small boxes (Stat box) -->
         <div class="row">
-          <div class="col-lg-3 col-6">
+          <div class="col-lg-4 col-md-6">
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
                 <?php $jumlah_produk = getJumlahProduk($conn); ?>
-                <h3 style="color: black;"><?php echo $jumlah_produk; ?><sup style="font-size: 20px"></sup></h3>
-
+                <h3 style="color: black;"><?php echo $jumlah_produk; ?></h3>
                 <p style="color: black;">Daftar Paket Yang Tersedia</p>
               </div>
               <div class="icon">
-                <i class="ion ion-bag"></i>
+                <i class="fas fa-box"></i>
               </div>
-              <a href="../pelanggan/pdataproduk.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="../pelanggan/pdataproduk.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
-          <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3 style="color: black;"><?php echo $nama_paket; ?><sup style="font-size: 20px"></sup></h3>
-                        <p style="color: black;">Paket Yang Digunakan</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="../pelanggan/pdataproduk.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
+          <div class="col-lg-4 col-md-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3 style="color: black;"><?php echo $nama_paket; ?></h3>
+                <p style="color: black;">Paket Yang Digunakan</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-wifi"></i>
+              </div>
+              <a href="../pelanggan/pdataproduk.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <!-- <div class="small-box bg-success">
-              <div class="inner">
-              <?php $jumlah_pelanggan = getJumlahPelanggan($conn); ?>
-              <h3 style="color: black;"><?php echo $jumlah_pelanggan; ?><sup style="font-size: 20px"></sup></h3>
-    
-                <p style="color: black;">Jumlah Pelanggan</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-stats-bars"></i>
-              </div>
-              <a href="../datapelanggan/keloladatapelanggan.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div> -->
           </div>
-          <!-- ./col -->
-          <!--
-          <div class="col-lg-3 col-6">
-            
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <?php $jumlah_user = getJumlahUser($conn); ?>
-                <h3 ><?php echo $jumlah_user; ?><sup style="font-size: 20px"></sup></h3>
-
-                <p>Jumlah User</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="../datauser/keloladatauser.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div> -->
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-             <!--
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <?php $jumlah_keluhan = getjumlahkeluhan($conn); ?>
-                <h3 style="color: black;"><?php echo $jumlah_keluhan; ?><sup style="font-size: 20px"></sup></h3>
-
-                <p style="color: black;">Jumlah Keluhan</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div> -->
-          </div>
-          <!-- ./col -->
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -223,16 +354,81 @@ if(mysqli_num_rows($result) > 0) {
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
+<script src="../public/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="js/adminlte.js"></script>
+<script src="../public/js/adminlte.js"></script>
 
-<!-- AdminLTE for demo purposes 
-<script src="js/demo.js"></script>
--- AdminLTE dashboard demo (This is only for demo purposes) --
-<script src="js/pages/dashboard.js"></script> -->
+<!-- Script untuk rotasi banner dengan transisi slide -->
+<script>
+  $(document).ready(function() {
+    const banners = [
+      '../img/banner1.png',
+      '../img/banner2.png'
+    ];
+    
+    let currentBannerIndex = 0;
+    let intervalId;
+    let isTransitioning = false;
+    const $wrapper = $("#bannerWrapper");
+    
+    // Fungsi untuk mengganti banner dengan arah tertentu
+    function changeBanner(direction) {
+      if (isTransitioning) return;
+      isTransitioning = true;
+      
+      clearInterval(intervalId);
+      
+      const nextIndex = (currentBannerIndex + direction + banners.length) % banners.length;
+      
+      if (direction > 0) {
+        // Slide ke kiri
+        $wrapper.css("transform", "translateX(-50%)");
+        setTimeout(() => {
+          $wrapper.find(".banner-image").eq(0).attr("src", banners[nextIndex]);
+          $wrapper.css("transition", "none");
+          $wrapper.css("transform", "translateX(0)");
+          setTimeout(() => {
+            $wrapper.css("transition", "transform 0.6s ease-in-out");
+            isTransitioning = false;
+          }, 50);
+        }, 600);
+      } else {
+        // Slide ke kanan
+        $wrapper.find(".banner-image").eq(1).attr("src", banners[nextIndex]);
+        $wrapper.css("transition", "none");
+        $wrapper.css("transform", "translateX(-50%)");
+        setTimeout(() => {
+          $wrapper.css("transition", "transform 0.6s ease-in-out");
+          $wrapper.css("transform", "translateX(0)");
+          setTimeout(() => {
+            isTransitioning = false;
+          }, 600);
+        }, 50);
+      }
+      
+      currentBannerIndex = nextIndex;
+      startAutoRotation();
+    }
+    
+    // Fungsi untuk memulai rotasi otomatis
+    function startAutoRotation() {
+      clearInterval(intervalId);
+      intervalId = setInterval(() => {
+        if (!isTransitioning) {
+          changeBanner(1);
+        }
+      }, 5000);
+    }
+    
+    // Mulai rotasi otomatis
+    startAutoRotation();
+    
+    // Membuat fungsi changeBanner tersedia secara global
+    window.changeBanner = changeBanner;
+  });
+</script>
 
 </body>
 </html>
