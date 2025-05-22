@@ -2,7 +2,25 @@
 require '../includes/functions.php';
 require '../view/sidebar.php';
 
-$keluhan = query("SELECT * FROM keluhan"); 
+// Query dengan JOIN untuk mendapatkan nama user berdasarkan level
+$keluhan = query("SELECT k.*, u.level, 
+    CASE 
+        WHEN u.level = 'Admin' THEN a.nama
+        WHEN u.level = 'Supervisor' THEN s.nama  
+        WHEN u.level = 'Kepala Teknisi' THEN kt.nama
+        WHEN u.level = 'Sales Marketing' THEN sm.nama
+        WHEN u.level = 'Teknisi' THEN t.nama
+        WHEN u.level = 'Customer' THEN c.nama
+        ELSE u.username
+    END as nama_user
+    FROM keluhan k 
+    JOIN users u ON k.id_user = u.id_user
+    LEFT JOIN admin a ON u.id_user = a.id_user
+    LEFT JOIN supervisor s ON u.id_user = s.id_user  
+    LEFT JOIN kepalateknisi kt ON u.id_user = kt.id_user
+    LEFT JOIN salesmarketing sm ON u.id_user = sm.id_user
+    LEFT JOIN teknisi t ON u.id_user = t.id_user
+    LEFT JOIN customer c ON u.id_user = c.id_user");
 ?>
 
 <!DOCTYPE html>
@@ -123,6 +141,20 @@ $keluhan = query("SELECT * FROM keluhan");
     .data-row:hover {
       transform: scale(1.01);
     }
+
+    .user-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.85em;
+      font-weight: 500;
+    }
+    
+    .level-admin { background-color: #dc3545; color: white; }
+    .level-supervisor { background-color: #6f42c1; color: white; }
+    .level-kepala-teknisi { background-color: #fd7e14; color: white; }
+    .level-sales-marketing { background-color: #20c997; color: white; }
+    .level-teknisi { background-color: #0dcaf0; color: black; }
+    .level-customer { background-color: #198754; color: white; }
   </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -240,10 +272,10 @@ $keluhan = query("SELECT * FROM keluhan");
                   <thead>
                   <tr>
                     <th width="5%">No</th>
-                    <th width="10%">ID Customer</th>
+                    <th width="15%">Nama User</th>
                     <th width="15%">Tanggal</th>
                     <th width="20%">Judul</th>
-                    <th width="30%">Deskripsi</th>
+                    <th width="25%">Deskripsi</th>
                     <th width="10%">Status</th>
                     <th width="10%">Aksi</th>
                   </tr>
@@ -266,10 +298,36 @@ $keluhan = query("SELECT * FROM keluhan");
                       default:
                         $badge_class = "badge-secondary";
                     }
+                    
+                    // Tentukan class badge level
+                    $level_class = "";
+                    switch($row["level"]) {
+                      case "Admin":
+                        $level_class = "level-admin";
+                        break;
+                      case "Supervisor":
+                        $level_class = "level-supervisor";
+                        break;
+                      case "Kepala Teknisi":
+                        $level_class = "level-kepala-teknisi";
+                        break;
+                      case "Sales Marketing":
+                        $level_class = "level-sales-marketing";
+                        break;
+                      case "Teknisi":
+                        $level_class = "level-teknisi";
+                        break;
+                      case "Customer":
+                        $level_class = "level-customer";
+                        break;
+                    }
                   ?>
                   <tr class="data-row">
                     <td class="text-center"><?= $i;?></td>
-                    <td><span class="badge badge-info"><?= $row["id_user"];?></span></td>
+                    <td>
+                      <div class="mb-2"><?= $row["nama_user"];?></div>
+                      <small><span class="user-badge <?= $level_class ?>"><?= $row["level"];?></span></small>
+                    </td>
                     <td><?= $row["tanggal_keluhan"];?></td>
                     <td class="font-weight-bold"><?= $row["judul_keluhan"];?></td>
                     <td class="description-cell"><?= $row["deskripsi"];?></td>
@@ -318,8 +376,12 @@ $keluhan = query("SELECT * FROM keluhan");
               <td id="detail-id"></td>
             </tr>
             <tr>
-              <th>ID Customer</th>
-              <td id="detail-customer"></td>
+              <th>Nama User</th>
+              <td id="detail-nama-user"></td>
+            </tr>
+            <tr>
+              <th>Level User</th>
+              <td id="detail-level-user"></td>
             </tr>
             <tr>
               <th>Tanggal</th>
@@ -400,7 +462,8 @@ $(function () {
     if(<?= json_encode($row["id_keluhan"]); ?> == id) {
       keluhanData = {
         id: <?= json_encode($row["id_keluhan"]); ?>,
-        customer: <?= json_encode($row["id_user"]); ?>,
+        nama_user: <?= json_encode($row["nama_user"]); ?>,
+        level: <?= json_encode($row["level"]); ?>,
         tanggal: <?= json_encode($row["tanggal_keluhan"]); ?>,
         judul: <?= json_encode($row["judul_keluhan"]); ?>,
         status: <?= json_encode($row["status"]); ?>,
@@ -421,12 +484,37 @@ $(function () {
         default:
           keluhanData.statusBadge = '<span class="badge badge-secondary">' + keluhanData.status + '</span>';
       }
+      
+      // Tentukan badge level
+      let levelClass = "";
+      switch(keluhanData.level) {
+        case "Admin":
+          levelClass = "level-admin";
+          break;
+        case "Supervisor":
+          levelClass = "level-supervisor";
+          break;
+        case "Kepala Teknisi":
+          levelClass = "level-kepala-teknisi";
+          break;
+        case "Sales Marketing":
+          levelClass = "level-sales-marketing";
+          break;
+        case "Teknisi":
+          levelClass = "level-teknisi";
+          break;
+        case "Customer":
+          levelClass = "level-customer";
+          break;
+      }
+      keluhanData.levelBadge = '<span class="user-badge ' + levelClass + '">' + keluhanData.level + '</span>';
     }
     <?php endforeach; ?>
     
     if(keluhanData) {
       $('#detail-id').text(keluhanData.id);
-      $('#detail-customer').text(keluhanData.customer);
+      $('#detail-nama-user').text(keluhanData.nama_user);
+      $('#detail-level-user').html(keluhanData.levelBadge);
       $('#detail-tanggal').text(keluhanData.tanggal);
       $('#detail-judul').text(keluhanData.judul);
       $('#detail-status').html(keluhanData.statusBadge);

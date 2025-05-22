@@ -233,10 +233,9 @@ $produk = query("SELECT * FROM produk");
                   <thead>
                   <tr>
                     <th width="5%">No</th>
-                    <th width="5%">ID Produk</th>
-                    <th width="20%">Nama Paket</th>
-                    <th width="40%">Deskripsi</th>
-                    <th width="10%">Harga (Rp.)</th>
+                    <th width="25%">Nama Paket</th>
+                    <th width="45%">Deskripsi</th>
+                    <th width="15%">Harga (Rp.)</th>
                     <th width="10%">Aksi</th>
                   </tr>
                   </thead>
@@ -261,11 +260,11 @@ $produk = query("SELECT * FROM produk");
                   ?>
                   <tr class="data-row">
                     <td class="text-center"><?= $i;?></td>
-                    <td><span class="badge badge-secondary"><?= $row["id_produk"];?></span></td>
                     <td class="paket-title"><?= $row["nama_produk"];?></td>
                     <td class="description-cell"><?= $row["deskripsi"];?></td>
                     <td class="text-right">Rp. <?= number_format($row["harga"], 0, ',', '.');?></td>
                     <td class="text-center">
+                      <input type="hidden" class="produk-id" value="<?= $row["id_produk"];?>">
                       <button type="button" class="btn btn-info btn-sm btn-action view-paket" data-id="<?= $row["id_produk"]; ?>" data-toggle="tooltip" title="Lihat Detail">
                         <i class="fas fa-eye"></i>
                       </button>
