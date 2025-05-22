@@ -76,7 +76,7 @@ if (isset($_POST["submit"])) {
                                         <textarea name="deskripsi" id="deskripsi" class="form-control" rows="6" required></textarea>
                                     </div>
 
-                                    <a href="../pelanggan/dashboard.php" class="btn btn-secondary float-left">Cancel</a>
+                                    <a href="../pelanggan/pdaftarkeluhan.php" class="btn btn-secondary float-left">Cancel</a>
                                     <button type="submit" name="submit" class="btn btn-success float-right">Kirim!</button>
                                 </div>
                             </form>

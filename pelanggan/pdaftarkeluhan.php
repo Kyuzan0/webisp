@@ -16,7 +16,7 @@ if(isset($_SESSION['id_user'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,60 +28,113 @@ if(isset($_SESSION['id_user'])) {
   <link rel="stylesheet" href="../public/plugins/fontawesome-free/css/all.min.css">
   <!-- DataTables -->
   <link rel="stylesheet" href="../public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../public/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../public/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- Sweetalert2 -->
+  <link rel="stylesheet" href="../public/plugins/sweetalert2/sweetalert2.min.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="../public/plugins/toastr/toastr.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
+  
   <style>
-    .btn-ubah {
-      background-color: #007bff;
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card-header {
+      background: linear-gradient(45deg, #3c8dbc, #00c0ef);
       color: white;
-      display: block;
-      width: 100%;
-      margin-bottom: 5px;
+      border-radius: 15px 15px 0 0 !important;
     }
     
-    .btn-hapus {
-      background-color: #dc3545;
+    .badge-status-pending {
+      background-color: #ffc107;
+      color: black;
+      padding: 5px 10px;
+      border-radius: 10px;
+      font-weight: normal;
+    }
+    
+    .badge-status-process {
+      background-color: #17a2b8;
       color: white;
-      display: block;
-      width: 100%;
+      padding: 5px 10px;
+      border-radius: 10px;
+      font-weight: normal;
     }
     
-    th {
-      background-color: #343a40;
-      color: white;
-    }
-    
-    .dataTables_wrapper .dataTables_filter {
-      float: left;
-      margin-right: 10px;
-    }
-    
-    .dataTables_filter input {
-      width: 300px;
-    }
-    
-    .dataTables_wrapper .dt-buttons {
-      float: right;
-    }
-    
-    .btn-tambah {
+    .badge-status-done {
       background-color: #28a745;
       color: white;
-      float: right;
-      margin-bottom: 10px;
+      padding: 5px 10px;
+      border-radius: 10px;
+      font-weight: normal;
     }
     
-    th.sorting, th.sorting_asc, th.sorting_desc {
-      position: relative;
+    .btn-action {
+      border-radius: 20px;
+      margin: 2px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: all 0.3s;
     }
     
-    th.sorting:after, th.sorting_asc:after, th.sorting_desc:after {
-      position: absolute;
-      right: 8px;
-      content: "❯❯";
-      transform: rotate(90deg);
-      font-size: 10px;
-      color: rgba(255,255,255,0.7);
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .table-hover tbody tr:hover {
+      background-color: rgba(0,123,255,0.1);
+    }
+    
+    .description-cell {
+      max-width: 250px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .description-cell:hover {
+      white-space: normal;
+      overflow: visible;
+    }
+
+    .card-title {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    
+    .data-row {
+      transition: all 0.2s;
+    }
+    
+    .data-row:hover {
+      transform: scale(1.01);
+    }
+    
+    .keluhan-title {
+      font-weight: 600;
+      color: #3c8dbc;
+    }
+
+    .add-button {
+      border-radius: 30px;
+      box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+      font-weight: 600;
+      padding: 10px 20px;
+      transition: all 0.15s ease;
+    }
+    
+    .add-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
     }
   </style>
 </head>
@@ -94,11 +147,11 @@ if(isset($_SESSION['id_user'])) {
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Daftar Keluhan</h1>
+            <h1><i class="fas fa-clipboard-list mr-2"></i>Daftar Keluhan</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i> Home</a></li>
               <li class="breadcrumb-item active">Data Keluhan</li>
             </ol>
           </div>
@@ -111,64 +164,124 @@ if(isset($_SESSION['id_user'])) {
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
+            <!-- Keluhan Stats Cards -->
+            <div class="row mb-4">
+              <div class="col-md-4">
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h3><?= count($cpm) ?></h3>
+                    <p>Total Keluhan</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-clipboard-list"></i>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-4">
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <?php
+                    $selesai = 0;
+                    foreach($cpm as $p) {
+                      if($p["status"] == "Selesai") {
+                        $selesai++;
+                      }
+                    }
+                    ?>
+                    <h3><?= $selesai ?></h3>
+                    <p>Keluhan Selesai</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-check-circle"></i>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-4">
+                <div class="small-box bg-warning">
+                  <div class="inner">
+                    <?php
+                    $proses = 0;
+                    foreach($cpm as $p) {
+                      if($p["status"] == "Proses") {
+                        $proses++;
+                      }
+                    }
+                    ?>
+                    <h3><?= $proses ?></h3>
+                    <p>Keluhan Diproses</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
             <div class="card">
               <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <label>Search: <input type="search" id="searchInput" class="form-control form-control-sm" placeholder=""></label>
-                  </div>
-                  <button type="button" class="btn btn-tambah" onclick="window.location.href='pformkeluhan.php';">Tambah Data</button>
+                  <h3 class="card-title">
+                    <i class="fas fa-clipboard-list mr-2"></i>
+                    Daftar Keluhan Anda
+                  </h3>
+                  <button type="button" class="btn btn-success add-button" onclick="window.location.href='pformkeluhan.php';">
+                    <i class="fas fa-plus mr-2"></i>Tambah Keluhan
+                  </button>
                 </div>
               </div>
               <!-- /.card-header -->
-              <div class="card-body p-0">
-                <div class="table-responsive">
-                  <table id="example1" class="table table-bordered table-striped mb-0">
-                    <thead>
-                      <tr>
-                        <th width="2%">No <span class="float-right"></span></th>
-                        <!--<th width="10%">ID Customer <span class="float-right"></span></th>-->
-                        <th width="10%">Tanggal Keluhan <span class="float-right"></span></th>
-                        <th width="10%">Judul Keluhan <span class="float-right"></span></th>
-                        <th width="40%">Deskripsi <span class="float-right"></span></th>
-                        <th width="5%">Status <span class="float-right"></span></th>
-                        <th width="5%">Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php $i = 1; ?>
-                      <?php foreach($cpm as $row) : ?>
-                      <tr>
-                        <td><?= $i; ?></td>
-                        <!--<td><?= isset($row["id_user"]) ? $row["id_user"] : '-'; ?></td>-->
-                        <td><?= $row["tanggal_keluhan"]; ?></td>
-                        <td><?= htmlspecialchars($row["judul_keluhan"]); ?></td>
-                        <td><?= htmlspecialchars($row["deskripsi"]); ?></td>
-                        <td><?= $row["status"]; ?></td>
-                        <td>
-                          <!--<a class="btn btn-ubah" href="ubahdatakeluhan.php?id_keluhan=<?= $row["id_keluhan"]; ?>"><i class="fas fa-edit"></i> Ubah</a> -->
-                          <a class="btn btn-hapus" href="../keluhan/hapuskeluhan.php?id_keluhan=<?= $row["id_keluhan"]; ?>" onclick="return confirm('Yakin ingin menghapus keluhan ini?');"><i class="fas fa-trash"></i> Hapus</a>
-                        </td>
-                      </tr>
-                      <?php $i++; ?>
-                      <?php endforeach; ?>
-                    </tbody>
-                  </table>
-                </div>
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped table-hover">
+                  <thead>
+                  <tr>
+                    <th width="5%">No</th>
+                    <th width="15%">Tanggal</th>
+                    <th width="20%">Judul Keluhan</th>
+                    <th width="35%">Deskripsi</th>
+                    <th width="10%">Status</th>
+                    <th width="15%">Aksi</th>
+                  </tr>
+                  </thead>
+
+                  <tbody>
+                  <?php $i = 1; ?>
+                  <?php foreach($cpm as $row) : 
+                    switch($row["status"]) {
+                      case "Pending":
+                        $badge_class = "badge-status-pending";
+                        break;
+                      case "Proses":
+                        $badge_class = "badge-status-process";
+                        break;
+                      case "Selesai":
+                        $badge_class = "badge-status-done";
+                        break;
+                      default:
+                        $badge_class = "badge-secondary";
+                    }
+                  ?>
+                  <tr class="data-row">
+                    <td class="text-center"><?= $i;?></td>
+                    <td><?= date('d M Y', strtotime($row["tanggal_keluhan"]));?></td>
+                    <td class="keluhan-title"><?= htmlspecialchars($row["judul_keluhan"]);?></td>
+                    <td class="description-cell"><?= htmlspecialchars($row["deskripsi"]);?></td>
+                    <td class="text-center">
+                      <span class="badge <?= $badge_class ?>"><?= $row["status"] ?></span>
+                    </td>
+                    <td class="text-center">
+                      <a class="btn btn-danger btn-sm btn-action" href="../keluhan/hapuskeluhan.php?id_keluhan=<?= $row["id_keluhan"]; ?>" onclick="return confirm('Yakin ingin menghapus keluhan ini?');">
+                        <i class="fas fa-trash"></i> Hapus
+                      </a>
+                    </td>
+                  </tr>
+                  <?php $i++; ?>
+                  <?php endforeach; ?>
+                  </tbody>
+                </table>
               </div>
               <!-- /.card-body -->
-              <div class="card-footer">
-                <div class="d-flex justify-content-between">
-                  <div>
-                    Showing 1 to <?= count($cpm) > 8 ? 8 : count($cpm); ?> of <?= count($cpm); ?> entries
-                  </div>
-                  <div class="pagination">
-                    <button class="btn btn-outline-secondary btn-sm mr-1" disabled>Previous</button>
-                    <button class="btn btn-primary btn-sm mr-1">1</button>
-                    <button class="btn btn-outline-secondary btn-sm">Next</button>
-                  </div>
-                </div>
-              </div>
             </div>
             <!-- /.card -->
           </div>
@@ -194,30 +307,20 @@ if(isset($_SESSION['id_user'])) {
 <script src="../public/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables & Plugins -->
+<!-- DataTables  & Plugins -->
 <script src="../public/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../public/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../public/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../public/js/adminlte.min.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
-    // Inisialisasi DataTable dengan opsi sederhana
-    var table = $("#example1").DataTable({
+    $("#example1").DataTable({
       "responsive": true,
       "lengthChange": false,
-      "autoWidth": false,
-      "pageLength": 8,
-      "searching": true,
-      "info": false,
-      "paging": false,
-      "ordering": true,
-      "dom": 'lrtip' // Menyembunyikan search default
-    });
-    
-    // Custom search
-    $('#searchInput').keyup(function() {
-      table.search($(this).val()).draw();
+      "autoWidth": false
     });
   });
 </script>

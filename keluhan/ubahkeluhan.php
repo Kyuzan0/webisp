@@ -15,6 +15,25 @@ $kel = query("SELECT * FROM keluhan WHERE id_keluhan = $id")[0];
 
 // Cek apakah tombol submit sudah ditekan atau belum
 if( isset($_POST["submit"]) ) {
+    // Cek apakah ada perubahan data
+    $is_changed = false;
+    
+    if($_POST["id_user"] != $kel["id_user"] ||
+       $_POST["tanggal_keluhan"] != $kel["tanggal_keluhan"] ||
+       $_POST["judul_keluhan"] != $kel["judul_keluhan"] ||
+       $_POST["deskripsi"] != $kel["deskripsi"] ||
+       $_POST["status"] != $kel["status"]) {
+        $is_changed = true;
+    }
+    
+    if(!$is_changed) {
+        echo "<script>
+            alert('Tidak ada perubahan data yang dilakukan!');
+            document.location.href = 'daftarkeluhan.php';
+        </script>";
+        exit;
+    }
+    
     // Cek apakah data berhasil diubah atau tidak
     if( ubahkeluhan($_POST) > 0 ) {
         echo "
@@ -102,11 +121,10 @@ if( isset($_POST["submit"]) ) {
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="status">Status</label>
-                                    <select name="status" id="level" class="form-control custom-select">
-                                        <option selected disabled>Select one</option>
-                                        <option>Pending</option>
-                                        <option>Proses</option>
-                                        <option>Selesai</option>
+                                    <select name="status" id="level" class="form-control custom-select" required>
+                                        <option value="Pending" <?= ($kel["status"] == "Pending") ? 'selected' : ''; ?>>Pending</option>
+                                        <option value="Proses" <?= ($kel["status"] == "Proses") ? 'selected' : ''; ?>>Proses</option>
+                                        <option value="Selesai" <?= ($kel["status"] == "Selesai") ? 'selected' : ''; ?>>Selesai</option>
                                     </select>
                                 </div>
                             </div>

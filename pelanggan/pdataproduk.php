@@ -228,10 +228,10 @@ $produk = query("SELECT * FROM produk");
                   <thead>
                   <tr>
                     <th width="5%">No</th>
-                    <th width="5%">ID Produk</th>
                     <th width="20%">Nama Paket</th>
+                    <th width="10%">Kategori</th>
                     <th width="40%">Deskripsi</th>
-                    <th width="10%">Harga (Rp.)</th>
+                    <th width="15%">Harga (Rp.)</th>
                     <th width="10%">Aksi</th>
                   </tr>
                   </thead>
@@ -244,20 +244,28 @@ $produk = query("SELECT * FROM produk");
                       $kategori = "premium";
                       $kategori_label = "Premium";
                       $badge_class = "badge-paket-premium";
+                      $icon = "<i class='fas fa-crown mr-1'></i>";
                     } elseif($row["harga"] > 300000) {
                       $kategori = "popular";
                       $kategori_label = "Popular";
                       $badge_class = "badge-paket-popular";
+                      $icon = "<i class='fas fa-star mr-1'></i>";
                     } else {
                       $kategori = "normal";
                       $kategori_label = "Standard";
                       $badge_class = "badge-paket-normal";
+                      $icon = "<i class='fas fa-check-circle mr-1'></i>";
                     }
                   ?>
                   <tr class="data-row">
                     <td class="text-center"><?= $i;?></td>
-                    <td><span class="badge badge-secondary"><?= $row["id_produk"];?></span></td>
+                    <input type="hidden" name="id_produk" value="<?= $row['id_produk']; ?>">
                     <td class="paket-title"><?= $row["nama_produk"];?></td>
+                    <td class="text-center">
+                      <span class="<?= $badge_class ?>">
+                        <?= $icon ?><?= $kategori_label ?>
+                      </span>
+                    </td>
                     <td class="description-cell"><?= $row["deskripsi"];?></td>
                     <td class="text-right">Rp. <?= number_format($row["harga"], 0, ',', '.');?></td>
                     <td class="text-center">
@@ -286,49 +294,48 @@ $produk = query("SELECT * FROM produk");
   <!-- /.content-wrapper -->
 
   <!-- Detail Modal -->
+  <!-- Detail Modal -->
   <div class="modal fade" id="modal-detail">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header bg-info">
-          <h4 class="modal-title">Detail Paket</h4>
+          <h4 class="modal-title"><i class="fas fa-info-circle mr-2"></i>Detail Paket</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="text-center mb-3">
-            <img src="../public/img/paket-icon.png" alt="Paket Icon" width="100">
+          <div class="text-center mb-4">
+            <i class="fas fa-box-open fa-4x text-info mb-3"></i>
           </div>
           <table class="table table-striped">
             <tr>
-              <th>ID Produk</th>
+              <th><i class="fas fa-hashtag mr-2"></i>ID Produk</th>
               <td id="detail-id"></td>
             </tr>
             <tr>
-              <th>Nama Paket</th>
+              <th><i class="fas fa-tag mr-2"></i>Nama Paket</th>
               <td id="detail-nama"></td>
             </tr>
             <tr>
-              <th>Harga</th>
+              <th><i class="fas fa-money-bill-wave mr-2"></i>Harga</th>
               <td id="detail-harga"></td>
             </tr>
             <tr>
-              <th>Kategori</th>
+              <th><i class="fas fa-layer-group mr-2"></i>Kategori</th>
               <td id="detail-kategori"></td>
             </tr>
             <tr>
-              <th>Deskripsi</th>
+              <th><i class="fas fa-align-left mr-2"></i>Deskripsi</th>
               <td id="detail-deskripsi"></td>
             </tr>
           </table>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times mr-2"></i>Tutup</button>
         </div>
       </div>
-      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
 
@@ -365,6 +372,44 @@ $produk = query("SELECT * FROM produk");
       "responsive": true, 
       "lengthChange": true, 
       "autoWidth": false,
+      "pageLength": 10,
+      "drawCallback": function(settings) {
+        // Rebind click events after table redraw
+        $('.view-paket').off('click').on('click', function() {
+          const id = $(this).data('id');
+          let paketData = null;
+          
+          <?php foreach($produk as $row): ?>
+          if(<?= json_encode($row["id_produk"]); ?> == id) {
+            paketData = {
+              id: <?= json_encode($row["id_produk"]); ?>,
+              nama: <?= json_encode($row["nama_produk"]); ?>,
+              harga: <?= $row["harga"]; ?>,
+              deskripsi: <?= json_encode($row["deskripsi"]); ?>
+            };
+            
+            // Tentukan kategori
+            if(paketData.harga > 500000) {
+              paketData.kategori = '<span class="badge-paket-premium"><i class="fas fa-crown mr-1"></i> Premium</span>';
+            } else if(paketData.harga > 300000) {
+              paketData.kategori = '<span class="badge-paket-popular"><i class="fas fa-star mr-1"></i> Popular</span>';
+            } else {
+              paketData.kategori = '<span class="badge-paket-normal"><i class="fas fa-check-circle mr-1"></i> Standard</span>';
+            }
+          }
+          <?php endforeach; ?>
+          
+          if(paketData) {
+            $('#detail-id').text(paketData.id);
+            $('#detail-nama').text(paketData.nama);
+            $('#detail-harga').text('Rp. ' + paketData.harga.toLocaleString('id-ID'));
+            $('#detail-kategori').html(paketData.kategori);
+            $('#detail-deskripsi').text(paketData.deskripsi);
+            
+            $('#modal-detail').modal('show');
+          }
+        });
+      },
       "language": {
         "search": "Cari:",
         "lengthMenu": "Tampilkan _MENU_ data per halaman",
@@ -383,73 +428,6 @@ $produk = query("SELECT * FROM produk");
     
     // Enable tooltips
     $('[data-toggle="tooltip"]').tooltip();
-    
-    // View Paket Detail
-    $('.view-paket').on('click', function() {
-      const id = $(this).data('id');
-      
-      // Dalam implementasi nyata, Anda perlu melakukan AJAX request ke server
-      // untuk mendapatkan data detail paket. Berikut contoh sederhananya:
-      
-      // AJAX request (mock demo)
-      let paketData = null;
-      
-      <?php foreach($produk as $row): ?>
-      if(<?= json_encode($row["id_produk"]); ?> == id) {
-        paketData = {
-          id: <?= json_encode($row["id_produk"]); ?>,
-          nama: <?= json_encode($row["nama_produk"]); ?>,
-          harga: <?= $row["harga"]; ?>,
-          deskripsi: <?= json_encode($row["deskripsi"]); ?>
-        };
-        
-        // Tentukan kategori
-        if(paketData.harga > 500000) {
-          paketData.kategori = '<span class="badge-paket-premium"><i class="fas fa-crown mr-1"></i> Premium</span>';
-        } else if(paketData.harga > 300000) {
-          paketData.kategori = '<span class="badge-paket-popular"><i class="fas fa-star mr-1"></i> Popular</span>';
-        } else {
-          paketData.kategori = '<span class="badge-paket-normal"><i class="fas fa-check-circle mr-1"></i> Standard</span>';
-        }
-      }
-      <?php endforeach; ?>
-      
-      if(paketData) {
-        $('#detail-id').text(paketData.id);
-        $('#detail-nama').text(paketData.nama);
-        $('#detail-harga').text('Rp. ' + paketData.harga.toLocaleString('id-ID'));
-        $('#detail-kategori').html(paketData.kategori);
-        $('#detail-deskripsi').text(paketData.deskripsi);
-        
-        $('#modal-detail').modal('show');
-      }
-    });
-    
-    // Delete confirmation
-    $('.delete-paket').on('click', function() {
-      const id = $(this).data('id');
-      
-      Swal.fire({
-        title: 'Apakah Anda yakin?',
-        text: "Data paket akan dihapus permanen!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Ya, hapus!',
-        cancelButtonText: 'Batal'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Redirect to delete page
-          window.location.href = 'hapusproduk.php?id_produk=' + id;
-        }
-      });
-    });
-    
-    // Show toastr notification if there's a message
-    <?php if(isset($_SESSION['message'])): ?>
-    toastr.success('<?= $_SESSION['message']; ?>');
-    <?php unset($_SESSION['message']); endif; ?>
   });
 </script>
 </body>

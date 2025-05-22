@@ -267,9 +267,9 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
         <!-- Banner -->
         <div class="row">
           <div class="col-12">
-            <div class="banner-container">
-              <button class="banner-nav prev" onclick="changeBanner(-1)"><i class="fas fa-chevron-left"></i></button>
-              <button class="banner-nav next" onclick="changeBanner(1)"><i class="fas fa-chevron-right"></i></button>
+            <div class="banner-container" onclick="window.open('http://wa.me/+6281214878902', '_blank')" style="cursor: pointer;">
+              <button class="banner-nav prev" onclick="changeBanner(-1); event.stopPropagation();"><i class="fas fa-chevron-left"></i></button>
+              <button class="banner-nav next" onclick="changeBanner(1); event.stopPropagation();"><i class="fas fa-chevron-right"></i></button>
               <div id="bannerWrapper" class="banner-wrapper">
                 <!-- Initial images - will be updated by script -->
                 <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
