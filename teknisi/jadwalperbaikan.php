@@ -37,6 +37,22 @@ $perbaikan = query($query);
   <!-- Theme style -->
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
   <style>
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card-header {
+      background: linear-gradient(45deg, #3c8dbc, #00c0ef);
+      color: white;
+      border-radius: 15px 15px 0 0 !important;
+    }
+    
     .badge-status-pending {
       background-color: #ffc107;
       color: black;
@@ -61,6 +77,22 @@ $perbaikan = query($query);
       font-weight: normal;
     }
     
+    .btn-action {
+      border-radius: 20px;
+      margin: 2px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+    
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .table-hover tbody tr:hover {
+      background-color: rgba(0,123,255,0.1);
+    }
+    
     .description-cell {
       max-width: 250px;
       overflow: hidden;
@@ -71,6 +103,19 @@ $perbaikan = query($query);
     .description-cell:hover {
       white-space: normal;
       overflow: visible;
+    }
+
+    .card-title {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    
+    .data-row {
+      transition: all 0.2s;
+    }
+    
+    .data-row:hover {
+      transform: scale(1.01);
     }
   </style>
 </head>
@@ -98,6 +143,52 @@ $perbaikan = query($query);
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3><?= count($perbaikan) ?></h3>
+                <p>Total Perbaikan</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-tools"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="small-box bg-success">
+              <div class="inner">
+                <?php
+                $selesai = 0;
+                foreach($perbaikan as $p) {
+                  if(!empty($p['waktu_selesai'])) {
+                    $selesai++;
+                  }
+                }
+                ?>
+                <h3><?= $selesai ?></h3>
+                <p>Perbaikan Selesai</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3><?= count($perbaikan) - $selesai ?></h3>
+                <p>Dalam Proses</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-clock"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <?php if(isset($_GET['success']) && $_GET['success'] == 1): ?>
         <div class="alert alert-success alert-dismissible">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
