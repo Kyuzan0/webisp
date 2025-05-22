@@ -323,7 +323,7 @@ $users = query("SELECT * FROM users");
 <script>
   $(function () {
     // DataTable initialization with responsive
-    $("#example1").DataTable({
+    var table = $("#example1").DataTable({
       "responsive": true, 
       "lengthChange": true, 
       "autoWidth": false,
@@ -340,32 +340,41 @@ $users = query("SELECT * FROM users");
           "next": "Selanjutnya",
           "previous": "Sebelumnya"
         }
+      },
+      "drawCallback": function() {
+        // Rebind delete button event after table redraw
+        bindDeleteEvents();
       }
     });
     
     // Enable tooltips
     $('[data-toggle="tooltip"]').tooltip();
     
-    // Delete confirmation
-    $('.delete-user').on('click', function() {
-      const id = $(this).data('id');
-      
-      Swal.fire({
-        title: 'Apakah Anda yakin?',
-        text: "Data user akan dihapus permanen!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Ya, hapus!',
-        cancelButtonText: 'Batal'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = 'hapusdatauser.php?id_user=' + id;
-        }
+    // Function to bind delete events
+    function bindDeleteEvents() {
+      $('.delete-user').off('click').on('click', function() {
+        const id = $(this).data('id');
+        
+        Swal.fire({
+          title: 'Apakah Anda yakin?',
+          text: "Data user akan dihapus permanen!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Ya, hapus!',
+          cancelButtonText: 'Batal'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = 'hapusdatauser.php?id_user=' + id;
+          }
+        });
       });
-    });
-  });
+    }
+    
+    // Initial binding of delete events
+    bindDeleteEvents();
+});
 </script>
 </body>
 </html>

@@ -39,7 +39,7 @@ function showMenu($level) {
     if ($level == 'Teknisi') {
         $menu['./teknisi/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
         $menu['./teknisi/jadwalperbaikan'] = ['name' => 'Jadwal Perbaikan', 'icon' => 'fas fa-calendar-alt'];
-        $menu['./teknisi/laporanperbaikan'] = ['name' => 'Melaporkan Pekerjaan', 'icon' => 'fas fa-clipboard-check'];
+       
     }
 
     // Menu untuk Sales

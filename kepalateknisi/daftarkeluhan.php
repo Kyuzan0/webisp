@@ -298,9 +298,7 @@ $keluhan = query("SELECT k.*, c.nama as nama_customer
                       <a class="btn btn-primary btn-sm btn-action" href="ubahkeluhan.php?id_keluhan=<?= $row["id_keluhan"]; ?>" data-toggle="tooltip" title="Ubah">
                         <i class="fas fa-edit"></i>
                       </a>
-                      <a class="btn btn-danger btn-sm btn-action delete-keluhan" href="javascript:void(0)" data-id="<?= $row["id_keluhan"]; ?>" data-toggle="tooltip" title="Hapus">
-                        <i class="fas fa-trash"></i>
-                      </a>
+                     
                     </td>
                   </tr>
                   <?php $i++; ?>
