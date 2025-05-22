@@ -18,21 +18,42 @@ $products = query("SELECT * FROM produk");
 
 // cek apakah tombol submit sudah ditekan atau belum
 if( isset($_POST["submit"]) ) {
-    // cek apakah data berhasil diubah atau tidak
-    if( ubahpelanggan($_POST) > 0 ) {
+    // Cek apakah ada perubahan data
+    $ada_perubahan = false;
+    
+    if($_POST['id_produk'] != $usr['id_produk'] ||
+       $_POST['nama'] != $usr['nama'] ||
+       $_POST['email'] != $usr['email'] ||
+       $_POST['no_hp'] != $usr['no_hp'] ||
+       $_POST['alamat'] != $usr['alamat'] ||
+       $_POST['status'] != $usr['status']) {
+        $ada_perubahan = true;
+    }
+    
+    if(!$ada_perubahan) {
         echo "
             <script>
-                alert('data berhasil diubah!');
-                document.location.href = 'keloladatapelanggan.php'
+                alert('Tidak ada perubahan data!');
+                document.location.href = 'ubahdatapelanggan.php?id_customer=$id'
             </script>
         ";
     } else {
-        echo "
-            <script>
-                alert('data gagal diubah! :(');
-                document.location.href = 'ubahdatapelanggan.php'
-            </script>
-        ";
+        // cek apakah data berhasil diubah atau tidak
+        if( ubahpelanggan($_POST) > 0 ) {
+            echo "
+                <script>
+                    alert('Data berhasil diubah!');
+                    document.location.href = 'keloladatapelanggan.php'
+                </script>
+            ";
+        } else {
+            echo "
+                <script>
+                    alert('Data gagal diubah! :(');
+                    document.location.href = 'ubahdatapelanggan.php?id_customer=$id'
+                </script>
+            ";
+        }
     }
 } 
 ?>
@@ -86,13 +107,15 @@ if( isset($_POST["submit"]) ) {
                 <form action="" method="POST">
                     <div class="card-body">
                         <div class="row">  <!-- Menambahkan row untuk grid system -->
-                            <input type="hidden" name="id_user" value="<?= $usr['id_customer']; ?>">
+                            <!-- Hidden input untuk menyimpan ID yang asli -->
+                            <input type="hidden" name="id_customer" value="<?= $usr['id_customer']; ?>">
+                            <input type="hidden" name="id_user" value="<?= $usr['id_user']; ?>">
 
                             <!-- Kolom Kiri -->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="username">ID Customer</label>
-                                    <input type="text" name="id_customer" id="id_customer" class="form-control" required value="<?= $usr["id_customer"]; ?>">
+                                    <label for="id_customer_display">ID Customer</label>
+                                    <input type="text" id="id_customer_display" class="form-control" readonly value="<?= $usr["id_customer"]; ?>" style="background-color: #f4f4f4;">
                                 </div>
 
                                 <div class="form-group">
@@ -108,8 +131,8 @@ if( isset($_POST["submit"]) ) {
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="user_id">ID User</label>
-                                    <input type="text" name="id_user" id="id_user" class="form-control" required value="<?= $usr["id_user"]; ?>">
+                                    <label for="id_user_display">ID User</label>
+                                    <input type="text" id="id_user_display" class="form-control" readonly value="<?= $usr["id_user"]; ?>" style="background-color: #f4f4f4;">
                                 </div>
 
                                 <div class="form-group">

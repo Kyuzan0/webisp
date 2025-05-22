@@ -1,33 +1,45 @@
 <?php 
+require '../includes/init_session.php';
 require '../includes/functions.php';
 require '../view/sidebar.php';
 
 //ambil data di url
-
 $id = $_GET["id_user"];
 
 // query data user berdasarkan id
 $usr = query("SELECT * FROM users WHERE id_user = $id")[0];
 
 // cek apakah tombol submit sudah ditekan atau belum
-
 if( isset($_POST["submit"]) ) {
-
-    // cek apakah data berhasil ditambahkan atau tidak
-    if( ubahuser($_POST) > 0 ) {
+    
+    // Cek apakah ada perubahan data
+    $email_sama = $_POST['email'] == $usr['email'];
+    $username_sama = $_POST['username'] == $usr['username'];
+    $level_sama = $_POST['level'] == $usr['level'];
+    
+    // Jika semua data sama (tidak ada perubahan)
+    if($email_sama && $username_sama && $level_sama) {
         echo "
             <script>
-                alert('data berhasil diubah!');
-                document.location.href = 'keloladatauser.php'
+                alert('Anda tidak melakukan perubahan data');
             </script>
         ";
     } else {
-        echo "
-            <script>
-                alert('data gagal diubah! :(');
-                document.location.href = 'ubahdatauser.php'
-            </script>
-        ";
+        // cek apakah data berhasil diubah atau tidak
+        if( ubahuser($_POST) > 0 ) {
+            echo "
+                <script>
+                    alert('Data berhasil diubah!');
+                    document.location.href = 'keloladatauser.php'
+                </script>
+            ";
+        } else {
+            echo "
+                <script>
+                    alert('Data gagal diubah! :(');
+                </script>
+            ";
+        }
     }
 } 
 ?>

@@ -160,7 +160,7 @@ $promo = query("SELECT * FROM promosi");
           <div class="col-12">
             <!-- Promo Stats Cards -->
             <div class="row mb-4">
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="small-box bg-info">
                   <div class="inner">
                     <h3><?= count($promo) ?></h3>
@@ -172,7 +172,7 @@ $promo = query("SELECT * FROM promosi");
                 </div>
               </div>
               
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="small-box bg-success">
                   <div class="inner">
                     <?php
@@ -193,7 +193,27 @@ $promo = query("SELECT * FROM promosi");
                 </div>
               </div>
               
-              <div class="col-md-4">
+              <div class="col-md-3">
+                <div class="small-box bg-warning">
+                  <div class="inner">
+                    <?php
+                    $upcoming = 0;
+                    foreach($promo as $p) {
+                      if($p["mulai_promosi"] > $today) {
+                        $upcoming++;
+                      }
+                    }
+                    ?>
+                    <h3><?= $upcoming ?></h3>
+                    <p>Promosi Mendatang</p>
+                  </div>
+                  <div class="icon">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-3">
                 <div class="small-box bg-danger">
                   <div class="inner">
                     <?php

@@ -82,21 +82,25 @@ function ubahuser($data) {
     global $conn;
 
     $id = $data["id_user"];
+    $email = htmlspecialchars($data["email"]);
     $username = htmlspecialchars($data["username"]);
     $level = $data["level"];
 
     $query = "UPDATE users SET
+            email = '$email',
             username = '$username',
             level = '$level'
             WHERE id_user = $id";
 
-echo "Query: " . $query . "<br>";
-if (mysqli_query($conn, $query)) {
-    return mysqli_affected_rows($conn);
-} else {
-    echo "Error: " . mysqli_error($conn) . "<br>";
-    return 0;
-}
+    // Hapus echo debug jika sudah berfungsi dengan baik
+    // echo "Query: " . $query . "<br>";
+    
+    if (mysqli_query($conn, $query)) {
+        return mysqli_affected_rows($conn);
+    } else {
+        echo "Error: " . mysqli_error($conn) . "<br>";
+        return 0;
+    }
 }
 // user end section //
 
@@ -380,9 +384,15 @@ function ubahkeluhan($data) {
 }
 
 
-function hapuskeluhan ($id){
+function hapuskeluhan($id) {
     global $conn;
+    
+    // Hapus data terkait di tabel perbaikan terlebih dahulu
+    mysqli_query($conn, "DELETE FROM perbaikan WHERE id_keluhan = $id");
+    
+    // Kemudian hapus data keluhan
     mysqli_query($conn, "DELETE FROM keluhan WHERE id_keluhan = $id");
+    
     return mysqli_affected_rows($conn);
 }
 

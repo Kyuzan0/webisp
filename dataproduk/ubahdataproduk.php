@@ -15,6 +15,26 @@ $produ = query("SELECT * FROM produk WHERE id_produk = $id")[0];
 
 // cek apakah tombol submit sudah ditekan atau belum
 if( isset($_POST["submit"]) ) {
+    // Cek apakah ada perubahan data
+    $is_changed = false;
+    
+    // Bandingkan nilai lama dengan nilai baru
+    if($produ['nama_produk'] != $_POST['nama_produk'] ||
+       $produ['deskripsi'] != $_POST['deskripsi'] ||
+       $produ['harga'] != $_POST['harga']) {
+        $is_changed = true;
+    }
+    
+    if(!$is_changed) {
+        echo "
+            <script>
+                alert('Tidak ada perubahan data yang dilakukan!');
+                document.location.href = 'dataproduk.php';
+            </script>
+        ";
+        exit;
+    }
+    
     // cek apakah data berhasil diubah atau tidak
     if( ubahpaket($_POST) > 0 ) {
         echo "
@@ -82,14 +102,12 @@ if( isset($_POST["submit"]) ) {
 
                 <form action="" method="POST">
                     <div class="card-body">
-
                         <input type="hidden" name="id_produk" value="<?= $produ['id_produk']; ?>">
 
                         <!-- inputan -->
-
                         <div class="form-group">
                             <label for="product_id">ID Produk</label>
-                            <input type="text" name="id_produk" id="id_produk" class="form-control" required value="<?= $produ["id_produk"]; ?>">
+                            <input type="text" id="id_produk" class="form-control" value="<?= $produ["id_produk"]; ?>" readonly disabled>
                         </div>
 
                         <div class="form-group">

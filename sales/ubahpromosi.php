@@ -15,6 +15,27 @@ $prom = query("SELECT * FROM promosi WHERE id_promosi = $id")[0];
 
 // Cek apakah tombol submit sudah ditekan atau belum
 if( isset($_POST["submit"]) ) {
+    // Cek apakah ada perubahan data
+    $is_changed = false;
+    
+    // Bandingkan nilai lama dengan nilai baru
+    if($prom['mulai_promosi'] != $_POST['mulai_promosi'] ||
+       $prom['akhir_promosi'] != $_POST['akhir_promosi'] ||
+       $prom['judul'] != $_POST['judul'] ||
+       $prom['deskripsi'] != $_POST['deskripsi']) {
+        $is_changed = true;
+    }
+    
+    if(!$is_changed) {
+        echo "
+            <script>
+                alert('Tidak ada perubahan data yang dilakukan!');
+                document.location.href = '../sales/datapromo.php';
+            </script>
+        ";
+        exit;
+    }
+    
     // Cek apakah data berhasil diubah atau tidak
     if( ubahpromosi($_POST) > 0 ) {
         echo "
