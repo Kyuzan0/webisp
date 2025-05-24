@@ -134,7 +134,7 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
     }
     
     .small-box:hover .small-box-footer {
-      background: rgba(0,0,0,0.2);
+      background: rgba(255, 255, 255, 0.2);
     }
     
     .small-box h3 {
@@ -247,12 +247,12 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid dashboard-container">
-        <!-- Banner -->
+        <!-- Banner --> 
         <div class="row">
           <div class="col-12">
-            <div class="banner-container">
-              <button class="banner-nav prev" onclick="changeBanner(-1)"><i class="fas fa-chevron-left"></i></button>
-              <button class="banner-nav next" onclick="changeBanner(1)"><i class="fas fa-chevron-right"></i></button>
+            <div class="banner-container" onclick="window.open('https://wa.me/+6281214878902', '_blank')" style="cursor: pointer;">
+              <button class="banner-nav prev" onclick="changeBanner(-1); event.stopPropagation();"><i class="fas fa-chevron-left"></i></button>
+              <button class="banner-nav next" onclick="changeBanner(1); event.stopPropagation();"><i class="fas fa-chevron-right"></i></button>
               <div id="bannerWrapper" class="banner-wrapper">
                 <!-- Initial images - will be updated by script -->
                 <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
