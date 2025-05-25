@@ -131,6 +131,12 @@ require '../view/sidebar.php';
             background-color: #f8f9fa;
         }
         
+        .row-number {
+            font-weight: 600;
+            color: #6c757d;
+            text-align: center;
+        }
+        
         @media (max-width: 768px) {
             .btn-group .btn {
                 margin-bottom: 5px;
@@ -231,15 +237,16 @@ require '../view/sidebar.php';
                                     <table id="table-requests" class="table table-bordered table-striped table-hover">
                                         <thead>
                                             <tr>
+                                                <th width="5%">No.</th>
                                                 <th width="10%">Tanggal</th>
                                                 <th width="15%">Customer</th>
                                                 <th width="12%">Kontak</th>
                                                 <th width="12%">Paket Lama</th>
                                                 <th width="12%">Paket Baru</th>
                                                 <th width="8%">Jenis</th>
-                                                <th width="10%">Selisih</th>
+                                                <th width="8%">Selisih</th>
                                                 <th width="8%">Status</th>
-                                                <th width="13%">Aksi</th>
+                                                <th width="10%">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -287,7 +294,7 @@ require '../view/sidebar.php';
                     </div>
                     
                     <div class="form-group">
-                        <label for="catatan"><i class="fas fa-comment mr-2"></i>Catatan Admin <span class="text-danger">*</span></label>
+                        <label for="catatan"><i class="fas fa-comment mr-2"></i>Catatan Admin: <span class="text-danger">*</span></label>
                         <textarea class="form-control" id="catatan" name="catatan" rows="4" 
                                   placeholder="Berikan catatan untuk customer..." required></textarea>
                         <small class="form-text text-muted">Catatan ini akan dikirim ke customer</small>
@@ -345,9 +352,10 @@ require '../view/sidebar.php';
             "lengthChange": true,
             "autoWidth": false,
             "pageLength": 25,
-            "order": [[0, "desc"]], // Sort by date descending
+            "order": [[1, "desc"]], // Sort by date descending (index 1 karena ada kolom No.)
             "columnDefs": [
-                { "orderable": false, "targets": [8] } // Disable sorting for action column
+                { "orderable": false, "targets": [0, 9] }, // Disable sorting for No. and action column
+                { "searchable": false, "targets": [0] } // Disable search for No. column
             ],
             "language": {
                 "search": "Cari:",
@@ -407,7 +415,7 @@ require '../view/sidebar.php';
         // Clear existing data
         dataTable.clear();
         
-        requests.forEach(function(req) {
+        requests.forEach(function(req, index) {
             const selisihHarga = parseInt(req.harga_baru) - parseInt(req.harga_lama);
             const selisihClass = selisihHarga >= 0 ? 'price-diff-positive' : 'price-diff-negative';
             const jenisClass = req.jenis_request === 'upgrade' ? 'badge-upgrade' : 'badge-downgrade';
@@ -441,7 +449,7 @@ require '../view/sidebar.php';
                 case 'disetujui':
                     statusBadge = '<span class="badge badge-success status-badge">Disetujui</span>';
                     actionButtons = `
-                        <small class="text-muted">Oleh: ${req.admin_name || 'Admin'}</small><br>
+                        <small class="text-muted">Oleh: ${req.admin_name || 'Sales'}</small><br>
                         <button class="btn btn-sm btn-info btn-action mt-1" 
                                 onclick="showAlasan(${req.id_request})" 
                                 data-toggle="tooltip" title="Lihat Detail">
@@ -460,8 +468,9 @@ require '../view/sidebar.php';
                     break;
             }
             
-            // Add row to DataTable
+            // Add row to DataTable dengan nomor urut
             dataTable.row.add([
+                `<span class="row-number">${index + 1}</span>`,
                 formatDate(req.tanggal_request),
                 `<span class="customer-name">${req.customer_name}</span><br><small class="text-muted">ID: ${req.id_customer}</small>`,
                 `${req.no_hp}<br><small class="text-muted">${req.email || '-'}</small>`,

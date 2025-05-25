@@ -11,6 +11,27 @@ if (!isset($_SESSION['id_user']) || $_SESSION['level'] !== 'Sales Marketing') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Handle detail request
+    if (isset($_GET['detail'])) {
+        $id_request = intval($_GET['detail']);
+        $query = "SELECT rpp.*, c.nama as customer_name, c.no_hp, c.email, 
+                 pl.nama_produk as paket_lama, pl.harga as harga_lama,
+                 pb.nama_produk as paket_baru, pb.harga as harga_baru
+          FROM request_perubahan_paket rpp
+          JOIN customer c ON rpp.id_customer = c.id_customer
+          JOIN produk pl ON rpp.id_produk_lama = pl.id_produk
+          JOIN produk pb ON rpp.id_produk_baru = pb.id_produk
+          WHERE rpp.id_request = $id_request";
+        $result = mysqli_query($conn, $query);
+        $request = mysqli_fetch_assoc($result);
+        
+        if ($request) {
+            echo json_encode(['success' => true, 'request' => $request]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Detail request tidak ditemukan']);
+        }
+        exit;
+    }
     // Get all pending requests
     try {
         $query = "SELECT rpp.*, 
