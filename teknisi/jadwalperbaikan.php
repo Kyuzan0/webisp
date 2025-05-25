@@ -11,7 +11,7 @@ $id_teknisi = $teknisi['id_teknisi'];
 
 // Query untuk mengambil data jadwal perbaikan
 $query = "SELECT p.*, k.judul_keluhan, k.deskripsi as deskripsi_keluhan, k.id_user, 
-          c.nama as nama_pelanggan 
+          c.nama as nama_pelanggan, c.alamat as alamat_pelanggan 
           FROM perbaikan p 
           JOIN keluhan k ON p.id_keluhan = k.id_keluhan 
           JOIN customer c ON k.id_user = c.id_user 
@@ -220,6 +220,7 @@ $perbaikan = query($query);
                       <th>Tanggal</th>
                       <th>Jam</th>
                       <th>Nama Pelanggan</th>
+                      <th>Alamat</th>
                       <th>Judul Keluhan</th>
                       <th>Deskripsi Masalah</th>
                       <th>Status</th>
@@ -246,6 +247,7 @@ $perbaikan = query($query);
                       <td><?= date('d/m/Y', $waktu) ?></td>
                       <td><?= date('H:i', $waktu) ?></td>
                       <td><?= $p['nama_pelanggan'] ?></td>
+                      <td><?= $p['alamat_pelanggan'] ?></td>
                       <td><?= $p['judul_keluhan'] ?></td>
                       <td class="description-cell"><?= $p['deskripsi_keluhan'] ?></td>
                       <td>

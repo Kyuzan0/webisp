@@ -1,6 +1,6 @@
 <?php
-require 'functions.php';
-require 'init_session.php';
+require('includes/functions.php');
+require ('includes/init_session.php');
 
 // Fungsi untuk mendapatkan base URL yang konsisten
 function getBaseUrl() {
