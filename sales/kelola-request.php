@@ -449,7 +449,7 @@ require '../view/sidebar.php';
                 case 'disetujui':
                     statusBadge = '<span class="badge badge-success status-badge">Disetujui</span>';
                     actionButtons = `
-                        <small class="text-muted">Oleh: ${req.admin_name || 'Sales'}</small><br>
+                        <small class="text-muted">Oleh: ${req.sales_name || 'Sales'}</small><br>
                         <button class="btn btn-sm btn-info btn-action mt-1" 
                                 onclick="showAlasan(${req.id_request})" 
                                 data-toggle="tooltip" title="Lihat Detail">
@@ -459,7 +459,7 @@ require '../view/sidebar.php';
                 case 'ditolak':
                     statusBadge = '<span class="badge badge-danger status-badge">Ditolak</span>';
                     actionButtons = `
-                        <small class="text-muted">Oleh: ${req.admin_name || 'Sales'}</small><br>
+                        <small class="text-muted">Oleh: ${req.sales_name || 'Sales'}</small><br>
                         <button class="btn btn-sm btn-info btn-action mt-1" 
                                 onclick="showAlasan(${req.id_request})" 
                                 data-toggle="tooltip" title="Lihat Detail">
