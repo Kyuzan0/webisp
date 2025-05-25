@@ -10,17 +10,43 @@ require '../includes/functions.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Paket - Customer Dashboard</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../public/plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../public/css/adminlte.min.css">
 </head>
-<body class="bg-light">
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
 
-            <!-- Main content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <!-- Main Sidebar Container sudah diinclude dari sidebar.php -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Kelola Paket</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Kelola Paket</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Isi konten Anda di sini -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Kelola Paket</h1>
                 </div>
@@ -134,55 +160,64 @@ require '../includes/functions.php';
 
         function loadPaketAktif() {
             $.ajax({
-                url: 'api/get-paket-aktif.php',
+                url: '../api/get-paket-aktif.php',
                 type: 'GET',
                 success: function(response) {
-                    const data = JSON.parse(response);
-                    if (data.success) {
+                    if (response.success) {
                         $('#paket-aktif').html(`
                             <div class="row align-items-center">
                                 <div class="col-md-8">
-                                    <h4 class="text-primary">${data.paket.nama_produk}</h4>
-                                    <p class="mb-1">${data.paket.deskripsi}</p>
-                                    <small class="text-muted">Status: <span class="badge bg-success">${data.customer.status}</span></small>
+                                    <h4 class="text-primary">${response.paket.nama_produk}</h4>
+                                    <p class="mb-1">${response.paket.deskripsi}</p>
+                                    <small class="text-muted">Status: <span class="badge bg-success">${response.customer.status}</span></small>
                                 </div>
                                 <div class="col-md-4 text-end">
-                                    <h3 class="text-success">Rp ${data.paket.harga.toLocaleString()}</h3>
+                                    <h3 class="text-success">Rp ${response.paket.harga.toLocaleString()}</h3>
                                     <small class="text-muted">per bulan</small>
                                 </div>
                             </div>
                         `);
+                    } else {
+                        alert('Error: ' + response.message);
                     }
+                },
+                error: function() {
+                    alert('Terjadi kesalahan sistem');
                 }
             });
         }
 
         function loadDaftarPaket() {
             $.ajax({
-                url: 'api/get-daftar-paket.php',
+                url: '../api/get-daftar-paket.php', // Perbaikan URL AJAX
                 type: 'GET',
                 success: function(response) {
-                    const data = JSON.parse(response);
-                    if (data.success) {
+                    // const data = JSON.parse(response); // Tidak perlu JSON.parse jika header Content-Type sudah application/json
+                    if (response.success) {
                         let options = '<option value="">-- Pilih Paket --</option>';
-                        data.pakets.forEach(function(paket) {
+                        response.pakets.forEach(function(paket) {
                             options += `<option value="${paket.id_produk}" data-harga="${paket.harga}">${paket.nama_produk} - Rp ${paket.harga.toLocaleString()}</option>`;
                         });
                         $('#paket-baru').html(options);
+                    } else {
+                        alert('Error: ' + response.message); // Menampilkan pesan error dari server
                     }
+                },
+                error: function() {
+                    alert('Terjadi kesalahan sistem saat memuat daftar paket.'); // Pesan error lebih spesifik
                 }
             });
         }
 
         function loadRiwayatRequest() {
             $.ajax({
-                url: 'api/get-riwayat-request.php',
+                url: '../api/get-riwayat-request.php', // Perbaikan URL AJAX
                 type: 'GET',
                 success: function(response) {
-                    const data = JSON.parse(response);
-                    if (data.success) {
+                    // const data = JSON.parse(response); // Tidak perlu jika Content-Type application/json
+                    if (response.success) {
                         let rows = '';
-                        data.requests.forEach(function(req) {
+                        response.requests.forEach(function(req) {
                             const statusBadge = getStatusBadge(req.status_request);
                             rows += `
                                 <tr>
@@ -196,7 +231,12 @@ require '../includes/functions.php';
                             `;
                         });
                         $('#table-riwayat tbody').html(rows);
+                    } else {
+                        alert('Error: ' + response.message); // Menampilkan pesan error dari server
                     }
+                },
+                error: function() {
+                    alert('Terjadi kesalahan sistem saat memuat riwayat request.'); // Pesan error lebih spesifik
                 }
             });
         }
@@ -205,23 +245,23 @@ require '../includes/functions.php';
             const formData = new FormData($('#form-request-paket')[0]);
             
             $.ajax({
-                url: 'api/submit-request-paket.php',
+                url: '../api/submit-request-paket.php', // Perbaikan URL AJAX
                 type: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    const data = JSON.parse(response);
-                    if (data.success) {
+                    // const data = JSON.parse(response); // Tidak perlu jika Content-Type application/json
+                    if (response.success) {
                         alert('Request berhasil dikirim!');
                         $('#form-request-paket')[0].reset();
-                        loadRiwayatRequest();
+                        loadRiwayatRequest(); // Muat ulang riwayat setelah submit berhasil
                     } else {
-                        alert('Error: ' + data.message);
+                        alert('Error: ' + response.message);
                     }
                 },
                 error: function() {
-                    alert('Terjadi kesalahan sistem');
+                    alert('Terjadi kesalahan sistem saat mengirim request.');
                 }
             });
         }
@@ -242,5 +282,26 @@ require '../includes/functions.php';
             return date.toLocaleDateString('id-ID') + ' ' + date.toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'});
         }
     </script>
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../public/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../public/js/adminlte.js"></script>
+
+<!-- Script lainnya di sini -->
 </body>
 </html>

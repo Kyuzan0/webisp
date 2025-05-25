@@ -6,7 +6,6 @@ $user_level = isset($_SESSION['level']) ? $_SESSION['level'] : 'user'; // Ambil 
 
 // Fungsi untuk menampilkan menu berdasarkan level
 function showMenu($level) {
-
     // Array untuk menyimpan menu dan ikonnya
     $menu = [];
 
@@ -41,7 +40,6 @@ function showMenu($level) {
     if ($level == 'Teknisi') {
         $menu['./teknisi/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
         $menu['./teknisi/jadwalperbaikan'] = ['name' => 'Jadwal Perbaikan', 'icon' => 'fas fa-calendar-alt'];
-       
     }
 
     // Menu untuk Sales
@@ -50,6 +48,7 @@ function showMenu($level) {
         $menu['./sales/datapromo'] = ['name' => 'Promo Sales', 'icon' => 'fas fa-bullhorn'];
         $menu['./dataproduk/dataproduk'] = ['name' => 'Daftar Paket Internet', 'icon' => 'fas fa-box'];
         $menu['./sales/datapelanggan'] = ['name' => 'Daftar Pelanggan', 'icon' => 'fas fa-user-friends'];
+        $menu['./sales/kelola-request'] = ['name' => 'Request Paket', 'icon' => 'fas fa-box'];
     }
 
     // Menu untuk Customer
@@ -57,7 +56,6 @@ function showMenu($level) {
         $menu['./pelanggan/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt'];
         $menu['./pelanggan/pdatapromo'] = ['name' => 'Promo', 'icon' => 'fas fa-bullhorn'];
         $menu['./pelanggan/pkelolapaket'] = ['name' => 'Kelola Paket', 'icon' => 'fas fa-box'];
-        //$menu['./tagihan/datatagihan'] = ['name' => 'Tagihan', 'icon' => 'fas fa-file-invoice-dollar'];
         $menu['./pelanggan/pdataproduk'] = ['name' => 'Daftar Paket Internet', 'icon' => 'fas fa-box'];
         $menu['./pelanggan/pdaftarkeluhan'] = ['name' => 'Bantuan', 'icon' => 'fas fa-hands-helping'];
     }
@@ -89,107 +87,100 @@ function getProfileImageByLevel($level) {
 $menu = showMenu($user_level);
 
 // Tentukan warna tema berdasarkan level
-$sidebarTheme = 'sidebar-dark-primary';
-$accentColor = 'accent-primary';
+// Tentukan warna tema - gunakan warna hijau untuk semua level
+$sidebarTheme = 'sidebar-dark-secondary';
+$accentColor = 'accent-secondary';
 
-switch ($user_level) {
-    case 'Admin':
-        $sidebarTheme = 'sidebar-dark-danger';
-        $accentColor = 'accent-danger';
-        break;
-    case 'Supervisor':
-        $sidebarTheme = 'sidebar-dark-warning';
-        $accentColor = 'accent-warning';
-        break;
-    case 'Kepala Teknisi':
-    case 'Teknisi':
-        $sidebarTheme = 'sidebar-dark-success';
-        $accentColor = 'accent-success';
-        break;
-    case 'Sales Marketing':
-        $sidebarTheme = 'sidebar-dark-info';
-        $accentColor = 'accent-info';
-        break;
-    case 'Customer':
-        $sidebarTheme = 'sidebar-dark-primary';
-        $accentColor = 'accent-primary';
-        break;
-}
 
 // Dapatkan nama halaman saat ini untuk menandai menu aktif
 $current_page = basename($_SERVER['PHP_SELF'], '.php');
 
-// Dapatkan base URL untuk path yang konsisten
+// Base URL handling yang diperbaiki
 $base_url = "";
 $root_dir = "webisp";
 $request_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 
-// Ekstrak base URL dari REQUEST_URI
+// Ekstrak base URL dari REQUEST_URI dengan perbaikan
 if (strpos($request_uri, $root_dir) !== false) {
     $base_url = substr($request_uri, 0, strpos($request_uri, $root_dir) + strlen($root_dir) + 1);
 } else {
-    $base_url = "/";
+    // Fallback untuk base URL
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+    $host = $_SERVER['HTTP_HOST'];
+    $script_dir = dirname($_SERVER['SCRIPT_NAME']);
+    $base_url = $protocol . $host . rtrim($script_dir, '/') . '/';
 }
+
+// Normalisasi base URL
+$base_url = rtrim($base_url, '/') . '/';
 ?>
 
-<aside class="main-sidebar <?php echo $sidebarTheme; ?> elevation-4 position-fixed">
+<aside id="main-sidebar" class="main-sidebar <?php echo $sidebarTheme; ?> elevation-4">
     <!-- Brand Logo -->
-    <a href="<?php echo $base_url; ?>public/index.php" class="brand-link d-flex align-items-center">
-      <img src="<?php echo $base_url; ?>img/logo.png" alt="WebISP Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-bold">WebISP</span>
+    <a href="<?php echo $base_url; ?>public/index.php" class="brand-link">
+        <img src="<?php echo $base_url; ?>img/logo.png" alt="WebISP Logo" class="brand-image img-circle elevation-3">
+        <span class="brand-text font-weight-bold">WebISP</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
-        <div class="image">
-          <img src="<?php echo $base_url; ?>public/img/<?php echo getProfileImageByLevel($user_level); ?>" class="img-circle elevation-2" alt="User Image">
+        <!-- Sidebar user panel -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="<?php echo $base_url; ?>public/img/<?php echo getProfileImageByLevel($user_level); ?>" 
+                     class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block text-white"><?= htmlspecialchars($_SESSION['username'] ?? 'User'); ?></a>
+                <span class="badge badge-sm badge-light mt-1"><?= htmlspecialchars($_SESSION['level'] ?? 'Guest'); ?></span>
+            </div>
         </div>
-        <div class="info">
-          <a href="#" class="d-block text-white"><?= $_SESSION['username']; ?></a>
-          <span class="badge badge-pill badge-light"><?= $_SESSION['level']; ?></span>
-        </div>
-      </div>
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-compact" data-widget="treeview" role="menu" data-accordion="false">
-          <?php foreach ($menu as $key => $item): 
-            // Perbaikan deteksi halaman aktif
-            $menu_page = basename(str_replace('./', '', $key));
-            $is_active = (strpos($current_page, $menu_page) !== false);
-            
-            // Perbaikan path untuk konsistensi
-            $menu_path = str_replace('./', $base_url, $key) . '.php';
-          ?>
-            <li class="nav-item">
-              <a href="<?= $menu_path ?>" class="nav-link <?php echo $is_active ? 'active' : ''; ?>">
-                <i class="nav-icon <?= $item['icon'] ?>"></i>
-                <p><?= $item['name'] ?></p>
-              </a>
-            </li>
-            <?php if (isset($item['divider']) && $item['divider']): ?>
-              <li class="nav-item"><hr class="nav-divider"></li>
-            <?php endif; ?>
-          <?php endforeach; ?>
-          
-          <!-- Logout Button -->
-          <li class="nav-item mt-4 mb-2">
-            <form id="logoutForm" action="<?php echo $base_url; ?>public/logout.php" method="POST" style="margin: 0; padding: 0 1rem;">
-              <input type="hidden" name="logout" value="1">
-              <button type="button" onclick="confirmLogout()" class="btn btn-danger btn-block d-flex align-items-center justify-content-center logout-btn">
-                <i class="fas fa-sign-out-alt mr-2"></i>
-                <span>Logout</span>
-              </button>
-            </form>
-          </li>
-        </ul>
-      </nav>
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-compact" data-widget="treeview" role="menu" data-accordion="false">
+                <?php foreach ($menu as $key => $item): 
+                    // Perbaikan deteksi halaman aktif
+                    $menu_page = basename(str_replace('./', '', $key));
+                    $is_active = (strpos($current_page, $menu_page) !== false) || (strpos($_SERVER['REQUEST_URI'], $menu_page) !== false);
+                    
+                    // Perbaikan path untuk konsistensi
+                    $menu_path = str_replace('./', $base_url, $key) . '.php';
+                ?>
+                    <li class="nav-item">
+                        <a href="<?= htmlspecialchars($menu_path) ?>" class="nav-link <?php echo $is_active ? 'active' : ''; ?>">
+                            <i class="nav-icon <?= htmlspecialchars($item['icon']) ?>"></i>
+                            <p><?= htmlspecialchars($item['name']) ?></p>
+                        </a>
+                    </li>
+                    <?php if (isset($item['divider']) && $item['divider']): ?>
+                        <li class="nav-item">
+                            <hr class="nav-divider">
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                
+                <!-- Logout Button -->
+                <li class="nav-item logout-section">
+                    <hr class="nav-divider mb-3">
+                    <div class="logout-container">
+                        <button type="button" onclick="confirmLogout()" class="btn btn-danger btn-block logout-btn">
+                            <i class="fas fa-sign-out-alt mr-2"></i>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </li>
+            </ul>
+        </nav>
     </div>
 </aside>
 
-<!-- Script untuk konfirmasi logout -->
+<!-- Hidden form untuk logout -->
+<form id="logoutForm" action="<?php echo $base_url; ?>public/logout.php" method="POST" style="display: none;">
+    <input type="hidden" name="logout" value="1">
+</form>
+
+<!-- Script untuk konfirmasi logout dan menu handling -->
 <script>
 function confirmLogout() {
     if (typeof Swal !== 'undefined') {
@@ -215,59 +206,358 @@ function confirmLogout() {
     }
 }
 
-// Menambahkan kelas aktif ke menu yang sesuai dan mencegah flicker
+// Enhanced menu activation dan smooth transitions
 document.addEventListener('DOMContentLoaded', function() {
-    // Dapatkan URL saat ini
-    const currentLocation = window.location.href;
+    // Initialize sidebar
+    initializeSidebar();
     
-    // Ambil semua link menu
-    const menuLinks = document.querySelectorAll('.nav-sidebar .nav-link');
+    // Set active menu
+    setActiveMenu();
     
-    // Hapus kelas aktif dari semua menu
+    // Handle responsive sidebar
+    handleResponsiveSidebar();
+});
+
+function initializeSidebar() {
+    const sidebar = document.getElementById('main-sidebar');
+    if (sidebar) {
+        // Add smooth transition class
+        sidebar.classList.add('sidebar-initialized');
+        
+        // Prevent sidebar flicker on page load
+        setTimeout(() => {
+            sidebar.style.visibility = 'visible';
+        }, 50);
+    }
+}
+
+function setActiveMenu() {
+    const currentUrl = window.location.href;
+    const currentPath = window.location.pathname;
+    const menuLinks = document.querySelectorAll('.nav-sidebar .nav-link:not(.logout-btn)');
+    
+    // Remove all active classes first
     menuLinks.forEach(link => {
         link.classList.remove('active');
     });
     
-    // Tambahkan kelas aktif ke menu yang sesuai
+    // Find and set active menu
+    let activeFound = false;
     menuLinks.forEach(link => {
-        if (currentLocation.includes(link.getAttribute('href'))) {
-            link.classList.add('active');
+        const href = link.getAttribute('href');
+        if (href) {
+            const linkPath = new URL(href, window.location.origin).pathname;
+            const linkPage = linkPath.split('/').pop().replace('.php', '');
+            const currentPageBase = currentPath.split('/').pop().replace('.php', '');
+            
+            if (linkPage === currentPageBase || currentUrl.includes(linkPage)) {
+                link.classList.add('active');
+                activeFound = true;
+            }
         }
     });
+    
+    // If no specific match found, activate Dashboard for home page
+    if (!activeFound && (currentPath === '/' || currentPath.includes('index'))) {
+        const dashboardLink = document.querySelector('a[href*="dashboard"], a[href*="index"]');
+        if (dashboardLink) {
+            dashboardLink.classList.add('active');
+        }
+    }
+}
+
+function handleResponsiveSidebar() {
+    // Mobile sidebar toggle functionality
+    const sidebarToggle = document.querySelector('[data-widget="pushmenu"]');
+    const sidebar = document.getElementById('main-sidebar');
+    const body = document.body;
+    
+    if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            body.classList.toggle('sidebar-open');
+            body.classList.toggle('sidebar-collapse');
+        });
+    }
+    
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768) {
+            const sidebar = document.getElementById('main-sidebar');
+            const sidebarToggle = document.querySelector('[data-widget="pushmenu"]');
+            
+            if (sidebar && !sidebar.contains(e.target) && !sidebarToggle?.contains(e.target)) {
+                document.body.classList.remove('sidebar-open');
+                document.body.classList.add('sidebar-collapse');
+            }
+        }
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            document.body.classList.remove('sidebar-open', 'sidebar-collapse');
+        }
+    });
+}
+
+// Smooth scroll for long sidebars
+function smoothScrollToActive() {
+    const activeLink = document.querySelector('.nav-sidebar .nav-link.active');
+    if (activeLink) {
+        activeLink.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+    }
+}
+
+// Call smooth scroll after DOM is loaded
+window.addEventListener('load', function() {
+    setTimeout(smoothScrollToActive, 100);
 });
 </script>
 
 <style>
-/* Style untuk divider */
+/* =================================
+   SIDEBAR CORE STYLES - FIXED VERSION
+   ================================= */
+
+/* Main Sidebar Container */
+.main-sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    z-index: 1038;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    visibility: hidden; /* Prevent FOUC */
+    backface-visibility: hidden;
+    transform: translateZ(0); /* Force GPU acceleration */
+}
+
+.main-sidebar.sidebar-initialized {
+    visibility: visible;
+}
+
+/* Brand Link */
+.brand-link {
+    display: flex !important;
+    align-items: center;
+    padding: 0.8125rem 0.5rem;
+    font-size: 1.25rem;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    background-color: rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+}
+
+.brand-link:hover {
+    text-decoration: none;
+    background-color: rgba(0,0,0,0.15);
+}
+
+.brand-image {
+    width: 33px;
+    height: 33px;
+    margin-right: 0.5rem;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.brand-text {
+    color: rgba(255,255,255,0.9) !important;
+    font-weight: 600 !important;
+}
+
+/* Sidebar Content */
+.sidebar {
+    height: calc(100vh - 57px); /* Account for brand link height */
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 80px; /* Space for logout button */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.3) transparent;
+}
+
+/* Custom Scrollbar */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
+    transition: background 0.3s ease;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.5);
+}
+
+/* User Panel */
+.user-panel {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+.user-panel .image img {
+    width: 2.1rem;
+    height: 2.1rem;
+    border: 2px solid rgba(255,255,255,0.2);
+    transition: border-color 0.3s ease;
+}
+
+.user-panel:hover .image img {
+    border-color: rgba(255,255,255,0.4);
+}
+
+.user-panel .info a {
+    color: rgba(255,255,255,0.9) !important;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.user-panel .info a:hover {
+    color: #fff !important;
+}
+
+.user-panel .badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background-color: rgba(255,255,255,0.2) !important;
+    color: rgba(255,255,255,0.9) !important;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Navigation Styles */
+.nav-sidebar {
+    padding: 0 0.5rem;
+}
+
+.nav-sidebar .nav-item {
+    margin-bottom: 0.2rem;
+}
+
+.nav-sidebar .nav-link {
+    border-radius: 0.375rem !important;
+    padding: 0.6rem 0.75rem !important;
+    color: rgba(255,255,255,0.8) !important;
+    transition: all 0.2s ease-in-out !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-sidebar .nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.nav-sidebar .nav-link:hover::before {
+    left: 100%;
+}
+
+.nav-sidebar .nav-link:hover {
+    background-color: rgba(255,255,255,0.1) !important;
+    color: #fff !important;
+    transform: translateX(3px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.nav-sidebar .nav-link.active {
+    background-color: rgba(255,255,255,0.2) !important;
+    color: #fff !important;
+    font-weight: 600;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    border-left: 3px solid rgba(255,255,255,0.8);
+}
+
+.nav-icon {
+    margin-right: 0.5rem !important;
+    width: 1.2rem;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.nav-link:hover .nav-icon {
+    transform: scale(1.1);
+}
+
+/* Dividers */
 .nav-divider {
     border: 0;
     height: 1px;
-    background: rgba(255, 255, 255, 0.2);
-    margin: 10px 0;
-    width: 90%;
-    margin-left: 5%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+    margin: 0.8rem 1rem;
+    opacity: 0.7;
 }
 
-/* Style untuk tombol logout */
+/* Logout Section */
+.logout-section {
+    margin-top: auto;
+    position: sticky;
+    bottom: 0;
+    background-color: inherit;
+    padding: 1rem 0.5rem 0.5rem;
+}
+
+.logout-container {
+    padding: 0 0.25rem;
+}
+
 .logout-btn {
-    background: linear-gradient(45deg, #dc3545, #c82333) !important;
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
     border: none !important;
-    border-radius: 8px !important;
-    padding: 10px 15px !important;
-    font-weight: 500 !important;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 2px 6px rgba(220, 53, 69, 0.2) !important;
+    border-radius: 0.5rem !important;
+    padding: 0.75rem 1rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.025em;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.logout-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.logout-btn:hover::before {
+    left: 100%;
 }
 
 .logout-btn:hover {
+    background: linear-gradient(135deg, #c82333 0%, #dc3545 100%) !important;
     transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
-    background: linear-gradient(45deg, #c82333, #dc3545) !important;
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4) !important;
 }
 
 .logout-btn:active {
-    transform: translateY(1px) !important;
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
 }
 
 .logout-btn i {
@@ -275,51 +565,129 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .logout-btn:hover i {
-    transform: translateX(3px);
+    transform: translateX(2px);
 }
 
-/* Perbaikan untuk sidebar agar tidak flicker dan responsive saat scroll */
-.main-sidebar {
-    position: fixed !important;
-    height: 100vh !important;
-    overflow-y: auto !important;
-    will-change: transform !important; /* Mencegah flicker */
-    transition: transform 0.3s ease, width 0.3s ease !important;
-    z-index: 1038 !important;
+/* Theme Colors */
+.sidebar-dark-primary {
+    background: linear-gradient(180deg, #007bff 0%, #0056b3 100%);
 }
 
-/* Optimasi scroll sidebar */
-.sidebar {
-    height: calc(100vh - 57px) !important; /* Tinggi viewport - tinggi header */
-    overflow-y: auto !important;
-    padding-bottom: 60px !important; /* Memberi ruang untuk logout button */
+.sidebar-dark-danger {
+    background: linear-gradient(180deg, #dc3545 0%, #c82333 100%);
 }
 
-/* Mencegah content flicker pada transisi */
-/* Optimasi selector dan transisi */
-.nav-link {
-    transition: background-color 0.2s ease;
-    will-change: transform;
+.sidebar-dark-warning {
+    background: linear-gradient(180deg, #ffc107 0%, #e0a800 100%);
 }
 
-.main-sidebar {
-    transform: translateZ(0);
-    backface-visibility: hidden;
+.sidebar-dark-success {
+    background: linear-gradient(180deg, #28a745 0%, #1e7e34 100%);
 }
 
-/* Menghilangkan highlight default ketika mengklik menu */
-.nav-link:focus {
-    outline: none !important;
+.sidebar-dark-info {
+    background: linear-gradient(180deg, #17a2b8 0%, #138496 100%);
 }
 
-/* Media query untuk perangkat mobile */
-@media (max-width: 768px) {
+/* Content Wrapper Adjustment */
+.content-wrapper {
+    margin-left: 250px !important;
+    transition: margin-left 0.3s ease-in-out;
+    min-height: 100vh;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 991.98px) {
     .main-sidebar {
-        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23) !important;
+        transform: translateX(-250px);
+        box-shadow: none;
+    }
+    
+    .content-wrapper {
+        margin-left: 0 !important;
     }
     
     .sidebar-open .main-sidebar {
-        transform: translateX(0) !important;
+        transform: translateX(0);
+        box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+    
+    .sidebar-open .content-wrapper::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 1037;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .brand-text {
+        font-size: 1.1rem;
+    }
+    
+    .nav-sidebar .nav-link {
+        padding: 0.5rem 0.6rem !important;
+        font-size: 0.9rem;
+    }
+    
+    .logout-btn {
+        padding: 0.6rem 0.8rem !important;
+        font-size: 0.9rem;
+    }
+}
+
+/* Animation untuk loading */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.sidebar-initialized {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .nav-sidebar .nav-link {
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .nav-sidebar .nav-link.active {
+        border: 2px solid #fff;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .main-sidebar,
+    .nav-sidebar .nav-link,
+    .logout-btn {
+        transition: none !important;
+    }
+    
+    .sidebar-initialized {
+        animation: none;
+    }
+}
+
+/* Print styles */
+@media print {
+    .main-sidebar {
+        display: none !important;
+    }
+    
+    .content-wrapper {
+        margin-left: 0 !important;
     }
 }
 </style>
