@@ -13,18 +13,17 @@ if (!isset($_SESSION['id_user']) || $_SESSION['level'] !== 'Sales Marketing') {
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Get all pending requests
     try {
-        $query = "
-            SELECT rpp.*, 
+        $query = "SELECT rpp.*, 
                    c.nama as customer_name, c.no_hp, c.email, 
                    pl.nama_produk as paket_lama, pl.harga as harga_lama, 
-                   pb.nama_produk as paket_baru, pb.harga as harga_baru 
+                   pb.nama_produk as paket_baru, pb.harga as harga_baru,
+                   sm.nama as sales_name
             FROM request_perubahan_paket rpp 
             JOIN customer c ON rpp.id_customer = c.id_customer 
             JOIN produk pl ON rpp.id_produk_lama = pl.id_produk 
-            JOIN produk pb ON rpp.id_produk_baru = pb.id_produk 
-            WHERE rpp.status_request = 'pending' 
-            ORDER BY rpp.tanggal_request ASC
-        ";
+            JOIN produk pb ON rpp.id_produk_baru = pb.id_produk
+            LEFT JOIN salesmarketing sm ON rpp.id_salesmarketing = sm.id_salesmarketing
+            ORDER BY FIELD(rpp.status_request, 'pending', 'disetujui', 'ditolak'), rpp.tanggal_request DESC";
         
         $result = mysqli_query($conn, $query);
         $requests = [];
@@ -80,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             // Mark as completed
             $query = "
                 UPDATE request_perubahan_paket 
-                SET status_request = 'selesai', tanggal_selesai = NOW() 
+                SET status_request = 'disetujui', tanggal_selesai = NOW() 
                 WHERE id_request = '".$id_request."'
             ";
             mysqli_query($conn, $query);
