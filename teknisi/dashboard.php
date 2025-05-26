@@ -324,7 +324,7 @@ for ($i = 6; $i >= 0; $i--) {
               <div class="icon">
                 <i class="fas fa-check-circle"></i>
               </div>
-              <a href="laporanperbaikan.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="jadwalperbaikan.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
@@ -345,7 +345,7 @@ for ($i = 6; $i >= 0; $i--) {
               <div class="icon">
                 <i class="fas fa-calendar-check"></i>
               </div>
-              <a href="#" class="small-box-footer">Info <i class="fas fa-info-circle"></i></a>
+              <a href="jadwalperbaikan.php" class="small-box-footer">Info <i class="fas fa-info-circle"></i></a>
             </div>
           </div>
         </div>
