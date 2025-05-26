@@ -62,7 +62,7 @@ require '../view/sidebar.php';
         }
         
         .badge-upgrade {
-            background: linear-gradient(45deg, #28a745, #20c997);
+            background: linear-gradient(45deg,rgb(0, 149, 255));
             color: white;
             padding: 6px 12px;
             border-radius: 12px;

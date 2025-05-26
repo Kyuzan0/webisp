@@ -248,19 +248,7 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
     <section class="content">
       <div class="container-fluid dashboard-container">
         <!-- Banner --> 
-        <div class="row">
-          <div class="col-12">
-            <div class="banner-container" onclick="window.open('https://wa.me/+6281214878902', '_blank')" style="cursor: pointer;">
-              <button class="banner-nav prev" onclick="changeBanner(-1); event.stopPropagation();"><i class="fas fa-chevron-left"></i></button>
-              <button class="banner-nav next" onclick="changeBanner(1); event.stopPropagation();"><i class="fas fa-chevron-right"></i></button>
-              <div id="bannerWrapper" class="banner-wrapper">
-                <!-- Initial images - will be updated by script -->
-                <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
-                <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
-              </div>
-            </div>
-          </div>
-        </div>
+        
         
         <!-- Small boxes (Stat box) -->
         <div class="row">
@@ -367,108 +355,6 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
 <script src="../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../public/js/adminlte.js"></script>
-
-<!-- Script untuk rotasi banner dengan transisi slide -->
-<script>
-  $(document).ready(function() {
-    const banners = [
-      '../img/banner1.png',
-      '../img/banner2.png'
-      // Tambahkan banner lain di sini jika ada
-    ];
-    
-    if (banners.length === 0) {
-        // Handle case with no banners
-        $(".banner-container").hide();
-        return;
-    }
-
-    const $wrapper = $("#bannerWrapper");
-    const $images = $wrapper.find(".banner-image");
-    const $img1 = $images.eq(0);
-    const $img2 = $images.eq(1);
-    
-    let currentBannerIndex = 0;
-    let intervalId;
-    let isTransitioning = false;
-    let slideDirection = 1; // 1 for next, -1 for prev
-
-    // Set initial images
-    $img1.attr("src", banners[currentBannerIndex]);
-    $img2.attr("src", banners[(currentBannerIndex + 1) % banners.length]);
-
-    // Function to handle the end of the transition
-    function handleTransitionEnd() {
-        if (isTransitioning) {
-            // Reset position instantly after transition
-            $wrapper.css("transition", "none");
-            if (slideDirection === 1) { // Moved to show img2
-                // img1 should now show the banner that was just in img2
-                $img1.attr("src", $img2.attr("src"));
-                $wrapper.css("transform", "translateX(0)");
-            } else { // Moved to show img1
-                 // img2 should now show the banner that was just in img1
-                $img2.attr("src", $img1.attr("src"));
-                $wrapper.css("transform", "translateX(-50%)");
-            }
-            
-            // Re-enable transition after a small delay
-            setTimeout(() => {
-                $wrapper.css("transition", "transform 0.6s ease-in-out");
-                isTransitioning = false;
-                startAutoRotation(); // Restart auto rotation after manual change
-            }, 50); 
-        }
-    }
-
-    // Attach transitionend listener
-    $wrapper.on('transitionend', handleTransitionEnd);
-    
-    // Function to change banner with direction
-    function changeBanner(direction) {
-      if (isTransitioning) return;
-      isTransitioning = true;
-      slideDirection = direction;
-      
-      clearInterval(intervalId); // Stop auto rotation during manual change
-
-      const totalBanners = banners.length;
-      let nextIndex;
-
-      if (direction === 1) { // Next
-          nextIndex = (currentBannerIndex + 1) % totalBanners;
-          // Set the source of the image that will slide into view (img2)
-          $img2.attr("src", banners[nextIndex]);
-          // Slide left to show img2
-          $wrapper.css("transform", "translateX(-50%)");
-      } else { // Previous
-          nextIndex = (currentBannerIndex - 1 + totalBanners) % totalBanners;
-          // Set the source of the image that will slide into view (img1)
-          $img1.attr("src", banners[nextIndex]);
-          // Slide right to show img1
-          $wrapper.css("transform", "translateX(0)");
-      }
-      
-      currentBannerIndex = nextIndex;
-    }
-    
-    // Fungsi untuk memulai rotasi otomatis
-    function startAutoRotation() {
-      clearInterval(intervalId);
-      intervalId = setInterval(() => {
-        if (!isTransitioning) {
-          changeBanner(1); // Auto rotate to the next banner
-        }
-      }, 2000); // Change banner every 2 seconds
-    }
-    
-    // Start auto rotation on load
-    startAutoRotation();
-    
-    // Membuat fungsi changeBanner tersedia secara global
-    window.changeBanner = changeBanner;
-  });
-</script>
 
 </body>
 </html>

@@ -148,13 +148,22 @@ require '../includes/functions.php';
     <script>
         $(document).ready(function() {
             loadPaketAktif();
-            loadDaftarPaket();
             loadRiwayatRequest();
 
             // Submit form request
             $('#form-request-paket').on('submit', function(e) {
                 e.preventDefault();
                 submitRequest();
+            });
+
+            // Load paket options when jenis request changes
+            $('#jenis-request').on('change', function() {
+                const jenisRequest = $(this).val();
+                if (jenisRequest) {
+                    loadDaftarPaket(jenisRequest);
+                } else {
+                    $('#paket-baru').html('<option value="">-- Pilih Jenis Request Dahulu --</option>');
+                }
             });
         });
 
@@ -187,34 +196,44 @@ require '../includes/functions.php';
             });
         }
 
-        function loadDaftarPaket() {
+        function loadDaftarPaket(jenisRequest = '') {
+            let url = '../api/get-daftar-paket.php';
+            if (jenisRequest) {
+                url += '?jenis_request=' + jenisRequest;
+            }
+
             $.ajax({
-                url: '../api/get-daftar-paket.php', // Perbaikan URL AJAX
+                url: url,
                 type: 'GET',
                 success: function(response) {
-                    // const data = JSON.parse(response); // Tidak perlu JSON.parse jika header Content-Type sudah application/json
                     if (response.success) {
                         let options = '<option value="">-- Pilih Paket --</option>';
-                        response.pakets.forEach(function(paket) {
-                            options += `<option value="${paket.id_produk}" data-harga="${paket.harga}">${paket.nama_produk} - Rp ${paket.harga.toLocaleString()}</option>`;
-                        });
+                        
+                        if (response.pakets.length === 0) {
+                            const jenisText = jenisRequest === 'upgrade' ? 'upgrade' : 'downgrade';
+                            options = `<option value="">-- Tidak ada paket untuk ${jenisText} --</option>`;
+                        } else {
+                            response.pakets.forEach(function(paket) {
+                                options += `<option value="${paket.id_produk}" data-harga="${paket.harga}">${paket.nama_produk} - Rp ${paket.harga.toLocaleString()}</option>`;
+                            });
+                        }
+                        
                         $('#paket-baru').html(options);
                     } else {
-                        alert('Error: ' + response.message); // Menampilkan pesan error dari server
+                        alert('Error: ' + response.message);
                     }
                 },
                 error: function() {
-                    alert('Terjadi kesalahan sistem saat memuat daftar paket.'); // Pesan error lebih spesifik
+                    alert('Terjadi kesalahan sistem saat memuat daftar paket.');
                 }
             });
         }
 
         function loadRiwayatRequest() {
             $.ajax({
-                url: '../api/get-riwayat-request.php', // Perbaikan URL AJAX
+                url: '../api/get-riwayat-request.php',
                 type: 'GET',
                 success: function(response) {
-                    // const data = JSON.parse(response); // Tidak perlu jika Content-Type application/json
                     if (response.success) {
                         let rows = '';
                         response.requests.forEach(function(req) {
@@ -232,11 +251,11 @@ require '../includes/functions.php';
                         });
                         $('#table-riwayat tbody').html(rows);
                     } else {
-                        alert('Error: ' + response.message); // Menampilkan pesan error dari server
+                        alert('Error: ' + response.message);
                     }
                 },
                 error: function() {
-                    alert('Terjadi kesalahan sistem saat memuat riwayat request.'); // Pesan error lebih spesifik
+                    alert('Terjadi kesalahan sistem saat memuat riwayat request.');
                 }
             });
         }
@@ -245,17 +264,18 @@ require '../includes/functions.php';
             const formData = new FormData($('#form-request-paket')[0]);
             
             $.ajax({
-                url: '../api/submit-request-paket.php', // Perbaikan URL AJAX
+                url: '../api/submit-request-paket.php',
                 type: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    // const data = JSON.parse(response); // Tidak perlu jika Content-Type application/json
                     if (response.success) {
                         alert('Request berhasil dikirim!');
                         $('#form-request-paket')[0].reset();
-                        loadRiwayatRequest(); // Muat ulang riwayat setelah submit berhasil
+                        // Reset dropdown paket baru
+                        $('#paket-baru').html('<option value="">-- Pilih Jenis Request Dahulu --</option>');
+                        loadRiwayatRequest();
                     } else {
                         alert('Error: ' + response.message);
                     }
