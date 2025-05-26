@@ -44,7 +44,7 @@ if (isset($_POST['submit'])) {
             // Redirect ke halaman sesuai dengan level pengguna
             switch ($_SESSION['level']) {
                 case 'Admin':
-                    header("Location: " . rtrim($base_url, '/') . "/public/index.php");
+                    header("Location: " . rtrim($base_url, '/') . "/admin/dashboard.php");
                     break;
                 case 'Supervisor':
                     header("Location: " . rtrim($base_url, '/') . "/supervisor/dashboard.php");

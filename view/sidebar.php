@@ -11,7 +11,7 @@ function showMenu($level) {
 
     // Menu untuk Admin - Admin mendapatkan semua menu
     if ($level == 'Admin') {
-        $menu['./public/index'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt', 'divider' => true];
+        $menu['./admin/dashboard'] = ['name' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt', 'divider' => true];
         $menu['./datauser/keloladatauser'] = ['name' => 'Kelola Data User', 'icon' => 'fas fa-users-cog', 'divider' => false];
         $menu['./datapelanggan/keloladatapelanggan'] = ['name' => 'Kelola Data Pelanggan', 'icon' => 'fas fa-user-friends', 'divider' => true];
         $menu['./sales/datapromo'] = ['name' => 'Promo Sales', 'icon' => 'fas fa-bullhorn', 'divider' => false];
@@ -117,7 +117,7 @@ $base_url = rtrim($base_url, '/') . '/';
 
 <aside id="main-sidebar" class="main-sidebar <?php echo $sidebarTheme; ?> elevation-4">
     <!-- Brand Logo -->
-    <a href="<?php echo $base_url; ?>public/index.php" class="brand-link">
+    <a href="<?php echo $base_url; ?>admin/dashboard.php" class="brand-link">
         <img src="<?php echo $base_url; ?>img/logo.png" alt="WebISP Logo" class="brand-image img-circle elevation-3">
         <span class="brand-text font-weight-bold">WebISP</span>
     </a>
