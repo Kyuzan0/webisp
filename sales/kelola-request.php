@@ -57,8 +57,44 @@ require '../view/sidebar.php';
         
         .table-hover tbody tr:hover {
             background-color: rgba(0,123,255,0.08);
-            transform: scale(1.005);
-            transition: all 0.2s ease;
+        }
+        
+        .table-hover tbody tr {
+            will-change: auto;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+            transition: background-color 0.15s ease-in-out;
+        }
+        
+        .dataTables_wrapper {
+            overflow: visible;
+        }
+        
+        .dataTables_scrollBody {
+            overflow: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .table-responsive {
+            -webkit-overflow-scrolling: touch;
+            overflow-x: auto;
+        }
+        
+        .card:hover {
+            /* transform: translateY(-3px); */
+        }
+        
+        .btn-action {
+            border-radius: 8px;
+            margin: 2px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
         .badge-upgrade {
@@ -238,8 +274,8 @@ require '../view/sidebar.php';
                                         <thead>
                                             <tr>
                                                 <th width="5%">No.</th>
-                                                <th width="10%">Tanggal</th>
-                                                <th width="15%">Customer</th>
+                                                <th width="13%">Tanggal</th>
+                                                <th width="12%">Customer</th>
                                                 <th width="12%">Kontak</th>
                                                 <th width="12%">Paket Lama</th>
                                                 <th width="12%">Paket Baru</th>

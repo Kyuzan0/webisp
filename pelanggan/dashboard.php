@@ -13,6 +13,20 @@ $query = "SELECT produk.nama_produk
           JOIN customer ON produk.id_produk = customer.id_produk 
           WHERE customer.id_user = '$id_user'";
 
+// Update query to use promosi table instead of banner_promo
+$query_banner = "SELECT gambar_path, judul, deskripsi 
+                FROM promosi 
+                WHERE CURDATE() BETWEEN mulai_promosi AND akhir_promosi
+                ORDER BY id_promosi DESC";
+
+$result_banner = mysqli_query($conn, $query_banner);
+$banners = [];
+
+// Ambil semua promosi aktif
+while($row = mysqli_fetch_assoc($result_banner)) {
+    $banners[] = $row;
+}
+
 $result = mysqli_query($conn, $query);
 
 // Default paket jika tidak ditemukan
@@ -274,6 +288,7 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
                 <!-- Initial images - will be updated by script -->
                 <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
                 <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
+                <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
               </div>
             </div>
           </div>
@@ -386,16 +401,29 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
 <!-- Script untuk rotasi banner dengan transisi slide -->
 <script>
   $(document).ready(function() {
+    // Banner dari database PHP
     const banners = [
-      '../img/banner1.png',
-      '../img/banner2.png'
-      // Tambahkan banner lain di sini jika ada
+      <?php 
+      if(!empty($banners)) {
+          foreach($banners as $index => $banner) {
+              echo "'../uploads/promosi/" . $banner['gambar_path'] . "'";
+              if($index < count($banners) - 1) echo ",";
+          } 
+      } else {
+          // Fallback ke banner default jika tidak ada banner dari database
+          echo "'../img/banner1.png', '../img/banner2.png'";
+      }
+      ?>
     ];
     
     if (banners.length === 0) {
-        // Handle case with no banners
         $(".banner-container").hide();
         return;
+    }
+
+    // Jika hanya 1 banner, sembunyikan navigasi
+    if (banners.length === 1) {
+        $(".banner-nav").hide();
     }
 
     const $wrapper = $("#bannerWrapper");
@@ -406,81 +434,79 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
     let currentBannerIndex = 0;
     let intervalId;
     let isTransitioning = false;
-    let slideDirection = 1; // 1 for next, -1 for prev
+    let slideDirection = 1;
 
     // Set initial images
     $img1.attr("src", banners[currentBannerIndex]);
-    $img2.attr("src", banners[(currentBannerIndex + 1) % banners.length]);
+    if (banners.length > 1) {
+        $img2.attr("src", banners[(currentBannerIndex + 1) % banners.length]);
+    } else {
+        // Jika hanya ada 1 banner, gunakan gambar yang sama untuk elemen kedua
+        $img2.attr("src", banners[currentBannerIndex]);
+    }
 
-    // Function to handle the end of the transition
+    // Function to handle transition end
     function handleTransitionEnd() {
         if (isTransitioning) {
-            // Reset position instantly after transition
             $wrapper.css("transition", "none");
-            if (slideDirection === 1) { // Moved to show img2
-                // img1 should now show the banner that was just in img2
+            if (slideDirection === 1) {
                 $img1.attr("src", $img2.attr("src"));
                 $wrapper.css("transform", "translateX(0)");
-            } else { // Moved to show img1
-                 // img2 should now show the banner that was just in img1
+            } else {
                 $img2.attr("src", $img1.attr("src"));
                 $wrapper.css("transform", "translateX(-50%)");
             }
             
-            // Re-enable transition after a small delay
             setTimeout(() => {
                 $wrapper.css("transition", "transform 0.6s ease-in-out");
                 isTransitioning = false;
-                startAutoRotation(); // Restart auto rotation after manual change
+                if (banners.length > 1) {
+                    startAutoRotation();
+                }
             }, 50); 
         }
     }
 
-    // Attach transitionend listener
     $wrapper.on('transitionend', handleTransitionEnd);
     
-    // Function to change banner with direction
     function changeBanner(direction) {
-      if (isTransitioning) return;
+      if (isTransitioning || banners.length <= 1) return;
       isTransitioning = true;
       slideDirection = direction;
       
-      clearInterval(intervalId); // Stop auto rotation during manual change
+      clearInterval(intervalId);
 
       const totalBanners = banners.length;
       let nextIndex;
 
-      if (direction === 1) { // Next
+      if (direction === 1) {
           nextIndex = (currentBannerIndex + 1) % totalBanners;
-          // Set the source of the image that will slide into view (img2)
           $img2.attr("src", banners[nextIndex]);
-          // Slide left to show img2
           $wrapper.css("transform", "translateX(-50%)");
-      } else { // Previous
+      } else {
           nextIndex = (currentBannerIndex - 1 + totalBanners) % totalBanners;
-          // Set the source of the image that will slide into view (img1)
           $img1.attr("src", banners[nextIndex]);
-          // Slide right to show img1
           $wrapper.css("transform", "translateX(0)");
       }
       
       currentBannerIndex = nextIndex;
     }
     
-    // Fungsi untuk memulai rotasi otomatis
     function startAutoRotation() {
+      if (banners.length <= 1) return;
       clearInterval(intervalId);
       intervalId = setInterval(() => {
         if (!isTransitioning) {
-          changeBanner(1); // Auto rotate to the next banner
+          changeBanner(1);
         }
-      }, 2000); // Change banner every 2 seconds, sesuai dashboard sales
+      }, 3000); // 3 detik per banner
     }
     
-    // Start auto rotation on load
-    startAutoRotation();
+    // Start auto rotation hanya jika ada lebih dari 1 banner
+    if (banners.length > 1) {
+        startAutoRotation();
+    }
     
-    // Membuat fungsi changeBanner tersedia secara global
     window.changeBanner = changeBanner;
   });
 </script>

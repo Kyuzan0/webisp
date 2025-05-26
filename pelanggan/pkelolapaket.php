@@ -167,6 +167,11 @@ require '../includes/functions.php';
             });
         });
 
+        // Fungsi untuk format rupiah
+        function formatRupiah(angka) {
+            return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
         function loadPaketAktif() {
             $.ajax({
                 url: '../api/get-paket-aktif.php',
@@ -181,7 +186,7 @@ require '../includes/functions.php';
                                     <small class="text-muted">Status: <span class="badge bg-success">${response.customer.status}</span></small>
                                 </div>
                                 <div class="col-md-4 text-end">
-                                    <h3 class="text-success">Rp ${response.paket.harga.toLocaleString()}</h3>
+                                    <h3 class="text-success">${formatRupiah(response.paket.harga)}</h3>
                                     <small class="text-muted">per bulan</small>
                                 </div>
                             </div>
@@ -214,7 +219,7 @@ require '../includes/functions.php';
                             options = `<option value="">-- Tidak ada paket untuk ${jenisText} --</option>`;
                         } else {
                             response.pakets.forEach(function(paket) {
-                                options += `<option value="${paket.id_produk}" data-harga="${paket.harga}">${paket.nama_produk} - Rp ${paket.harga.toLocaleString()}</option>`;
+                                options += `<option value="${paket.id_produk}" data-harga="${paket.harga}">${paket.nama_produk} - ${formatRupiah(paket.harga)}</option>`;
                             });
                         }
                         

@@ -352,7 +352,7 @@ $promo = query("SELECT * FROM promosi");
         </div>
         <div class="modal-body">
           <div class="text-center mb-3">
-            <img src="../public/img/promo-icon.png" alt="Promo Icon" width="100">
+            <i class="fas fa-tags fa-5x text-info"></i>
           </div>
           <table class="table table-striped">
             <tr>

@@ -228,8 +228,8 @@ $produk = query("SELECT * FROM produk");
                   <thead>
                   <tr>
                     <th width="5%">No</th>
-                    <th width="20%">Nama Paket</th>
-                    <th width="10%">Kategori</th>
+                    <th width="18%">Nama Paket</th>
+                    <th width="12%">Kategori</th>
                     <th width="40%">Deskripsi</th>
                     <th width="15%">Harga (Rp.)</th>
                     <th width="10%">Aksi</th>

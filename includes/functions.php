@@ -445,23 +445,31 @@ function getJumlahPromo($conn) {
 
 function tambahpromosi($data) {
     global $conn;
-
+    
     // Menggunakan htmlspecialchars untuk menghindari XSS
     $mulai_promosi = htmlspecialchars($data["mulai_promosi"]);
     $akhir_promosi = htmlspecialchars($data["akhir_promosi"]);
     $judul = htmlspecialchars($data["judul"]);
     $deskripsi = htmlspecialchars($data["deskripsi"]);
-    $id_salesmarketing = htmlspecialchars($data["id_salesmarketing"]);  // Added foreign key field
-
+    $id_salesmarketing = htmlspecialchars($data["id_salesmarketing"]);
+    
     // Pastikan id_salesmarketing valid di salesmarketing table
     $query_check = "SELECT id_salesmarketing FROM salesmarketing WHERE id_salesmarketing = '$id_salesmarketing'";
     $result_check = mysqli_query($conn, $query_check);
-
+    
     if (mysqli_num_rows($result_check) > 0) {
-        // Membuat query SQL untuk insert
-        $query = "INSERT INTO promosi (mulai_promosi, akhir_promosi, judul, deskripsi, id_salesmarketing) 
-                  VALUES ('$mulai_promosi', '$akhir_promosi', '$judul', '$deskripsi', '$id_salesmarketing')";
-
+        // Handle upload gambar
+        $gambar_path = uploadGambarPromosi();
+        
+        // Jika ada error dalam upload gambar (selain tidak ada file)
+        if ($gambar_path === false) {
+            return 0;
+        }
+        
+        // Membuat query SQL untuk insert dengan gambar_path
+        $query = "INSERT INTO promosi (mulai_promosi, akhir_promosi, judul, deskripsi, id_salesmarketing, gambar_path)
+                  VALUES ('$mulai_promosi', '$akhir_promosi', '$judul', '$deskripsi', '$id_salesmarketing', '$gambar_path')";
+        
         // Eksekusi query
         if (mysqli_query($conn, $query)) {
             return mysqli_affected_rows($conn);
@@ -473,6 +481,122 @@ function tambahpromosi($data) {
         echo "Error: id_salesmarketing tidak valid.";
         return 0;
     }
+}
+
+function uploadGambarPromosi() {
+    // Cek apakah ada file yang diupload
+    if (!isset($_FILES['gambar']) || $_FILES['gambar']['error'] === UPLOAD_ERR_NO_FILE) {
+        return ""; // Return empty string jika tidak ada gambar
+    }
+    
+    $namaFile = $_FILES['gambar']['name'];
+    $ukuranFile = $_FILES['gambar']['size'];
+    $error = $_FILES['gambar']['error'];
+    $tmpName = $_FILES['gambar']['tmp_name'];
+    
+    // Cek jika ada error dalam upload
+    if ($error !== UPLOAD_ERR_OK) {
+        echo "<script>alert('Terjadi error saat upload gambar!');</script>";
+        return false;
+    }
+    
+    // Cek apakah yang diupload adalah gambar
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png', 'gif'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+    
+    if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+        echo "<script>alert('Yang anda upload bukan gambar! Format yang diperbolehkan: JPG, JPEG, PNG, GIF');</script>";
+        return false;
+    }
+    
+    // Cek jika ukurannya terlalu besar (2MB = 2.000.000 bytes)
+    if ($ukuranFile > 2000000) {
+        echo "<script>alert('Ukuran gambar terlalu besar! Maksimal 2MB');</script>";
+        return false;
+    }
+    
+    // Validasi tipe MIME untuk keamanan tambahan
+    $allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+    $fileMimeType = mime_content_type($tmpName);
+    
+    if (!in_array($fileMimeType, $allowedMimeTypes)) {
+        echo "<script>alert('Tipe file tidak valid!');</script>";
+        return false;
+    }
+    
+    // Generate nama file baru untuk menghindari konflik nama
+    $namaFileBaru = uniqid() . '_' . date('YmdHis');
+    $namaFileBaru .= '.' . $ekstensiGambar;
+    
+    // Path folder upload
+    $uploadDir = '../uploads/promosi/';
+    
+    // Buat folder jika belum ada
+    if (!is_dir($uploadDir)) {
+        if (!mkdir($uploadDir, 0755, true)) {
+            echo "<script>alert('Gagal membuat folder upload!');</script>";
+            return false;
+        }
+    }
+    
+    // Path lengkap file
+    $targetPath = $uploadDir . $namaFileBaru;
+    
+    // Pindahkan file ke folder uploads
+    if (move_uploaded_file($tmpName, $targetPath)) {
+        // Return path relatif untuk disimpan di database
+        return 'uploads/promosi/' . $namaFileBaru;
+    } else {
+        echo "<script>alert('Gagal mengupload gambar!');</script>";
+        return false;
+    }
+}
+
+// Fungsi tambahan untuk menghapus gambar lama (jika diperlukan untuk update)
+function hapusGambarPromosi($gambar_path) {
+    if (!empty($gambar_path) && file_exists('../' . $gambar_path)) {
+        return unlink('../' . $gambar_path);
+    }
+    return true;
+}
+
+// Fungsi untuk validasi tanggal promosi
+function validasiTanggalPromosi($mulai_promosi, $akhir_promosi) {
+    $today = date('Y-m-d');
+    $mulai = date('Y-m-d', strtotime($mulai_promosi));
+    $akhir = date('Y-m-d', strtotime($akhir_promosi));
+    
+    // Cek apakah tanggal mulai tidak di masa lalu
+    if ($mulai < $today) {
+        return "Tanggal mulai promosi tidak boleh di masa lalu!";
+    }
+    
+    // Cek apakah tanggal akhir lebih besar dari tanggal mulai
+    if ($akhir <= $mulai) {
+        return "Tanggal akhir promosi harus lebih besar dari tanggal mulai!";
+    }
+    
+    return true;
+}
+
+// Fungsi untuk mendapatkan daftar promosi dengan join salesmarketing
+function getDataPromosi() {
+    global $conn;
+    
+    $query = "SELECT p.*, sm.nama_salesmarketing 
+              FROM promosi p 
+              LEFT JOIN salesmarketing sm ON p.id_salesmarketing = sm.id_salesmarketing 
+              ORDER BY p.id_promosi DESC";
+    
+    $result = mysqli_query($conn, $query);
+    
+    if (!$result) {
+        echo "Error: " . mysqli_error($conn);
+        return [];
+    }
+    
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
 

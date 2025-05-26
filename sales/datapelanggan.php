@@ -321,7 +321,7 @@ $plggn = query("SELECT c.*, p.nama_produk
         </div>
         <div class="modal-body">
           <div class="text-center mb-3">
-            <img src="../public/img/customer-icon.png" alt="Customer Icon" width="100">
+            <i class="fas fa-user fa-5x text-info"></i>
           </div>
           <table class="table table-striped">
             <tr>
