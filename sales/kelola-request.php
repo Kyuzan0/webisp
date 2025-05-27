@@ -80,9 +80,6 @@ require '../view/sidebar.php';
             overflow-x: auto;
         }
         
-        .card:hover {
-            /* transform: translateY(-3px); */
-        }
         
         .btn-action {
             border-radius: 8px;
