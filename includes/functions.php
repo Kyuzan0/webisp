@@ -546,7 +546,7 @@ function uploadGambarPromosi() {
     // Pindahkan file ke folder uploads
     if (move_uploaded_file($tmpName, $targetPath)) {
         // Return path relatif untuk disimpan di database
-        return 'uploads/promosi/' . $namaFileBaru;
+        return $namaFileBaru;
     } else {
         echo "<script>alert('Gagal mengupload gambar!');</script>";
         return false;

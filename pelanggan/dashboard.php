@@ -288,7 +288,6 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
                 <!-- Initial images - will be updated by script -->
                 <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
                 <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
-                <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
               </div>
             </div>
           </div>
