@@ -164,10 +164,10 @@ $base_url = rtrim($base_url, '/') . '/';
                 <li class="nav-item logout-section">
                     <hr class="nav-divider mb-3">
                     <div class="logout-container">
-                        <button type="button" onclick="confirmLogout()" class="btn btn-danger btn-block logout-btn">
-                            <i class="fas fa-sign-out-alt mr-2"></i>
-                            <span>Logout</span>
-                        </button>
+                        <a href="#" onclick="confirmLogout()" class="nav-link logout-btn" title="Logout" data-toggle="tooltip" data-placement="right">
+                            <i class="nav-icon fas fa-sign-out-alt"></i>
+                            <p>Logout</p>
+                        </a>
                     </div>
                 </li>
             </ul>
@@ -509,29 +509,30 @@ window.addEventListener('load', function() {
 }
 
 /* Logout Section */
+/* Logout Section - Ukuran sama dengan menu lainnya */
 .logout-section {
     margin-top: auto;
     position: sticky;
     bottom: 0;
     background-color: inherit;
-    padding: 1rem 0.5rem 0.5rem;
+    padding: 0.5rem; /* Sesuaikan dengan nav-sidebar padding */
 }
 
 .logout-container {
-    padding: 0 0.25rem;
+    margin-bottom: 0.2rem; /* Sama dengan nav-item margin */
 }
 
 .logout-btn {
     background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
     border: none !important;
-    border-radius: 0.5rem !important;
-    padding: 0.75rem 1rem !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.025em;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+    border-radius: 0.375rem !important; /* Sama dengan nav-link lainnya */
+    padding: 0.6rem 0.75rem !important; /* Sama persis dengan nav-link lainnya */
+    font-weight: 500 !important; /* Sesuaikan dengan nav-link normal */
+    transition: all 0.2s ease-in-out !important; /* Sama dengan nav-link */
     position: relative;
     overflow: hidden;
+    color: rgba(255,255,255,0.8) !important; /* Mulai dengan warna yang sama */
+    box-shadow: none !important; /* Hapus shadow untuk konsistensi */
 }
 
 .logout-btn::before {
@@ -551,21 +552,36 @@ window.addEventListener('load', function() {
 
 .logout-btn:hover {
     background: linear-gradient(135deg, #c82333 0%, #dc3545 100%) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4) !important;
+    color: #fff !important; /* Sama dengan nav-link hover */
+    transform: translateX(3px); /* Sama dengan nav-link hover */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Sama dengan nav-link hover */
 }
 
 .logout-btn:active {
-    transform: translateY(0) !important;
-    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
+    transform: translateX(1px) !important;
 }
 
 .logout-btn i {
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
+    margin-right: 0.5rem !important; /* Sama dengan nav-icon spacing */
+    width: 1.2rem; /* Sama dengan nav-icon width */
+    text-align: center;
 }
 
 .logout-btn:hover i {
-    transform: translateX(2px);
+    transform: scale(1.1); /* Sama dengan efek hover nav-icon */
+}
+
+/* Mobile responsiveness untuk logout button */
+@media (max-width: 575.98px) {
+    .logout-btn {
+        padding: 0.5rem 0.6rem !important; /* Sama dengan nav-link di mobile */
+        font-size: 0.9rem;
+    }
+    
+    .logout-section {
+        padding: 0.25rem; /* Sesuaikan padding mobile */
+    }
 }
 
 /* Theme Colors */

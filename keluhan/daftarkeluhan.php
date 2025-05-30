@@ -159,6 +159,22 @@ $keluhan = query("SELECT k.*, u.level,
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
+
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Navbar Search -->
+      
+    </ul>
+  </nav>
+  
   <div class="content-wrapper">
     <section class="content-header">
       <div class="container-fluid">
@@ -548,6 +564,17 @@ $(function () {
     <?php if(isset($_SESSION['message'])): ?>
     toastr.success('<?= $_SESSION['message']; ?>');
     <?php unset($_SESSION['message']); endif; ?>
+});
+
+$(document).ready(function() {
+    $('[data-widget="pushmenu"]').on('click', function(e) {
+        e.preventDefault();
+        if ($('body').hasClass('sidebar-collapse')) {
+            $('body').removeClass('sidebar-collapse');
+        } else {
+            $('body').addClass('sidebar-collapse');
+        }
+    });
 });
 </script>
 </body>
