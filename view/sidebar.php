@@ -16,7 +16,7 @@ function showMenu($level) {
         $menu['./datapelanggan/keloladatapelanggan'] = ['name' => 'Kelola Data Pelanggan', 'icon' => 'fas fa-user-friends', 'divider' => true];
         $menu['./sales/datapromo'] = ['name' => 'Promo Sales', 'icon' => 'fas fa-bullhorn', 'divider' => false];
         $menu['./dataproduk/dataproduk'] = ['name' => 'Daftar Paket Internet', 'icon' => 'fas fa-box', 'divider' => false];
-        $menu['./keluhan/daftarkeluhan'] = ['name' => 'Daftar Keluhan', 'icon' => 'fas fa-comments', 'divider' => false];
+        $menu['./admin/daftarkeluhan'] = ['name' => 'Daftar Keluhan', 'icon' => 'fas fa-comments', 'divider' => false];
     }
 
     // Menu untuk Supervisor
@@ -509,13 +509,12 @@ window.addEventListener('load', function() {
 }
 
 /* Logout Section */
-/* Logout Section - Ukuran sama dengan menu lainnya */
 .logout-section {
     margin-top: auto;
     position: sticky;
     bottom: 0;
     background-color: inherit;
-    padding: 0.5rem; /* Sesuaikan dengan nav-sidebar padding */
+    padding: 0 0.5rem; /* Sesuaikan dengan nav-sidebar padding */
 }
 
 .logout-container {
@@ -523,18 +522,19 @@ window.addEventListener('load', function() {
 }
 
 .logout-btn {
+    /* Gunakan background merah yang lebih halus seperti menu normal */
     background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
-    border: none !important;
-    border-radius: 0.375rem !important; /* Sama dengan nav-link lainnya */
-    padding: 0.6rem 0.75rem !important; /* Sama persis dengan nav-link lainnya */
-    font-weight: 500 !important; /* Sesuaikan dengan nav-link normal */
-    transition: all 0.2s ease-in-out !important; /* Sama dengan nav-link */
+    border-radius: 0.375rem !important;
+    padding: 0.6rem 0.75rem !important;
+    color: #fff !important; /* Langsung putih untuk kontras dengan merah */
+    font-weight: 500 !important;
+    transition: all 0.2s ease-in-out !important;
     position: relative;
     overflow: hidden;
-    color: rgba(255,255,255,0.8) !important; /* Mulai dengan warna yang sama */
-    box-shadow: none !important; /* Hapus shadow untuk konsistensi */
+    /* Hapus styling khusus yang berbeda dari menu normal */
 }
 
+/* Efek shimmer sama seperti menu lainnya */
 .logout-btn::before {
     content: '';
     position: absolute;
@@ -550,26 +550,28 @@ window.addEventListener('load', function() {
     left: 100%;
 }
 
+/* Hover effect sama seperti menu lainnya tapi dengan warna merah */
 .logout-btn:hover {
-    background: linear-gradient(135deg, #c82333 0%, #dc3545 100%) !important;
-    color: #fff !important; /* Sama dengan nav-link hover */
-    transform: translateX(3px); /* Sama dengan nav-link hover */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Sama dengan nav-link hover */
+    background: linear-gradient(135deg, #c82333 0%, #a71d2a 100%) !important;
+    color: #fff !important;
+    transform: translateX(3px);
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3); /* Shadow merah untuk konsistensi */
 }
 
 .logout-btn:active {
     transform: translateX(1px) !important;
 }
 
+/* Icon styling sama seperti nav-icon lainnya */
 .logout-btn i {
     transition: transform 0.2s ease;
-    margin-right: 0.5rem !important; /* Sama dengan nav-icon spacing */
-    width: 1.2rem; /* Sama dengan nav-icon width */
+    margin-right: 0.5rem !important;
+    width: 1.2rem;
     text-align: center;
 }
 
 .logout-btn:hover i {
-    transform: scale(1.1); /* Sama dengan efek hover nav-icon */
+    transform: scale(1.1);
 }
 
 /* Mobile responsiveness untuk logout button */
