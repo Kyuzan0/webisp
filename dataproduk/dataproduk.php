@@ -371,10 +371,18 @@ $produk = query("SELECT * FROM produk");
 <script>
   $(function () {
     // DataTable initialization with responsive
-    $("#example1").DataTable({
+    var table = $("#example1").DataTable({
       "responsive": true, 
       "lengthChange": true, 
       "autoWidth": false,
+      "drawCallback": function(settings) {
+        // Reinitialize tooltips after table redraw
+        $('[data-toggle="tooltip"]').tooltip();
+        
+        // Reinitialize view and delete handlers after table redraw
+        initializeViewHandler();
+        initializeDeleteHandler();
+      },
       "language": {
         "search": "Cari:",
         "lengthMenu": "Tampilkan _MENU_ data per halaman",
@@ -391,70 +399,68 @@ $produk = query("SELECT * FROM produk");
       }
     });
     
-    // Enable tooltips
-    $('[data-toggle="tooltip"]').tooltip();
-    
-    // View Paket Detail
-    $('.view-paket').on('click', function() {
-      const id = $(this).data('id');
-      
-      // Dalam implementasi nyata, Anda perlu melakukan AJAX request ke server
-      // untuk mendapatkan data detail paket. Berikut contoh sederhananya:
-      
-      // AJAX request (mock demo)
-      let paketData = null;
-      
-      <?php foreach($produk as $row): ?>
-      if(<?= json_encode($row["id_produk"]); ?> == id) {
-        paketData = {
-          id: <?= json_encode($row["id_produk"]); ?>,
-          nama: <?= json_encode($row["nama_produk"]); ?>,
-          harga: <?= $row["harga"]; ?>,
-          deskripsi: <?= json_encode($row["deskripsi"]); ?>
-        };
+    // Function to initialize view handler
+    function initializeViewHandler() {
+      $('.view-paket').off('click').on('click', function() {
+        const id = $(this).data('id');
+        let paketData = null;
         
-        // Tentukan kategori
-        if(paketData.harga > 500000) {
-          paketData.kategori = '<span class="badge-paket-premium"><i class="fas fa-crown mr-1"></i> Premium</span>';
-        } else if(paketData.harga > 300000) {
-          paketData.kategori = '<span class="badge-paket-popular"><i class="fas fa-star mr-1"></i> Popular</span>';
-        } else {
-          paketData.kategori = '<span class="badge-paket-normal"><i class="fas fa-check-circle mr-1"></i> Standard</span>';
+        <?php foreach($produk as $row): ?>
+        if(<?= json_encode($row["id_produk"]); ?> == id) {
+          paketData = {
+            id: <?= json_encode($row["id_produk"]); ?>,
+            nama: <?= json_encode($row["nama_produk"]); ?>,
+            harga: <?= $row["harga"]; ?>,
+            deskripsi: <?= json_encode($row["deskripsi"]); ?>
+          };
+          
+          if(paketData.harga > 500000) {
+            paketData.kategori = '<span class="badge-paket-premium"><i class="fas fa-crown mr-1"></i> Premium</span>';
+          } else if(paketData.harga > 300000) {
+            paketData.kategori = '<span class="badge-paket-popular"><i class="fas fa-star mr-1"></i> Popular</span>';
+          } else {
+            paketData.kategori = '<span class="badge-paket-normal"><i class="fas fa-check-circle mr-1"></i> Standard</span>';
+          }
         }
-      }
-      <?php endforeach; ?>
-      
-      if(paketData) {
-        $('#detail-id').text(paketData.id);
-        $('#detail-nama').text(paketData.nama);
-        $('#detail-harga').text('Rp. ' + paketData.harga.toLocaleString('id-ID'));
-        $('#detail-kategori').html(paketData.kategori);
-        $('#detail-deskripsi').text(paketData.deskripsi);
+        <?php endforeach; ?>
         
-        $('#modal-detail').modal('show');
-      }
-    });
-    
-    // Delete confirmation
-    $('.delete-paket').on('click', function() {
-      const id = $(this).data('id');
-      
-      Swal.fire({
-        title: 'Apakah Anda yakin?',
-        text: "Data paket akan dihapus permanen!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Ya, hapus!',
-        cancelButtonText: 'Batal'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Redirect to delete page
-          window.location.href = 'hapusproduk.php?id_produk=' + id;
+        if(paketData) {
+          $('#detail-id').text(paketData.id);
+          $('#detail-nama').text(paketData.nama);
+          $('#detail-harga').text('Rp. ' + paketData.harga.toLocaleString('id-ID'));
+          $('#detail-kategori').html(paketData.kategori);
+          $('#detail-deskripsi').text(paketData.deskripsi);
+          
+          $('#modal-detail').modal('show');
         }
       });
-    });
+    }
+    
+    // Function to initialize delete handler
+    function initializeDeleteHandler() {
+      $('.delete-paket').off('click').on('click', function() {
+        const id = $(this).data('id');
+        
+        Swal.fire({
+          title: 'Apakah Anda yakin?',
+          text: "Data paket akan dihapus permanen!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Ya, hapus!',
+          cancelButtonText: 'Batal'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = 'hapusproduk.php?id_produk=' + id;
+          }
+        });
+      });
+    }
+    
+    // Initial initialization of handlers
+    initializeViewHandler();
+    initializeDeleteHandler();
     
     // Show toastr notification if there's a message
     <?php if(isset($_SESSION['message'])): ?>

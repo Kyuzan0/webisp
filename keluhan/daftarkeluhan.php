@@ -428,121 +428,126 @@ $keluhan = query("SELECT k.*, u.level,
 
 <script>
 $(function () {
-  // DataTable initialization
-  $("#example1").DataTable({
-    "responsive": true,
-    "lengthChange": true,
-    "autoWidth": false,
-    "language": {
-      "search": "Cari:",
-      "lengthMenu": "Tampilkan _MENU_ data per halaman",
-      "zeroRecords": "Tidak ada data yang ditemukan",
-      "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-      "infoEmpty": "Tidak ada data yang ditampilkan",
-      "infoFiltered": "(difilter dari _MAX_ total data)",
-      "paginate": {
-        "first": "Pertama",
-        "last": "Terakhir",
-        "next": "Selanjutnya",
-        "previous": "Sebelumnya"
-      }
-    }
-  });
-
-  // Enable tooltips
-  $('[data-toggle="tooltip"]').tooltip();
-
-  // View Keluhan Detail
-  $('.view-keluhan').on('click', function() {
-    const id = $(this).data('id');
-    
-    let keluhanData = null;
-    
-    <?php foreach($keluhan as $row): ?>
-    if(<?= json_encode($row["id_keluhan"]); ?> == id) {
-      keluhanData = {
-        id: <?= json_encode($row["id_keluhan"]); ?>,
-        nama_user: <?= json_encode($row["nama_user"]); ?>,
-        level: <?= json_encode($row["level"]); ?>,
-        tanggal: <?= json_encode($row["tanggal_keluhan"]); ?>,
-        judul: <?= json_encode($row["judul_keluhan"]); ?>,
-        status: <?= json_encode($row["status"]); ?>,
-        deskripsi: <?= json_encode($row["deskripsi"]); ?>
-      };
-      
-      // Tentukan badge status
-      switch(keluhanData.status) {
-        case "Pending":
-          keluhanData.statusBadge = '<span class="badge-status-pending"><i class="fas fa-clock mr-1"></i> Pending</span>';
-          break;
-        case "Proses":
-          keluhanData.statusBadge = '<span class="badge-status-proses"><i class="fas fa-spinner mr-1"></i> Proses</span>';
-          break;
-        case "Selesai":
-          keluhanData.statusBadge = '<span class="badge-status-selesai"><i class="fas fa-check-circle mr-1"></i> Selesai</span>';
-          break;
-        default:
-          keluhanData.statusBadge = '<span class="badge badge-secondary">' + keluhanData.status + '</span>';
-      }
-      
-      // Tentukan badge level
-      let levelClass = "";
-      switch(keluhanData.level) {
-        case "Admin":
-          levelClass = "level-admin";
-          break;
-        case "Supervisor":
-          levelClass = "level-supervisor";
-          break;
-        case "Kepala Teknisi":
-          levelClass = "level-kepala-teknisi";
-          break;
-        case "Sales Marketing":
-          levelClass = "level-sales-marketing";
-          break;
-        case "Teknisi":
-          levelClass = "level-teknisi";
-          break;
-        case "Customer":
-          levelClass = "level-customer";
-          break;
-      }
-      keluhanData.levelBadge = '<span class="user-badge ' + levelClass + '">' + keluhanData.level + '</span>';
-    }
-    <?php endforeach; ?>
-    
-    if(keluhanData) {
-      $('#detail-id').text(keluhanData.id);
-      $('#detail-nama-user').text(keluhanData.nama_user);
-      $('#detail-level-user').html(keluhanData.levelBadge);
-      $('#detail-tanggal').text(keluhanData.tanggal);
-      $('#detail-judul').text(keluhanData.judul);
-      $('#detail-status').html(keluhanData.statusBadge);
-      $('#detail-deskripsi').text(keluhanData.deskripsi);
-      
-      $('#modal-detail').modal('show');
-    }
-  });
-
-  // Delete confirmation
-  $('.delete-keluhan').on('click', function() {
-    const id = $(this).data('id');
-    
-    Swal.fire({
-      title: 'Apakah Anda yakin?',
-      text: "Data keluhan akan dihapus permanen!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Ya, hapus!',
-      cancelButtonText: 'Batal'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.href = 'hapuskeluhan.php?id_keluhan=' + id;
+    // DataTable initialization with responsive
+    var table = $("#example1").DataTable({
+      "responsive": true, 
+      "lengthChange": true, 
+      "autoWidth": false,
+      "drawCallback": function(settings) {
+        // Reinitialize tooltips after table redraw
+        $('[data-toggle="tooltip"]').tooltip();
+        
+        // Reinitialize view and delete handlers after table redraw
+        initializeViewHandler();
+        initializeDeleteHandler();
+      },
+      "language": {
+        "search": "Cari:",
+        "lengthMenu": "Tampilkan _MENU_ data per halaman",
+        "zeroRecords": "Tidak ada data yang ditemukan",
+        "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+        "infoEmpty": "Tidak ada data yang ditampilkan",
+        "infoFiltered": "(difilter dari _MAX_ total data)",
+        "paginate": {
+          "first": "Pertama",
+          "last": "Terakhir",
+          "next": "Selanjutnya",
+          "previous": "Sebelumnya"
+        }
       }
     });
-  });
+    
+    // Function to initialize view handler
+    function initializeViewHandler() {
+      $('.view-keluhan').off('click').on('click', function() {
+        const id = $(this).data('id');
+        let keluhanData = null;
+        
+        <?php foreach($keluhan as $row): ?>
+        if(<?= json_encode($row["id_keluhan"]); ?> == id) {
+          keluhanData = {
+            id: <?= json_encode($row["id_keluhan"]); ?>,
+            nama_user: <?= json_encode($row["nama_user"]); ?>,
+            level: <?= json_encode($row["level"]); ?>,
+            tanggal: <?= json_encode($row["tanggal_keluhan"]); ?>,
+            judul: <?= json_encode($row["judul_keluhan"]); ?>,
+            deskripsi: <?= json_encode($row["deskripsi"]); ?>,
+            status: <?= json_encode($row["status"]); ?>
+          };
+          
+          // Tentukan badge status
+          switch(keluhanData.status) {
+            case "Pending":
+              keluhanData.statusBadge = '<span class="badge-status-pending">Pending</span>';
+              break;
+            case "Proses":
+              keluhanData.statusBadge = '<span class="badge-status-proses">Proses</span>';
+              break;
+            case "Selesai":
+              keluhanData.statusBadge = '<span class="badge-status-selesai">Selesai</span>';
+              break;
+            default:
+              keluhanData.statusBadge = '<span class="badge-secondary">' + keluhanData.status + '</span>';
+          }
+          
+          // Tentukan badge level
+          let levelClass = "";
+          switch(keluhanData.level) {
+            case "Admin": levelClass = "level-admin"; break;
+            case "Supervisor": levelClass = "level-supervisor"; break;
+            case "Kepala Teknisi": levelClass = "level-kepala-teknisi"; break;
+            case "Sales Marketing": levelClass = "level-sales-marketing"; break;
+            case "Teknisi": levelClass = "level-teknisi"; break;
+            case "Customer": levelClass = "level-customer"; break;
+          }
+          keluhanData.levelBadge = '<span class="user-badge ' + levelClass + '">' + keluhanData.level + '</span>';
+        }
+        <?php endforeach; ?>
+        
+        if(keluhanData) {
+          $('#detail-id').text(keluhanData.id);
+          $('#detail-nama-user').text(keluhanData.nama_user);
+          $('#detail-level-user').html(keluhanData.levelBadge);
+          $('#detail-tanggal').text(keluhanData.tanggal);
+          $('#detail-judul').text(keluhanData.judul);
+          $('#detail-status').html(keluhanData.statusBadge);
+          $('#detail-deskripsi').text(keluhanData.deskripsi);
+          
+          $('#modal-detail').modal('show');
+        }
+      });
+    }
+    
+    // Function to initialize delete handler
+    function initializeDeleteHandler() {
+      $('.delete-keluhan').off('click').on('click', function() {
+        const id = $(this).data('id');
+        
+        Swal.fire({
+          title: 'Apakah Anda yakin?',
+          text: "Data keluhan akan dihapus permanen!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Ya, hapus!',
+          cancelButtonText: 'Batal'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = 'hapuskeluhan.php?id_keluhan=' + id;
+          }
+        });
+      });
+    }
+    
+    // Initial initialization of handlers
+    initializeViewHandler();
+    initializeDeleteHandler();
+    
+    // Show toastr notification if there's a message
+    <?php if(isset($_SESSION['message'])): ?>
+    toastr.success('<?= $_SESSION['message']; ?>');
+    <?php unset($_SESSION['message']); endif; ?>
 });
 </script>
 </body>

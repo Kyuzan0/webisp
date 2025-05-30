@@ -261,5 +261,17 @@ require '../includes/functions.php';
 <!-- AdminLTE App -->
 <script src="../public/js/adminlte.js"></script>
 
+<script>
+$(document).ready(function() {
+    $('[data-widget="pushmenu"]').on('click', function(e) {
+        e.preventDefault();
+        if ($('body').hasClass('sidebar-collapse')) {
+            $('body').removeClass('sidebar-collapse');
+        } else {
+            $('body').addClass('sidebar-collapse');
+        }
+    });
+});
+</script>
 </body>
 </html>

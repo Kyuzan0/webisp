@@ -218,7 +218,20 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
 <div class="wrapper">
 
   <!-- Navbar -->
-  
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Navbar Search -->
+      
+    </ul>
+  </nav>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -355,6 +368,19 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
 <script src="../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../public/js/adminlte.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('[data-widget="pushmenu"]').on('click', function(e) {
+        e.preventDefault();
+        if ($('body').hasClass('sidebar-collapse')) {
+            $('body').removeClass('sidebar-collapse');
+        } else {
+            $('body').addClass('sidebar-collapse');
+        }
+    });
+});
+</script>
 
 </body>
 </html>

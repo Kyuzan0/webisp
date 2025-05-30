@@ -441,6 +441,17 @@ for ($i = 6; $i >= 0; $i--) {
 
 <!-- Chart Initialization -->
 <script>
+$(document).ready(function() {
+    $('[data-widget="pushmenu"]').on('click', function(e) {
+        e.preventDefault();
+        if ($('body').hasClass('sidebar-collapse')) {
+            $('body').removeClass('sidebar-collapse');
+        } else {
+            $('body').addClass('sidebar-collapse');
+        }
+    });
+});
+
 document.addEventListener('DOMContentLoaded', function() {
   // Data untuk grafik perbaikan 7 hari terakhir
   const repairCtx = document.getElementById('repairChart');

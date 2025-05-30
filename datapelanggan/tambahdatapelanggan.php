@@ -144,7 +144,7 @@ if( isset($_POST["submit"]) ) {
                                 </div>
                             </div>
                     </div>
-                    <a href="../datapelanggan/keloladatapelanggan.php" class="btn btn-secondary float-left">Cancel</a>
+                    <a href="../datapelanggan/keloladatapelanggan.php" class="btn btn-secondary float-left">Kembali</a>
                     <button type="submit" name="submit" class="btn btn-success float-right">Tambah Data</button>
                 </div>
                 <!-- Tombol Submit -->

@@ -214,7 +214,7 @@ if( isset($_POST["submit"]) ) {
                   <!-- TOMBOL AKSI -->
                   <div class="form-group text-right mt-4">
                     <a href="../sales/datapromo.php" class="btn btn-secondary btn-custom mr-2">
-                      <i class="fas fa-times"></i> Batal
+                      <i class="fas fa-arrow-left mr-2"></i> Kembali
                     </a>
                     <button type="submit" name="submit" class="btn btn-success btn-custom">
                       <i class="fas fa-save"></i> Simpan Promosi

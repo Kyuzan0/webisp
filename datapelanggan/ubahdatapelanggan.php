@@ -172,8 +172,8 @@ if( isset($_POST["submit"]) ) {
                         <!-- button -->
                         <div class="row mt-4">
                             <div class="col-12">
-                                <button type="submit" name="submit" class="btn btn-success">Ubah Data</button>
-                                <a href="keloladatapelanggan.php" class="btn btn-secondary float-right">Kembali</a>
+                                <button type="submit" name="submit" class="btn btn-success float-right">Ubah Data</button>
+                                <a href="keloladatapelanggan.php" class="btn btn-secondary float-left">Kembali</a>
                             </div>
                         </div>
                     </div>

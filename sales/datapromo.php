@@ -416,10 +416,18 @@ $promo = query("SELECT * FROM promosi");
 <script>
   $(function () {
     // DataTable initialization with responsive
-    $("#example1").DataTable({
-      "responsive": true, 
-      "lengthChange": true, 
+    var table = $("#example1").DataTable({
+      "responsive": true,
+      "lengthChange": true,
       "autoWidth": false,
+      "drawCallback": function(settings) {
+        // Reinitialize tooltips after table redraw
+        $('[data-toggle="tooltip"]').tooltip();
+        
+        // Reinitialize view and delete handlers after table redraw
+        initializeViewHandler();
+        initializeDeleteHandler();
+      },
       "language": {
         "search": "Cari:",
         "lengthMenu": "Tampilkan _MENU_ data per halaman",
@@ -436,82 +444,81 @@ $promo = query("SELECT * FROM promosi");
       }
     });
     
-    // Enable tooltips
-    $('[data-toggle="tooltip"]').tooltip();
-    
-    // View Promo Detail
-    $('.view-promo').on('click', function() {
-      const id = $(this).data('id');
-      
-      // Dalam implementasi nyata, Anda perlu melakukan AJAX request ke server
-      // untuk mendapatkan data detail promo. Berikut contoh sederhananya:
-      
-      // AJAX request (mock demo)
-      let promoData = null;
-      
-      <?php foreach($promo as $row): ?>
-      if(<?= $row["id_promosi"]; ?> == id) {
-        promoData = {
-          id: "<?= $row["id_promosi"]; ?>",
-          judul: "<?= $row["judul"]; ?>",
-          mulai: "<?= date('d M Y', strtotime($row["mulai_promosi"])); ?>",
-          akhir: "<?= date('d M Y', strtotime($row["akhir_promosi"])); ?>",
-          deskripsi: "<?= $row["deskripsi"]; ?>"
-        };
+    // Function to initialize view handler
+    function initializeViewHandler() {
+      $('.view-promo').off('click').on('click', function() {
+        const id = $(this).data('id');
+        let promoData = null;
         
-        // Hitung status
-        const today = new Date();
-        const startDate = new Date("<?= $row["mulai_promosi"]; ?>");
-        const endDate = new Date("<?= $row["akhir_promosi"]; ?>");
-        
-        if(startDate <= today && endDate >= today) {
-          promoData.status = '<span class="badge-promo-active"><i class="fas fa-check-circle mr-1"></i> Aktif</span>';
-        } else if(startDate > today) {
-          promoData.status = '<span class="badge-promo-upcoming"><i class="fas fa-clock mr-1"></i> Mendatang</span>';
-        } else {
-          promoData.status = '<span class="badge-promo-inactive"><i class="fas fa-times-circle mr-1"></i> Berakhir</span>';
+        <?php foreach($promo as $row): ?>
+        if(<?= $row["id_promosi"]; ?> == id) {
+          promoData = {
+            id: "<?= $row["id_promosi"]; ?>",
+            judul: "<?= $row["judul"]; ?>",
+            mulai: "<?= date('d M Y', strtotime($row["mulai_promosi"])); ?>",
+            akhir: "<?= date('d M Y', strtotime($row["akhir_promosi"])); ?>",
+            deskripsi: "<?= $row["deskripsi"]; ?>"
+          };
+          
+          // Hitung status
+          const today = new Date();
+          const startDate = new Date("<?= $row["mulai_promosi"]; ?>");
+          const endDate = new Date("<?= $row["akhir_promosi"]; ?>");
+          
+          if(startDate <= today && endDate >= today) {
+            promoData.status = '<span class="badge-promo-active"><i class="fas fa-check-circle mr-1"></i> Aktif</span>';
+          } else if(startDate > today) {
+            promoData.status = '<span class="badge-promo-upcoming"><i class="fas fa-clock mr-1"></i> Mendatang</span>';
+          } else {
+            promoData.status = '<span class="badge-promo-inactive"><i class="fas fa-times-circle mr-1"></i> Berakhir</span>';
+          }
         }
-      }
-      <?php endforeach; ?>
-      
-      if(promoData) {
-        $('#detail-id').text(promoData.id);
-        $('#detail-judul').text(promoData.judul);
-        $('#detail-periode').html(
-          '<i class="fas fa-calendar-day text-primary"></i> ' + promoData.mulai + 
-          ' <br><i class="fas fa-calendar-times text-danger"></i> ' + promoData.akhir
-        );
-        $('#detail-status').html(promoData.status);
-        $('#detail-deskripsi').text(promoData.deskripsi);
+        <?php endforeach; ?>
         
-        $('#modal-detail').modal('show');
-      }
-    });
-    
-    // Delete confirmation
-    $('.delete-promo').on('click', function() {
-      const id = $(this).data('id');
-      
-      Swal.fire({
-        title: 'Apakah Anda yakin?',
-        text: "Data promosi akan dihapus permanen!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Ya, hapus!',
-        cancelButtonText: 'Batal'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Redirect to delete page
-          window.location.href = 'hapuspromosi.php?id_promosi=' + id;
+        if(promoData) {
+          $('#detail-id').text(promoData.id);
+          $('#detail-judul').text(promoData.judul);
+          $('#detail-periode').html(
+            '<i class="fas fa-calendar-day text-primary"></i> ' + promoData.mulai + 
+            ' <br><i class="fas fa-calendar-times text-danger"></i> ' + promoData.akhir
+          );
+          $('#detail-status').html(promoData.status);
+          $('#detail-deskripsi').text(promoData.deskripsi);
+          
+          $('#modal-detail').modal('show');
         }
       });
-    });
+    }
+    
+    // Function to initialize delete handler
+    function initializeDeleteHandler() {
+      $('.delete-promo').off('click').on('click', function() {
+        const id = $(this).data('id');
+        
+        Swal.fire({
+          title: 'Apakah Anda yakin?',
+          text: "Data promosi akan dihapus permanen!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Ya, hapus!',
+          cancelButtonText: 'Batal'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = 'hapuspromosi.php?id_promosi=' + id;
+          }
+        });
+      });
+    }
+    
+    // Initial initialization of handlers
+    initializeViewHandler();
+    initializeDeleteHandler();
     
     // Show toastr notification if there's a message
     <?php if(isset($_SESSION['message'])): ?>
-    toastr.success('<?= $_SESSION['message']; ?>');
+    toastr.success('<?= $_SESSION["message"]; ?>');
     <?php unset($_SESSION['message']); endif; ?>
   });
 </script>

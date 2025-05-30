@@ -117,7 +117,7 @@ if( isset($_POST["submit"]) ) {
                             <textarea name="deskripsi" id="deskripsi" class="form-control" rows="5" required><?= $prom["deskripsi"]; ?></textarea>
                         </div>
 
-                        <a href="datapromo.php" class="btn btn-secondary float-left">Cancel</a>
+                        <a href="datapromo.php" class="btn btn-secondary float-left"><i class="fas fa-arrow-left mr-2"></i>Kembali</a>
                         <button type="submit" name="submit" class="btn btn-success float-right">Ubah Data</button>
                     </div>
                 </form>

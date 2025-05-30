@@ -249,7 +249,20 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
 <div class="wrapper">
 
   <!-- Navbar -->
-  
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Navbar Search -->
+      
+    </ul>
+  </nav>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -283,9 +296,11 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
           <div class="col-12">
             <div class="banner-container" onclick="window.open('http://wa.me/+6281214878902', '_blank')" style="cursor: pointer;">
               <button class="banner-nav prev" onclick="changeBanner(-1); event.stopPropagation();"><i class="fas fa-chevron-left"></i></button>
+              <button class="banner-nav next" onclick="changeBanner(0); event.stopPropagation();"><i class="fas fa-chevron-right"></i></button>
               <button class="banner-nav next" onclick="changeBanner(1); event.stopPropagation();"><i class="fas fa-chevron-right"></i></button>
               <div id="bannerWrapper" class="banner-wrapper">
                 <!-- Initial images - will be updated by script -->
+                <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
                 <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
                 <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
               </div>
@@ -401,6 +416,15 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
 <script>
   $(document).ready(function() {
     // Banner dari database PHP
+    $('[data-widget="pushmenu"]').on('click', function(e) {
+        e.preventDefault();
+        if ($('body').hasClass('sidebar-collapse')) {
+            $('body').removeClass('sidebar-collapse');
+        } else {
+            $('body').addClass('sidebar-collapse');
+        }
+    });
+
     const banners = [
       <?php 
       if(!empty($banners)) {
