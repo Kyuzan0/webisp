@@ -117,7 +117,7 @@ $base_url = rtrim($base_url, '/') . '/';
 
 <aside id="main-sidebar" class="main-sidebar <?php echo $sidebarTheme; ?> elevation-4">
     <!-- Brand Logo -->
-    <a href="<?php echo $base_url; ?>admin/dashboard.php" class="brand-link">
+    <a href="#" class="brand-link">
         <img src="<?php echo $base_url; ?>img/logo.png" alt="WebISP Logo" class="brand-image img-circle elevation-3">
         <span class="brand-text font-weight-bold">WebISP</span>
     </a>

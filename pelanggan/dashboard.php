@@ -60,62 +60,88 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
   <style>
     /* Banner styles */
-    .banner-container {
-      position: relative;
-      width: 100%;
-      height: 210px;
-      margin: 0 auto 30px auto;
-      overflow: hidden;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    
-    .banner-wrapper {
-      position: relative;
-      display: flex;
-      width: 200%; /* Untuk menampung 2 gambar */
-      height: 100%;
-      transition: transform 0.6s ease-in-out;
-    }
-    
-    .banner-image {
-      width: 50%; /* Setengah dari parent (banner-wrapper) */
-      height: 100%;
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-    
-    .banner-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      border: none;
-      padding: 12px 16px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 100;
-      border-radius: 50%;
-      opacity: 0;
-    }
-    
-    .banner-container:hover .banner-nav {
-      opacity: 1;
-    }
-    
-    .banner-nav:hover {
-      background: rgba(0, 0, 0, 0.9);
-      transform: translateY(-50%) scale(1.1);
-    }
-    
-    .banner-nav.prev {
-      left: 20px;
-    }
-    
-    .banner-nav.next {
-      right: 20px;
-    }
+    /* Banner styles */
+.banner-container {
+  position: relative;
+  width: 100%;
+  height: 210px;
+  margin: 0 auto 30px auto;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.banner-wrapper {
+  position: relative;
+  display: flex;
+  width: 200%; /* Untuk menampung 2 gambar */
+  height: 100%;
+  margin-left: 0;
+  /* Hapus transition CSS, gunakan jQuery animate */
+}
+
+.banner-image {
+  width: 50%; /* Setengah dari parent (banner-wrapper) */
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.banner-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 100;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.banner-container:hover .banner-nav {
+  opacity: 1;
+}
+
+.banner-nav:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.banner-nav.prev {
+  left: 20px;
+}
+
+.banner-nav.next {
+  right: 20px;
+}
+
+/* Responsive styles untuk banner */
+@media (max-width: 1200px) {
+  .banner-container {
+    height: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .banner-nav {
+    opacity: 0.8;
+    padding: 8px 12px;
+  }
+  
+  .banner-container {
+    height: 150px;
+  }
+}
+
+@media (max-width: 576px) {
+  .banner-container {
+    height: 120px;
+  }
+}
 
     /* Card styles */
     .small-box {
@@ -296,11 +322,9 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
           <div class="col-12">
             <div class="banner-container" onclick="window.open('http://wa.me/+6281214878902', '_blank')" style="cursor: pointer;">
               <button class="banner-nav prev" onclick="changeBanner(-1); event.stopPropagation();"><i class="fas fa-chevron-left"></i></button>
-              <button class="banner-nav next" onclick="changeBanner(0); event.stopPropagation();"><i class="fas fa-chevron-right"></i></button>
               <button class="banner-nav next" onclick="changeBanner(1); event.stopPropagation();"><i class="fas fa-chevron-right"></i></button>
               <div id="bannerWrapper" class="banner-wrapper">
                 <!-- Initial images - will be updated by script -->
-                <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
                 <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
                 <img src="" alt="Banner PT Sinar Komunikasi Nusantara" class="banner-image">
               </div>
@@ -447,91 +471,102 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
     // Jika hanya 1 banner, sembunyikan navigasi
     if (banners.length === 1) {
         $(".banner-nav").hide();
+        return;
     }
 
     const $wrapper = $("#bannerWrapper");
     const $images = $wrapper.find(".banner-image");
-    const $img1 = $images.eq(0);
-    const $img2 = $images.eq(1);
     
     let currentBannerIndex = 0;
     let intervalId;
     let isTransitioning = false;
-    let slideDirection = 1;
 
-    // Set initial images
-    $img1.attr("src", banners[currentBannerIndex]);
-    if (banners.length > 1) {
-        $img2.attr("src", banners[(currentBannerIndex + 1) % banners.length]);
-    } else {
-        // Jika hanya ada 1 banner, gunakan gambar yang sama untuk elemen kedua
-        $img2.attr("src", banners[currentBannerIndex]);
-    }
+    // Set initial image
+    $images.eq(0).attr("src", banners[0]);
+    $images.eq(1).attr("src", banners[1] || banners[0]);
 
-    // Function to handle transition end
-    function handleTransitionEnd() {
-        if (isTransitioning) {
-            $wrapper.css("transition", "none");
-            if (slideDirection === 1) {
-                $img1.attr("src", $img2.attr("src"));
-                $wrapper.css("transform", "translateX(0)");
-            } else {
-                $img2.attr("src", $img1.attr("src"));
-                $wrapper.css("transform", "translateX(-50%)");
-            }
-            
-            setTimeout(() => {
-                $wrapper.css("transition", "transform 0.6s ease-in-out");
-                isTransitioning = false;
-                if (banners.length > 1) {
-                    startAutoRotation();
-                }
-            }, 50); 
-        }
-    }
-
-    $wrapper.on('transitionend', handleTransitionEnd);
-    
     function changeBanner(direction) {
-      if (isTransitioning || banners.length <= 1) return;
-      isTransitioning = true;
-      slideDirection = direction;
-      
-      clearInterval(intervalId);
+        if (isTransitioning || banners.length <= 1) return;
+        
+        isTransitioning = true;
+        clearInterval(intervalId);
 
-      const totalBanners = banners.length;
-      let nextIndex;
+        const totalBanners = banners.length;
+        let nextIndex;
 
-      if (direction === 1) {
-          nextIndex = (currentBannerIndex + 1) % totalBanners;
-          $img2.attr("src", banners[nextIndex]);
-          $wrapper.css("transform", "translateX(-50%)");
-      } else {
-          nextIndex = (currentBannerIndex - 1 + totalBanners) % totalBanners;
-          $img1.attr("src", banners[nextIndex]);
-          $wrapper.css("transform", "translateX(0)");
-      }
-      
-      currentBannerIndex = nextIndex;
+        if (direction === 1) {
+            // Next banner (slide left)
+            nextIndex = (currentBannerIndex + 1) % totalBanners;
+            $images.eq(1).attr("src", banners[nextIndex]);
+            
+            $wrapper.animate({
+                marginLeft: '-50%'
+            }, 600, 'swing', function() {
+                // Setelah animasi selesai
+                $images.eq(0).attr("src", banners[nextIndex]);
+                $wrapper.css('margin-left', '0');
+                currentBannerIndex = nextIndex;
+                
+                // Set gambar berikutnya untuk transisi selanjutnya
+                const nextNextIndex = (nextIndex + 1) % totalBanners;
+                $images.eq(1).attr("src", banners[nextNextIndex]);
+                
+                isTransitioning = false;
+                startAutoRotation();
+            });
+        } else {
+            // Previous banner (slide right)
+            nextIndex = (currentBannerIndex - 1 + totalBanners) % totalBanners;
+            
+            // Set gambar sebelumnya di posisi kiri
+            $wrapper.css('margin-left', '-50%');
+            $images.eq(0).attr("src", banners[nextIndex]);
+            
+            // Animate ke posisi normal
+            $wrapper.animate({
+                marginLeft: '0'
+            }, 600, 'swing', function() {
+                currentBannerIndex = nextIndex;
+                
+                // Set gambar berikutnya
+                const nextNextIndex = (nextIndex + 1) % totalBanners;
+                $images.eq(1).attr("src", banners[nextNextIndex]);
+                
+                isTransitioning = false;
+                startAutoRotation();
+            });
+        }
     }
     
     function startAutoRotation() {
-      if (banners.length <= 1) return;
-      clearInterval(intervalId);
-      intervalId = setInterval(() => {
-        if (!isTransitioning) {
-          changeBanner(1);
-        }
-      }, 3000); // 3 detik per banner
+        if (banners.length <= 1) return;
+        clearInterval(intervalId);
+        intervalId = setInterval(() => {
+            if (!isTransitioning) {
+                changeBanner(1);
+            }
+        }, 4000); // 4 detik per banner
     }
     
-    // Start auto rotation hanya jika ada lebih dari 1 banner
+    // Start auto rotation
     if (banners.length > 1) {
         startAutoRotation();
     }
     
+    // Stop auto rotation on hover
+    $(".banner-container").hover(
+        function() {
+            clearInterval(intervalId);
+        },
+        function() {
+            if (banners.length > 1 && !isTransitioning) {
+                startAutoRotation();
+            }
+        }
+    );
+    
     window.changeBanner = changeBanner;
-  });
+});
 </script>
 
 </body>
