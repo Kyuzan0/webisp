@@ -322,7 +322,7 @@ $jumlah_promo = getJumlahPromo($conn); // Asumsi fungsi ini ada di includes/func
               <div class="icon">
                 <i class="fas fa-wifi"></i>
               </div>
-              <a href="../pelanggan/pdataproduk.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="../pelanggan/pkelolapaket.php" class="small-box-footer">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
