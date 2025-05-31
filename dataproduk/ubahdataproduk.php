@@ -126,7 +126,10 @@ if( isset($_POST["submit"]) ) {
                         </div>
 
                         <!-- button -->
-                        <button type="submit" name="submit" class="btn btn-success float-left">Ubah Data</button>
+                        <a href="dataproduk.php" class="btn btn-secondary float-left">
+                            <i class="fas fa-arrow-left mr-2"></i>Kembali
+                        </a>
+                        <button type="submit" name="submit" class="btn btn-success float-right">Ubah Data</button>
 
                     </div>
 
